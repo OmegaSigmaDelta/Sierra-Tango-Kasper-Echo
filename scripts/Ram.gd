@@ -12,6 +12,7 @@ const JUMP_VELOCITY = -400.0
 # HP Variables
 var MAX_HP = 6
 var HP = MAX_HP
+var in_armor = true
 var armored = true
 var godmode_state = false
 var is_dead = false
@@ -45,17 +46,26 @@ func _physics_process(delta: float):
 
 	# Animation Handling
 	if is_dead == false:
-	# Walk
+		# Walks
 		if velocity.x != 0 and animated_sprite_2d.animation != "jump":
-			animated_sprite_2d.play("Walk")
+			if in_armor == true:
+				animated_sprite_2d.play("Walk_Armored")
+			elif in_armor == false:
+				animated_sprite_2d.play("Walk")
 
-		# Jump
+		# Jumps
 		elif velocity.y != 0:
-			animated_sprite_2d.play("Jump")
+			if in_armor == true:
+				animated_sprite_2d.play("Jump_Armored")
+			elif in_armor == false:
+				animated_sprite_2d.play("Jump")
 
-		# Idle
+		# Idles
 		else:
-			animated_sprite_2d.play("Idle")
+			if in_armor == true:
+				animated_sprite_2d.play("Idle_Armored")
+			elif in_armor == false:
+				animated_sprite_2d.play("Idle")
 
 	# Animation Flipping
 	if is_dead == false:
@@ -89,6 +99,13 @@ func debug_heal():
 		heal(1)
 		print(HP)
 
+func debug_armor():
+	if Input.is_action_just_pressed("debug4"):
+		if in_armor == true:
+			in_armor = false
+		elif in_armor == false:
+			in_armor = true
+
 func godmode():
 	if Input.is_action_just_pressed("debug~"):
 		if godmode_state == false:
@@ -116,6 +133,7 @@ func Health():
 	godmode()
 	debug_hit()
 	debug_heal()
+	debug_armor()
 
 	# Godmode
 	if HP > 1000:
@@ -132,7 +150,6 @@ func Health():
 			heart_1.play("Full_Armored")
 			heart_2.play("Full_Armored")
 			heart_3.play("Full_Armored")
-			armored = true
 
 		# 5 HP
 		elif HP == 5:
@@ -143,7 +160,6 @@ func Health():
 			if armor_played3 == false:
 				heart_3.play("Full_Armored_Hit")
 				armor_played3 = true
-			armored = true
 
 		# 4 HP
 		elif HP == 4:
@@ -157,7 +173,6 @@ func Health():
 			if armor_played3 == false:
 				heart_3.play("Full_Armored_Hit")
 				armor_played3 = true
-			armored = true
 
 		# Armor breaks at 3 HP
 		elif HP == 3 and armored:

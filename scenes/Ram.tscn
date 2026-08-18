@@ -1496,10 +1496,8 @@ script = ExtResource("1_dn4c7")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1838183055]
 position = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_qbkrf")
-animation = &"Die"
+animation = &"Jump_Armored"
 autoplay = "Idle_Armored"
-frame = 99
-frame_progress = 1.0
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": false,
 "pending_changes": {}
