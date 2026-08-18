@@ -69,17 +69,15 @@ func _physics_process(delta: float):
 	move_and_slide()
 	Health()
 
+
+# HP
 func heal(number):
 	HP += number
 	print(HP)
 
-
-
-# HP
 func hit(number):
 	HP -= number
 	print(HP)
-
 
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
@@ -103,7 +101,6 @@ func godmode():
 			MAX_HP = 6
 			HP = 6
 			print("godmode deactivated")
-
 
 func unarmor():
 	if godmode_state == false:
