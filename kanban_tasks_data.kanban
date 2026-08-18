@@ -1,0 +1,148 @@
+{
+	"categories": [
+		{
+			"uuid": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"title": "Task",
+			"color": "569eff"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "ddd4b37b-e436-43f6-911f-f7e73de47a4c",
+			"title": "Todo",
+			"tasks": [
+				"5f2e1ca1-56c8-4534-bc57-6675e2740612"
+			]
+		},
+		{
+			"uuid": "a253caf0-c251-4972-930c-052375609806",
+			"title": "Doing",
+			"tasks": [
+				"a0a0a61e-4e07-4ca0-a5ac-c5e9c0a1fa4f",
+				"72b76b71-c723-446c-a56b-ea1ac1241950",
+				"be2cbc73-a0a3-4fd7-8de0-79202f81b769",
+				"cd072b0a-2b21-4076-9e1e-4cf37a40ffec"
+			]
+		},
+		{
+			"uuid": "6a57492a-c2a7-45a1-a391-6f1de64a484a",
+			"title": "Done",
+			"tasks": []
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "be2cbc73-a0a3-4fd7-8de0-79202f81b769",
+			"title": "Add the health/damage systems",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "HP stat",
+					"done": true
+				},
+				{
+					"details": "UI changes from HP",
+					"done": true
+				},
+				{
+					"details": "add a death mechanic",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "a0a0a61e-4e07-4ca0-a5ac-c5e9c0a1fa4f",
+			"title": "Make a movement system",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "flipping the sprite",
+					"done": true
+				},
+				{
+					"details": "jump/land (need sprite)",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "5f2e1ca1-56c8-4534-bc57-6675e2740612",
+			"title": "Add an attack system",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "wind up",
+					"done": false
+				},
+				{
+					"details": "attack",
+					"done": false
+				},
+				{
+					"details": "attack frames",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "72b76b71-c723-446c-a56b-ea1ac1241950",
+			"title": "Add the UI",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "HP\n+wire it up to the HP stat",
+					"done": true
+				},
+				{
+					"details": "XP/Mana",
+					"done": false
+				},
+				{
+					"details": "HUD frame (H150/45V)",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "cd072b0a-2b21-4076-9e1e-4cf37a40ffec",
+			"title": "add an armor system",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "add the boolean",
+					"done": true
+				},
+				{
+					"details": "change the animations",
+					"done": false
+				},
+				{
+					"details": "change the HP stat",
+					"done": true
+				},
+				{
+					"details": "change the hearts",
+					"done": true
+				}
+			]
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"ddd4b37b-e436-43f6-911f-f7e73de47a4c"
+			],
+			[
+				"a253caf0-c251-4972-930c-052375609806"
+			],
+			[
+				"6a57492a-c2a7-45a1-a391-6f1de64a484a"
+			]
+		]
+	}
+}

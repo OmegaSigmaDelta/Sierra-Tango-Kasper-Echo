@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bkh2kctwtyv1u"]
+
+[node name="GameOver" type="Control" unique_id=43213909]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="." unique_id=944859965]
+layout_mode = 0
+offset_left = -152.0
+offset_top = -105.0
+offset_right = -51.0
+offset_bottom = -88.0
+scale = Vector2(2.9988582, 2.9988582)
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=694773839]
