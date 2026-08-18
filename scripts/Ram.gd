@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var heart_1: AnimatedSprite2D = $Camera2D/Control/BoxContainer/Heart_1
-@onready var heart_2: AnimatedSprite2D = $Camera2D/Control/BoxContainer/Heart_2
-@onready var heart_3: AnimatedSprite2D = $Camera2D/Control/BoxContainer/Heart_3
+@onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/BoxContainer/Heart_1
+@onready var heart_2: AnimatedSprite2D = $Camera2D/Hud/BoxContainer/Heart_2
+@onready var heart_3: AnimatedSprite2D = $Camera2D/Hud/BoxContainer/Heart_3
 
 # Movement Constants
 const SPEED = 300.0
@@ -14,6 +14,7 @@ var MAX_HP = 6
 var HP = MAX_HP
 var armored = true
 var godmode_state = false
+var is_dead = false
 # Armor checkers
 var armor_played2 = false
 var armor_played3 = false
@@ -30,19 +31,20 @@ func _physics_process(delta: float):
 		velocity += get_gravity() * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+	if is_dead == false:
+		if Input.is_action_just_pressed("jump") and is_on_floor():
+			velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
-
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	if is_dead == false:
+		if direction:
+			velocity.x = direction * SPEED
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	# Animation Handling
-	if animated_sprite_2d.animation != 'Die':
+	if is_dead == false:
 	# Walk
 		if velocity.x != 0 and animated_sprite_2d.animation != "jump":
 			animated_sprite_2d.play("Walk")
@@ -56,12 +58,13 @@ func _physics_process(delta: float):
 			animated_sprite_2d.play("Idle")
 
 	# Animation Flipping
-	if direction == 0:
-		pass
-	elif direction > 0:
-		animated_sprite_2d.flip_h = true
-	elif direction < 0:
-		animated_sprite_2d.flip_h = false
+	if is_dead == false:
+		if direction == 0:
+			pass
+		elif direction > 0:
+			animated_sprite_2d.flip_h = true
+		elif direction < 0:
+			animated_sprite_2d.flip_h = false
 
 	move_and_slide()
 	Health()
@@ -208,6 +211,7 @@ func Health():
 			heart_2.play("Empty")
 			heart_3.play("Empty")
 			animated_sprite_2d.play("Die")
+			is_dead = true
 
 	# Prevent HP exceeding MAX_HP
 	if HP > MAX_HP:

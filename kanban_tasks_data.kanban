@@ -20,14 +20,15 @@
 			"tasks": [
 				"a0a0a61e-4e07-4ca0-a5ac-c5e9c0a1fa4f",
 				"72b76b71-c723-446c-a56b-ea1ac1241950",
-				"be2cbc73-a0a3-4fd7-8de0-79202f81b769",
 				"cd072b0a-2b21-4076-9e1e-4cf37a40ffec"
 			]
 		},
 		{
 			"uuid": "6a57492a-c2a7-45a1-a391-6f1de64a484a",
 			"title": "Done",
-			"tasks": []
+			"tasks": [
+				"be2cbc73-a0a3-4fd7-8de0-79202f81b769"
+			]
 		}
 	],
 	"tasks": [
@@ -47,7 +48,7 @@
 				},
 				{
 					"details": "add a death mechanic",
-					"done": false
+					"done": true
 				}
 			]
 		},

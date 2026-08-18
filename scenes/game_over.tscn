@@ -1,12 +1,17 @@
 [gd_scene format=3 uid="uid://bkh2kctwtyv1u"]
 
-[node name="GameOver" type="Control" unique_id=43213909]
+[ext_resource type="Script" uid="uid://bjjar7i0gendn" path="res://scripts/game_over.gd" id="1_xeevv"]
+
+[node name="GameOver" type="Control" unique_id=43213909 node_paths=PackedStringArray("continue_button", "leave")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_xeevv")
+continue_button = NodePath("PlayButton")
+leave = NodePath("Exit")
 
-[node name="Label" type="Label" parent="." unique_id=944859965]
+[node name="GameOverText" type="Label" parent="." unique_id=944859965]
 layout_mode = 0
 offset_left = -152.0
 offset_top = -105.0
@@ -18,3 +23,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=694773839]
+
+[node name="PlayButton" type="Button" parent="." unique_id=1951461]
+layout_mode = 0
+offset_left = -204.0
+offset_top = 29.0
+offset_right = -75.0
+offset_bottom = 54.0
+text = "Продолжить"
+
+[node name="Exit" type="Button" parent="." unique_id=901826078]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 29.0
+offset_right = 205.0
+offset_bottom = 54.0
+text = "Выйти"
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_leave_pressed"]
