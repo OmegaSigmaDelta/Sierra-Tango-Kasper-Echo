@@ -11,31 +11,10 @@ REM ============================================================
 
 
 REM ============================================================
-REM FORCE SCRIPT TO RUN FROM GODOT PROJECT DIRECTORY
+REM CONFIGURATION
 REM ============================================================
 
 cd /d "%~dp0"
-
-if not exist "project.godot" (
-    echo.
-    echo ============================================================
-    echo ERROR: project.godot was not found.
-    echo ============================================================
-    echo.
-    echo This script must be located in the root of your
-    echo Godot project.
-    echo.
-    echo Current directory:
-    cd
-    echo.
-    pause
-    exit /b 1
-)
-
-
-REM ============================================================
-REM CONFIGURATION
-REM ============================================================
 
 set "GITHUB_REPO=OmegaSigmaDelta/Sierra-Tango-Kasper-Echo"
 
@@ -55,11 +34,26 @@ set "RETRY_DELAY=5"
 
 
 REM ============================================================
-REM GET HUMAN-READABLE DATE / TIME
+REM VERIFY GODOT PROJECT
 REM ============================================================
 
-REM Example:
-REM 18.08.2026-22:30
+if not exist "project.godot" (
+    echo.
+    echo ============================================================
+    echo ERROR: project.godot was not found.
+    echo ============================================================
+    echo.
+    echo This script must be placed in the root of the
+    echo Godot project.
+    echo.
+    pause
+    exit /b 1
+)
+
+
+REM ============================================================
+REM GET DATE / TIME
+REM ============================================================
 
 for /f "delims=" %%A in (
     'powershell -NoProfile -Command "Get-Date -Format dd.MM.yyyy-HH:mm"'
@@ -71,9 +65,6 @@ for /f "delims=" %%A in (
 REM ============================================================
 REM CREATE GIT-SAFE RELEASE TAG
 REM ============================================================
-
-REM Example:
-REM build-20260818-223045
 
 for /f "delims=" %%A in (
     'powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmmss"'
@@ -94,7 +85,7 @@ echo ============================================================
 echo.
 
 echo Project directory:
-cd
+echo %CD%
 
 echo.
 
@@ -118,13 +109,33 @@ REM ============================================================
 
 echo Enter release notes for this build.
 echo.
-echo These notes will appear on the GitHub release.
+echo Enter "skip" to:
+echo   - Update Git
+echo   - Push Git
+echo   - Create and push Git tag
+echo   - SKIP the EXE/ZIP build
+echo   - SKIP the GitHub release
 echo.
-echo Example:
-echo Added death animation and fixed health system.
 echo.
 
 set /p "RELEASE_NOTES=Release notes: "
+
+
+REM ============================================================
+REM CHECK FOR SKIP COMMAND
+REM ============================================================
+
+set "SKIP_BUILD=0"
+
+if /I "%RELEASE_NOTES%"=="skip" (
+    set "SKIP_BUILD=1"
+    set "RELEASE_NOTES=Skipped game archive upload."
+)
+
+
+REM ============================================================
+REM DEFAULT RELEASE NOTES
+REM ============================================================
 
 if "%RELEASE_NOTES%"=="" (
     set "RELEASE_NOTES=No additional notes."
@@ -153,6 +164,16 @@ echo.
 
 echo Notes:
 echo %RELEASE_NOTES%
+
+echo.
+
+if "%SKIP_BUILD%"=="1" (
+    echo Build/release:
+    echo SKIPPED
+) else (
+    echo Build/release:
+    echo ENABLED
+)
 
 echo.
 
@@ -186,25 +207,33 @@ where gh >nul 2>&1
 if errorlevel 1 (
     echo ERROR: GitHub CLI was not found.
     echo.
-    echo Install GitHub CLI and run:
-    echo gh auth login
-    echo.
     pause
     exit /b 1
 )
 
-if not exist "%GODOT_EXE%" (
-    echo ERROR: Godot executable was not found:
-    echo.
-    echo %GODOT_EXE%
-    echo.
-    pause
-    exit /b 1
+if "%SKIP_BUILD%"=="0" (
+
+    if not exist "%GODOT_EXE%" (
+        echo ERROR: Godot executable was not found:
+        echo.
+        echo %GODOT_EXE%
+        echo.
+        pause
+        exit /b 1
+    )
+
+    echo Git:        OK
+    echo GitHub CLI: OK
+    echo Godot:      OK
+
+) else (
+
+    echo Git:        OK
+    echo GitHub CLI: OK
+    echo Godot:      SKIPPED
+
 )
 
-echo Git:        OK
-echo GitHub CLI: OK
-echo Godot:      OK
 echo.
 
 
@@ -241,13 +270,10 @@ echo.
 git rev-parse --show-toplevel >nul 2>&1
 
 if errorlevel 1 (
+    echo.
+    echo ============================================================
     echo ERROR: This folder is not a Git repository.
-    echo.
-    echo Expected:
-    echo %CD%\.git
-    echo.
-    echo If this project was already connected to GitHub,
-    echo DO NOT run git init yet.
+    echo ============================================================
     echo.
     pause
     exit /b 1
@@ -279,15 +305,6 @@ for /f "delims=" %%A in (
 echo !CURRENT_BRANCH!
 
 echo.
-
-if not "!CURRENT_BRANCH!"=="%GIT_BRANCH%" (
-    echo WARNING:
-    echo Current Git branch is "!CURRENT_BRANCH!"
-    echo Expected branch is "%GIT_BRANCH%".
-    echo.
-    echo The script will NOT automatically switch branches.
-    echo.
-)
 
 echo Git repository: OK
 echo.
@@ -325,9 +342,6 @@ echo Git status AFTER staging:
 echo ------------------------------------------------------------
 git status --short
 echo ------------------------------------------------------------
-echo.
-
-echo Checking staged changes...
 echo.
 
 git diff --cached --quiet
@@ -381,8 +395,6 @@ if errorlevel 1 (
     echo ERROR: Git push failed.
     echo ============================================================
     echo.
-    echo The GitHub Release will NOT be created.
-    echo.
     pause
     exit /b 1
 )
@@ -390,6 +402,13 @@ if errorlevel 1 (
 echo.
 echo Main branch successfully pushed.
 echo.
+
+
+REM ============================================================
+REM SKIP BUILD / RELEASE
+REM ============================================================
+
+if "%SKIP_BUILD%"=="1" goto SKIP_BUILD
 
 
 REM ============================================================
@@ -403,28 +422,15 @@ echo Tag:
 echo %RELEASE_TAG%
 echo.
 
-
-REM ------------------------------------------------------------
-REM Check whether tag already exists locally
-REM ------------------------------------------------------------
-
 git rev-parse "%RELEASE_TAG%" >nul 2>&1
 
 if not errorlevel 1 (
-    echo ERROR: Tag already exists locally:
+    echo ERROR: Tag already exists:
     echo %RELEASE_TAG%
-    echo.
-    echo This should normally never happen because the tag contains
-    echo the current time.
     echo.
     pause
     exit /b 1
 )
-
-
-REM ------------------------------------------------------------
-REM Create tag
-REM ------------------------------------------------------------
 
 git tag "%RELEASE_TAG%"
 
@@ -441,10 +447,6 @@ if errorlevel 1 (
 echo Local tag created successfully.
 echo.
 
-
-REM ------------------------------------------------------------
-REM Push tag
-REM ------------------------------------------------------------
 
 git push origin "%RELEASE_TAG%"
 
@@ -483,11 +485,6 @@ if errorlevel 1 (
     exit /b 1
 )
 
-
-REM ------------------------------------------------------------
-REM Delete old build files
-REM ------------------------------------------------------------
-
 if exist "%BUILD_DIR%\%GAME_NAME%.exe" (
     del /q "%BUILD_DIR%\%GAME_NAME%.exe"
 )
@@ -509,11 +506,6 @@ REM 8. EXPORT GODOT GAME
 REM ============================================================
 
 echo [8/10] Exporting GNoy simulator...
-echo.
-
-echo Godot:
-echo %GODOT_EXE%
-
 echo.
 
 echo Preset:
@@ -542,16 +534,9 @@ if errorlevel 1 (
     echo Git push:   SUCCESS
     echo Git tag:    SUCCESS
     echo.
-    echo The build was NOT released.
-    echo.
     pause
     exit /b 1
 )
-
-
-REM ------------------------------------------------------------
-REM Verify EXE
-REM ------------------------------------------------------------
 
 if not exist "%BUILD_DIR%\%GAME_NAME%.exe" (
     echo.
@@ -590,9 +575,7 @@ if errorlevel 1 (
 
 if not exist "%BUILD_DIR%\%GAME_NAME%.zip" (
     echo.
-    echo ============================================================
     echo ERROR: ZIP was not created.
-    echo ============================================================
     echo.
     pause
     exit /b 1
@@ -621,7 +604,7 @@ echo Auto release
 
 echo.
 
-echo Release description:
+echo Description:
 echo %DATE_TIME%
 echo.
 echo %RELEASE_NOTES%
@@ -630,7 +613,7 @@ echo.
 
 
 REM ============================================================
-REM CREATE TEMPORARY RELEASE NOTES FILE
+REM CREATE RELEASE NOTES FILE
 REM ============================================================
 
 set "NOTES_FILE=%TEMP%\gnoy_release_notes.txt"
@@ -667,10 +650,6 @@ gh release create "%RELEASE_TAG%" ^
 
 if not errorlevel 1 goto SUCCESS
 
-
-REM ------------------------------------------------------------
-REM RELEASE FAILED
-REM ------------------------------------------------------------
 
 echo.
 echo GitHub release creation failed.
@@ -751,6 +730,60 @@ echo.
 
 echo GitHub releases:
 echo https://github.com/%GITHUB_REPO%/releases
+
+echo.
+
+echo ============================================================
+echo.
+
+pause
+
+exit /b 0
+
+
+REM ============================================================
+REM SKIP BUILD
+REM ============================================================
+
+:SKIP_BUILD
+
+echo.
+echo.
+echo ============================================================
+echo                    BUILD SKIPPED
+echo ============================================================
+echo.
+
+echo "skip" was entered as the release notes.
+
+echo.
+
+echo Git source:
+echo UPDATED
+
+echo.
+
+echo Git push:
+echo SUCCESS
+
+echo.
+
+echo EXE export:
+echo SKIPPED
+
+echo.
+
+echo ZIP creation:
+echo SKIPPED
+
+echo.
+
+echo GitHub release:
+echo SKIPPED
+
+echo.
+
+echo No game archive was uploaded.
 
 echo.
 
