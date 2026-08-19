@@ -1642,7 +1642,8 @@ position = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_qbkrf")
 animation = &"Die"
 autoplay = "Idle_Armored"
-frame_progress = 0.594536
+frame = 17
+frame_progress = 1.0
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": false,
 "pending_changes": {}
@@ -1681,25 +1682,39 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Heart_1" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer" unique_id=1828994304]
-position = Vector2(53, 28)
-sprite_frames = SubResource("SpriteFrames_5h11f")
-animation = &"Full"
-autoplay = "Full"
-frame_progress = 1.0
+[node name="Heart_Slot" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=870291389]
+custom_minimum_size = Vector2(36, 33)
+layout_mode = 2
 
-[node name="Heart_2" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer" unique_id=14476564]
-position = Vector2(53, 28)
+[node name="Heart_1" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer/Heart_Slot" unique_id=1828994304]
+position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
-animation = &"Full"
+animation = &"Full_Animated"
 autoplay = "Full"
+frame_progress = 0.62562436
 
-[node name="Heart_3" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer" unique_id=707435308]
-position = Vector2(53, 28)
+[node name="Heart_Slot2" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=527924523]
+custom_minimum_size = Vector2(36, 33)
+layout_mode = 2
+
+[node name="Heart_2" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer/Heart_Slot2" unique_id=14476564]
+position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
-animation = &"Full"
+animation = &"Full_Animated"
 autoplay = "Full"
+frame_progress = 0.012868469
+
+[node name="Heart_Slot3" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=303875873]
+custom_minimum_size = Vector2(36, 33)
+layout_mode = 2
+
+[node name="Heart_3" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer/Heart_Slot3" unique_id=707435308]
+position = Vector2(18, 16.5)
+sprite_frames = SubResource("SpriteFrames_5h11f")
+animation = &"Full_Animated"
+autoplay = "Full"
+frame_progress = 0.10174788
 
 [connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="animation_finished" from="Camera2D/Hud/HBoxContainer/Heart_1" to="." method="_on_heart_1_animation_finished"]
+[connection signal="animation_finished" from="Camera2D/Hud/HBoxContainer/Heart_Slot/Heart_1" to="." method="_on_heart_1_animation_finished"]
