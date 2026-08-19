@@ -144,6 +144,9 @@ func beer_use():
 			heal_1.play("full")
 			heal_2.play("use")
 		elif heals == 1:
+			velocity.x = 0
+			velocity.y = 0
+			is_healing = true
 			heals = 0
 			animated_sprite_2d.play("Heal")
 			heal_1.play("use")
