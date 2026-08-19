@@ -162,12 +162,10 @@ func debug_hit():
 		hit(1)
 		print(HP)
 
-
 func debug_heal():
 	if Input.is_action_just_pressed("debug2"):
 		heal(1)
 		print(HP)
-
 
 func debug_armor():
 	if Input.is_action_just_pressed("debug4"):
@@ -175,7 +173,6 @@ func debug_armor():
 			in_armor = false
 		elif in_armor == false:
 			in_armor = true
-
 
 func godmode():
 	if Input.is_action_just_pressed("debug~"):
@@ -190,14 +187,12 @@ func godmode():
 			HP = 6
 			print("godmode deactivated")
 
-
 func unarmor():
 	if godmode_state == false:
 		if armored == true:
 			MAX_HP = 6
 		else:
 			MAX_HP = 3
-
 
 func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):

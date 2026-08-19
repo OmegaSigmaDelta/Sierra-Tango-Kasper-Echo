@@ -1,5 +1,7 @@
 extends Control
 
+@onready var start: Button = $Start
+
 
 func _ready():
 	hide()
@@ -11,6 +13,7 @@ func _unhandled_input(event):
 			close_pause_menu()
 		else:
 			open_pause_menu()
+			start.grab_focus()
 
 
 func open_pause_menu():

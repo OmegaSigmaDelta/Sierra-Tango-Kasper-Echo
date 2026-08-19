@@ -32,6 +32,7 @@ offset_left = 256.0
 offset_top = 169.0
 offset_right = 384.0
 offset_bottom = 194.0
+focus_neighbor_bottom = NodePath("../Exit")
 text = "Играть"
 
 [node name="Exit" type="Button" parent="." unique_id=1094108069]
@@ -40,6 +41,7 @@ offset_left = 256.0
 offset_top = 214.0
 offset_right = 384.0
 offset_bottom = 239.0
+focus_neighbor_top = NodePath("../Start")
 text = "Выйти"
 
 [node name="GameName" type="Label" parent="." unique_id=1808010893]
