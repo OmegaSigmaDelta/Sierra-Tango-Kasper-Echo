@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/BoxContainer/Heart_1
-@onready var heart_2: AnimatedSprite2D = $Camera2D/Hud/BoxContainer/Heart_2
-@onready var heart_3: AnimatedSprite2D = $Camera2D/Hud/BoxContainer/Heart_3
+@onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/HBoxContainer/Heart_1
+@onready var heart_2: AnimatedSprite2D = $Camera2D/Hud/HBoxContainer/Heart_2
+@onready var heart_3: AnimatedSprite2D = $Camera2D/Hud/HBoxContainer/Heart_3
 
 # Movement Constants
 const SPEED = 300.0
