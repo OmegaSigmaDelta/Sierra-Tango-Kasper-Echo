@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://c4ruslen41vfs" path="res://assets/sprites/UI/HP/HP_Armor_Hit.png" id="12_o4gm7"]
 [ext_resource type="Texture2D" uid="uid://dfagwhfgov0dy" path="res://assets/sprites/UI/HP/HP_Hit.png" id="13_0i1qn"]
 [ext_resource type="Texture2D" uid="uid://b1egeavk0tb7k" path="res://assets/sprites/UI/HP/HP_Debug.png" id="14_1mfuh"]
+[ext_resource type="PackedScene" uid="uid://ddm5150ohcyjr" path="res://scenes/menus/pause.tscn" id="16_fu2o8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bx8n8"]
 size = Vector2(31, 43)
@@ -1691,7 +1692,7 @@ position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"Full_Animated"
 autoplay = "Full"
-frame_progress = 0.62562436
+frame_progress = 0.61449814
 
 [node name="Heart_Slot2" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=527924523]
 custom_minimum_size = Vector2(36, 33)
@@ -1702,7 +1703,7 @@ position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"Full_Animated"
 autoplay = "Full"
-frame_progress = 0.012868469
+frame_progress = 0.0017522507
 
 [node name="Heart_Slot3" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=303875873]
 custom_minimum_size = Vector2(36, 33)
@@ -1713,7 +1714,9 @@ position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"Full_Animated"
 autoplay = "Full"
-frame_progress = 0.10174788
+frame_progress = 0.09063312
+
+[node name="Pause" parent="." unique_id=142770787 instance=ExtResource("16_fu2o8")]
 
 [connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -131,6 +131,10 @@ func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
+func pause():
+	if Input.is_action_just_pressed("pause"):
+		pass
+
 #Health HUD Animations And death call ( "die()" )
 func Health():
 	unarmor()
