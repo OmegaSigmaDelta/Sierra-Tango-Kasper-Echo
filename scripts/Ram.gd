@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+
 @onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot1/Heart_1
 @onready var heart_2: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot2/Heart_2
 @onready var heart_3: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot3/Heart_3
+
+@onready var heal_1: AnimatedSprite2D = $Camera2D/Hud/Heals/Heal_Slot1/Heal1
+@onready var heal_2: AnimatedSprite2D = $Camera2D/Hud/Heals/Heal_Slot2/Heal2
 
 # Constants
 const SPEED = 300.0
@@ -12,6 +16,8 @@ const JUMP_VELOCITY = -400.0
 # HP Variables
 var MAX_HP = 6
 var HP = MAX_HP
+var MAX_HEALS = 2
+var heals = MAX_HEALS
 var in_armor = true # For animations
 var armored = true # For
 var armor_broke = false # For animation transitions from armor to hearts
@@ -126,6 +132,30 @@ func hit(number):
 	
 	is_invulnerable = false
 
+func beer_use():
+	if Input.is_action_just_pressed("heal"):
+		if heals == 2:
+			heals = 1
+			animated_sprite_2d.play("Heal")
+			heal(2)
+			heal_1.play("full")
+			heal_2.play("use")
+		elif heals == 1:
+			heals = 0
+			animated_sprite_2d.play("Heal")
+			heal(2)
+			heal_1.play("use")
+			heal_2.play("empty")
+
+func beer_refill():
+	if heals == 1:
+		heals = 2
+		heal_1.play("full")
+		heal_2.play("refill")
+	elif heals == 0:
+		heals = 1
+		heal_1.play("refill")
+		heal_2.play("empty")
 
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
@@ -172,13 +202,14 @@ func unarmor():
 func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
 # Health HUD Animations And death call ("die()")
 func Health():
+	beer_use()
 	unarmor()
 	godmode()
 	debug_hit()
@@ -310,3 +341,7 @@ func die():
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":
 		get_tree().change_scene_to_file("res://scenes/menus/game_over.tscn")
+
+
+func _on_item_check_area_entered(area: Area2D):
+	beer_refill()
