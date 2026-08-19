@@ -4,9 +4,6 @@ extends Control
 @export var leave: Button
 @export var start: Button
 
-func _ready():
-	start.grab_focus()
-
 func _on_leave_pressed():
 	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
 

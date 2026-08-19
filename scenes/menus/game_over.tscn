@@ -30,7 +30,6 @@ offset_left = -204.0
 offset_top = 29.0
 offset_right = -75.0
 offset_bottom = 54.0
-focus_neighbor_bottom = NodePath("../Exit")
 text = "Продолжить"
 
 [node name="Exit" type="Button" parent="." unique_id=901826078]
@@ -39,7 +38,6 @@ offset_left = 76.0
 offset_top = 29.0
 offset_right = 205.0
 offset_bottom = 54.0
-focus_neighbor_top = NodePath("../PlayButton")
 text = "Выйти"
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_continue_button_pressed"]

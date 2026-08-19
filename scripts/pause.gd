@@ -1,7 +1,6 @@
 extends Control
 
-@onready var start: Button = $Start
-
+@onready var main_menu: Button = $Panel/VBoxContainer/MainMenu
 
 func _ready():
 	hide()
@@ -13,7 +12,6 @@ func _unhandled_input(event):
 			close_pause_menu()
 		else:
 			open_pause_menu()
-			start.grab_focus()
 
 
 func open_pause_menu():
@@ -28,3 +26,9 @@ func close_pause_menu():
 
 func _on_resume_pressed():
 	close_pause_menu()
+
+
+func _on_main_menu_pressed():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
+	
