@@ -3,8 +3,46 @@
 [ext_resource type="PackedScene" uid="uid://urqbyo7w5cq8" path="res://scenes/characters/Ram.tscn" id="1_whx73"]
 [ext_resource type="Texture2D" uid="uid://by2jtluyxo0xa" path="res://assets/sprites/Items/Missing_Texture.png" id="2_2mx3f"]
 [ext_resource type="PackedScene" uid="uid://e6exbou7wbfr" path="res://scenes/items/beer.tscn" id="2_6jy8w"]
+[ext_resource type="PackedScene" uid="uid://btqjw3wdpjfys" path="res://scenes/characters/slime.tscn" id="4_2mx3f"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w47ul"]
+
+[sub_resource type="Animation" id="Animation_2mx3f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-419, 36)]
+}
+
+[sub_resource type="Animation" id="Animation_6wdjx"]
+resource_name = "move"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-419, 36), Vector2(-599, 36)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fjl3m"]
+_data = {
+&"RESET": SubResource("Animation_2mx3f"),
+&"move": SubResource("Animation_6wdjx")
+}
 
 [node name="TestScene" type="Node2D" unique_id=1989301269]
 
@@ -25,3 +63,11 @@ texture = ExtResource("2_2mx3f")
 
 [node name="Beer" parent="." unique_id=1519919476 instance=ExtResource("2_6jy8w")]
 position = Vector2(-100, 1)
+
+[node name="Slime" parent="." unique_id=1575703234 instance=ExtResource("4_2mx3f")]
+position = Vector2(-419, 36)
+scale = Vector2(0.2, 0.2)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slime" unique_id=1466206905]
+libraries/ = SubResource("AnimationLibrary_fjl3m")
+autoplay = &"move"

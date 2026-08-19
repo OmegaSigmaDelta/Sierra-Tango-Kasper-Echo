@@ -23,6 +23,7 @@ var armored = true # For
 var armor_broke = false # For animation transitions from armor to hearts
 var godmode_state = false
 var is_dead = false
+var is_healing = false
 
 # I-Frames
 const IFRAME_DURATION = 1.0
@@ -53,14 +54,14 @@ func _physics_process(delta: float):
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
 
-	if is_dead == false:
+	if is_dead == false and is_healing == false:
 		if direction:
 			velocity.x = direction * SPEED
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	# Animation Handling
-	if is_dead == false:
+	if is_dead == false and is_healing == false:
 		# Walks
 		if velocity.x != 0 and animated_sprite_2d.animation != "jump":
 			if in_armor == true:
@@ -135,15 +136,16 @@ func hit(number):
 func beer_use():
 	if Input.is_action_just_pressed("heal"):
 		if heals == 2:
+			velocity.x = 0
+			velocity.y = 0
+			is_healing = true
 			heals = 1
 			animated_sprite_2d.play("Heal")
-			heal(2)
 			heal_1.play("full")
 			heal_2.play("use")
 		elif heals == 1:
 			heals = 0
 			animated_sprite_2d.play("Heal")
-			heal(2)
 			heal_1.play("use")
 			heal_2.play("empty")
 
@@ -336,7 +338,9 @@ func die():
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":
 		get_tree().change_scene_to_file("res://scenes/menus/game_over.tscn")
+	if animated_sprite_2d.animation == "Heal":
+		is_healing = false
+		heal(2)
 
-
-func _on_item_check_area_entered(area: Area2D):
+func _on_item_check_area_entered(_area: Area2D):
 	beer_refill()
