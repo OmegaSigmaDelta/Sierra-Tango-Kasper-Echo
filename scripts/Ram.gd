@@ -222,8 +222,7 @@ func Health():
 				heart_played1 = true
 			heart_2.play("Empty")
 			heart_3.play("Empty")
-			animated_sprite_2d.play("Die")
-			is_dead = true
+			die()
 
 	# Prevent HP exceeding MAX_HP
 	if HP > MAX_HP:
@@ -239,8 +238,12 @@ func _on_heart_1_animation_finished():
 
 # Dying
 func die():
-	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
+	is_dead = true
+	velocity.x = 0
+	velocity.y = 0
+	animated_sprite_2d.play("Die")
+	
 
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":
-		die()
+		get_tree().change_scene_to_file("res://scenes/menus/game_over.tscn")

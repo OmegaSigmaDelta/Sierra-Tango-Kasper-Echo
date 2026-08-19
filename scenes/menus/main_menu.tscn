@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://bkhdx0kayl2d"]
+
+[ext_resource type="Script" uid="uid://bgb84s343y67q" path="res://scripts/main_menu.gd" id="1_71r40"]
+[ext_resource type="VideoStream" uid="uid://dugc04ljnomq5" path="res://assets/video/clideo_editor_9bf5d067067b482486a169e5949a0646.ogv" id="2_ddmp4"]
+[ext_resource type="AudioStream" uid="uid://q2q1juafc1qj" path="res://assets/audio/MainMenu.mp3" id="3_v3vey"]
+
+[node name="MainMenu" type="Control" unique_id=415044625]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_71r40")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=711765795]
+position = Vector2(320, 180)
+
+[node name="Backdrop" type="VideoStreamPlayer" parent="." unique_id=25034786]
+texture_filter = 6
+layout_mode = 0
+offset_right = 776.8889
+offset_bottom = 437.0
+stream = ExtResource("2_ddmp4")
+autoplay = true
+expand = true
+loop = true
+
+[node name="Start" type="Button" parent="." unique_id=1582670342]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 169.0
+offset_right = 384.0
+offset_bottom = 194.0
+text = "Играть"
+
+[node name="Exit" type="Button" parent="." unique_id=1094108069]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 214.0
+offset_right = 384.0
+offset_bottom = 239.0
+text = "Выйти"
+
+[node name="GameName" type="Label" parent="." unique_id=1808010893]
+layout_mode = 0
+offset_left = 154.0
+offset_top = 75.0
+offset_right = 265.0
+offset_bottom = 92.0
+scale = Vector2(2.9988582, 2.9988582)
+text = "Maggot Pus"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=1104551915]
+position = Vector2(320, 180)
+stream = ExtResource("3_v3vey")
+autoplay = true
+
+[connection signal="pressed" from="Start" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

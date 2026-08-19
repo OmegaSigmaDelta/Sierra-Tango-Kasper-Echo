@@ -6,8 +6,8 @@ extends Control
 
 
 func _on_leave_pressed():
-	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
+	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
 
 
 func _on_continue_button_pressed():
-	get_tree().change_scene_to_file("res://scenes/test_scene.tscn")
+	get_tree().change_scene_to_file("res://scenes/scenes/test_scene.tscn")
