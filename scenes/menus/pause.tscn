@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dukd03uv5m7xp" path="res://scripts/pause.gd" id="1_iohl6"]
 
 [node name="Pause" type="Control" unique_id=142770787]
-process_mode = 2
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,15 +16,19 @@ script = ExtResource("1_iohl6")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+scale = Vector2(2.1044, 2.2238657)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1175953529]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 84.0
+offset_bottom = 66.0
+scale = Vector2(0.4748064, 0.557539)
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer" unique_id=2074252782]
 layout_mode = 2
 text = "Пауза"
+horizontal_alignment = 1
+uppercase = true
 
 [node name="Resume" type="Button" parent="Panel/VBoxContainer" unique_id=1112289951]
 layout_mode = 2
@@ -32,6 +36,7 @@ text = "Продолжить"
 
 [node name="MainMenu" type="Button" parent="Panel/VBoxContainer" unique_id=1671082768]
 layout_mode = 2
+text = "Главное Меню"
 
 [connection signal="pressed" from="Panel/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]

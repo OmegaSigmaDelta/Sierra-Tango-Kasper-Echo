@@ -17,8 +17,29 @@
 [ext_resource type="Texture2D" uid="uid://b1egeavk0tb7k" path="res://assets/sprites/UI/HP/HP_Debug.png" id="14_1mfuh"]
 [ext_resource type="PackedScene" uid="uid://ddm5150ohcyjr" path="res://scenes/menus/pause.tscn" id="16_fu2o8"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bx8n8"]
-size = Vector2(31, 43)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+size = Vector2(41, 69)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h11f"]
+size = Vector2(37, 64)
+
+[sub_resource type="Shader" id="Shader_jiiu3"]
+code = "shader_type canvas_item;
+
+uniform float flash_amount : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	
+	vec3 white = vec3(1.0);
+	vec3 final_color = mix(tex.rgb, white, flash_amount * 0.25);
+	
+	COLOR = vec4(final_color, tex.a);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fu2o8"]
+shader = SubResource("Shader_jiiu3")
+shader_parameter/flash_amount = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5l7ox"]
 atlas = ExtResource("3_qk5rp")
@@ -1232,8 +1253,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h11f"]
-size = Vector2(37, 64)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bx8n8"]
+size = Vector2(31, 43)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ehsx"]
 atlas = ExtResource("8_nbgf2")
@@ -1627,18 +1648,21 @@ animations = [{
 [node name="Ram" type="CharacterBody2D" unique_id=189022650]
 script = ExtResource("1_unegs")
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1666683253 node_paths=PackedStringArray("ram")]
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("2_xyavq")
-ram = NodePath("..")
+[node name="ItemCheck" type="Area2D" parent="." unique_id=80858057]
+collision_layer = 4
+collision_mask = 4
 
-[node name="Hurtbox" type="CollisionShape2D" parent="Hurtbox" unique_id=497906085]
-position = Vector2(-4.5, 11.5)
-shape = SubResource("RectangleShape2D_bx8n8")
-debug_color = Color(0.9614535, 0, 0.020520065, 0.41960785)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemCheck" unique_id=920007476]
+position = Vector2(-4.5, 7.5)
+shape = SubResource("RectangleShape2D_bhunq")
+debug_color = Color(0.8052927, 0.0023824722, 0.9971649, 0.41960785)
+
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=938434895]
+position = Vector2(-4.5, 8)
+shape = SubResource("RectangleShape2D_5h11f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1838183055]
+material = SubResource("ShaderMaterial_fu2o8")
 position = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_qbkrf")
 animation = &"Die"
@@ -1663,9 +1687,16 @@ metadata/_aseprite_wizard_config_ = {
 "source_uid": 7843143191872878945
 }
 
-[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=938434895]
-position = Vector2(-4.5, 8)
-shape = SubResource("RectangleShape2D_5h11f")
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1666683253 node_paths=PackedStringArray("ram")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("2_xyavq")
+ram = NodePath("..")
+
+[node name="Hurtbox" type="CollisionShape2D" parent="Hurtbox" unique_id=497906085]
+position = Vector2(-4.5, 11.5)
+shape = SubResource("RectangleShape2D_bx8n8")
+debug_color = Color(0.9614535, 0, 0.020520065, 0.41960785)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=323937361]
 position_smoothing_speed = 10.0
@@ -1678,38 +1709,49 @@ offset_top = -180.0
 offset_right = 320.0
 offset_bottom = 180.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/Hud" unique_id=504925921]
+[node name="Heals" type="HBoxContainer" parent="Camera2D/Hud" unique_id=1118622152]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Heart_Slot" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=870291389]
+[node name="Heal_Slot1" type="Control" parent="Camera2D/Hud/Heals" unique_id=417188835]
+layout_mode = 2
+
+[node name="Heart_Slot2" type="Control" parent="Camera2D/Hud/Heals" unique_id=1132009408]
+layout_mode = 2
+
+[node name="Hearts" type="HBoxContainer" parent="Camera2D/Hud" unique_id=504925921]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Heart_Slot1" type="Control" parent="Camera2D/Hud/Hearts" unique_id=870291389]
 custom_minimum_size = Vector2(36, 33)
 layout_mode = 2
 
-[node name="Heart_1" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer/Heart_Slot" unique_id=1828994304]
+[node name="Heart_1" type="AnimatedSprite2D" parent="Camera2D/Hud/Hearts/Heart_Slot1" unique_id=1828994304]
 position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"Full_Animated"
 autoplay = "Full"
 frame_progress = 0.61449814
 
-[node name="Heart_Slot2" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=527924523]
+[node name="Heart_Slot2" type="Control" parent="Camera2D/Hud/Hearts" unique_id=527924523]
 custom_minimum_size = Vector2(36, 33)
 layout_mode = 2
 
-[node name="Heart_2" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer/Heart_Slot2" unique_id=14476564]
+[node name="Heart_2" type="AnimatedSprite2D" parent="Camera2D/Hud/Hearts/Heart_Slot2" unique_id=14476564]
 position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"Full_Animated"
 autoplay = "Full"
 frame_progress = 0.0017522507
 
-[node name="Heart_Slot3" type="Control" parent="Camera2D/Hud/HBoxContainer" unique_id=303875873]
+[node name="Heart_Slot3" type="Control" parent="Camera2D/Hud/Hearts" unique_id=303875873]
 custom_minimum_size = Vector2(36, 33)
 layout_mode = 2
 
-[node name="Heart_3" type="AnimatedSprite2D" parent="Camera2D/Hud/HBoxContainer/Heart_Slot3" unique_id=707435308]
+[node name="Heart_3" type="AnimatedSprite2D" parent="Camera2D/Hud/Hearts/Heart_Slot3" unique_id=707435308]
 position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"Full_Animated"
@@ -1717,7 +1759,12 @@ autoplay = "Full"
 frame_progress = 0.09063312
 
 [node name="Pause" parent="." unique_id=142770787 instance=ExtResource("16_fu2o8")]
+visible = false
+offset_left = -42.0
+offset_top = -52.0
+offset_right = -42.0
+offset_bottom = -52.0
 
-[connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="animation_finished" from="Camera2D/Hud/HBoxContainer/Heart_Slot/Heart_1" to="." method="_on_heart_1_animation_finished"]
+[connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
+[connection signal="animation_finished" from="Camera2D/Hud/Hearts/Heart_Slot1/Heart_1" to="." method="_on_heart_1_animation_finished"]

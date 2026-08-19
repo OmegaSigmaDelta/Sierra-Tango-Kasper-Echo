@@ -44,7 +44,8 @@ enabled=PackedStringArray("res://addons/MetroidvaniaSystem/EditorExtension/plugi
 
 [gui]
 
-theme/custom_font="uid://c0eeqmo301rm"
+common/snap_controls_to_pixels=false
+theme/custom_font="uid://bs5rqu6my5lmt"
 
 [input]
 

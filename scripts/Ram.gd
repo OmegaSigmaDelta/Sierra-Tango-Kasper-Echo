@@ -1,29 +1,37 @@
 extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/HBoxContainer/Heart_Slot/Heart_1
-@onready var heart_2: AnimatedSprite2D = $Camera2D/Hud/HBoxContainer/Heart_Slot2/Heart_2
-@onready var heart_3: AnimatedSprite2D = $Camera2D/Hud/HBoxContainer/Heart_Slot3/Heart_3
+@onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot1/Heart_1
+@onready var heart_2: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot2/Heart_2
+@onready var heart_3: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot3/Heart_3
 
-# Movement Constants
+# Constants
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
 # HP Variables
 var MAX_HP = 6
 var HP = MAX_HP
-var in_armor = true
-var armored = true
+var in_armor = true # For animations
+var armored = true # For
+var armor_broke = false # For animation transitions from armor to hearts
 var godmode_state = false
 var is_dead = false
+
+# I-Frames
+const IFRAME_DURATION = 1.0
+var is_invulnerable = false
+
 # Armor checkers
 var armor_played2 = false
 var armor_played3 = false
 var armor_played3_2 = false
+
 # HP checkers
 var heart_played1 = false
 var heart_played2 = false
 var heart_played3 = false
+
 
 # Physics and Animations
 func _physics_process(delta: float):
@@ -38,6 +46,7 @@ func _physics_process(delta: float):
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
+
 	if is_dead == false:
 		if direction:
 			velocity.x = direction * SPEED
@@ -83,22 +92,52 @@ func _physics_process(delta: float):
 
 # HP
 func heal(number):
-	HP += number
-	print(HP)
+	if HP < MAX_HP:
+		HP += number
+		print(HP)
+
 
 func hit(number):
+	# Don't take damage while invulnerable
+	if is_invulnerable:
+		return
+	
+	# Don't take damage after death
+	if is_dead:
+		return
+	
+	# Deal damage
 	HP -= number
 	print(HP)
+	
+	# Start i-frames
+	is_invulnerable = true
+	
+	# Flash white during i-frames
+	for i in range(5):
+		animated_sprite_2d.material.set_shader_parameter("flash_amount", 1.0)
+		await get_tree().create_timer(0.10).timeout
+		
+		animated_sprite_2d.material.set_shader_parameter("flash_amount", 0.0)
+		await get_tree().create_timer(0.10).timeout
+	
+	# Check if the sprite is normal afterward
+	animated_sprite_2d.material.set_shader_parameter("flash_amount", 0.0)
+	
+	is_invulnerable = false
+
 
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
 		hit(1)
 		print(HP)
 
+
 func debug_heal():
 	if Input.is_action_just_pressed("debug2"):
 		heal(1)
 		print(HP)
+
 
 func debug_armor():
 	if Input.is_action_just_pressed("debug4"):
@@ -106,6 +145,7 @@ func debug_armor():
 			in_armor = false
 		elif in_armor == false:
 			in_armor = true
+
 
 func godmode():
 	if Input.is_action_just_pressed("debug~"):
@@ -120,6 +160,7 @@ func godmode():
 			HP = 6
 			print("godmode deactivated")
 
+
 func unarmor():
 	if godmode_state == false:
 		if armored == true:
@@ -127,15 +168,16 @@ func unarmor():
 		else:
 			MAX_HP = 3
 
+
 func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 
-func pause():
-	if Input.is_action_just_pressed("pause"):
-		pass
 
-#Health HUD Animations And death call ( "die()" )
+# Health HUD Animations And death call ("die()")
 func Health():
 	unarmor()
 	godmode()
@@ -174,31 +216,36 @@ func Health():
 			if armor_played3_2 == false:
 				armor_played3_2 = true
 				armor_played3 = false
+
 			heart_1.play("Full_Armored")
+
 			if armor_played2 == false:
 				heart_2.play("Full_Armored_Hit")
 				armor_played2 = true
+
 			if armor_played3 == false:
 				heart_3.play("Full_Armored_Hit")
 				armor_played3 = true
+				armor_broke = false
 
 		# Armor breaks at 3 HP
-		elif HP == 3 and armored:
+		elif HP == 3 and armor_broke == false:
 			heart_played1 = false
 			heart_played2 = false
 			heart_played3 = false
+
 			heart_1.play("Full_Armored_Break")
 			heart_2.play("Full_Armored_Break")
 			heart_3.play("Full_Armored_Break")
 
-			# Prevents the break animation from being triggered again
-			armored = false
+			armor_broke = true
 
 		# Normal hearts
-		elif HP == 3 and not armored:
+		elif HP == 3 and armor_broke == true:
 			heart_played1 = false
 			heart_played2 = false
 			heart_played3 = false
+
 			if heart_1.animation != "Full_Armored_Break":
 				heart_1.play("Full")
 				heart_2.play("Full")
@@ -208,8 +255,10 @@ func Health():
 		elif HP == 2:
 			heart_played1 = false
 			heart_played2 = false
+
 			heart_1.play("Full")
 			heart_2.play("Full_Animated")
+
 			if heart_played3 == false:
 				heart_3.play("Full_Hit")
 				heart_played3 = true
@@ -217,10 +266,13 @@ func Health():
 		# 1 HP
 		elif HP == 1:
 			heart_played1 = false
+
 			heart_1.play("Full_Animated")
+
 			if heart_played2 == false:
 				heart_2.play("Full_Hit")
 				heart_played2 = true
+
 			heart_3.play("Empty")
 
 		# Dead
@@ -228,8 +280,10 @@ func Health():
 			if heart_played1 == false:
 				heart_1.play("Full_Hit")
 				heart_played1 = true
+
 			heart_2.play("Empty")
 			heart_3.play("Empty")
+
 			die()
 
 	# Prevent HP exceeding MAX_HP
@@ -244,13 +298,14 @@ func _on_heart_1_animation_finished():
 		heart_2.play("Full")
 		heart_3.play("Full_Animated")
 
+
 # Dying
 func die():
 	is_dead = true
 	velocity.x = 0
 	velocity.y = 0
 	animated_sprite_2d.play("Die")
-	
+
 
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":

@@ -19,7 +19,8 @@
 			"title": "Doing",
 			"tasks": [
 				"a0a0a61e-4e07-4ca0-a5ac-c5e9c0a1fa4f",
-				"72b76b71-c723-446c-a56b-ea1ac1241950"
+				"72b76b71-c723-446c-a56b-ea1ac1241950",
+				"fd280efa-0eed-42e6-a3ba-b86862da8b3b"
 			]
 		},
 		{
@@ -27,7 +28,8 @@
 			"title": "Done",
 			"tasks": [
 				"be2cbc73-a0a3-4fd7-8de0-79202f81b769",
-				"cd072b0a-2b21-4076-9e1e-4cf37a40ffec"
+				"cd072b0a-2b21-4076-9e1e-4cf37a40ffec",
+				"f461636d-8e97-4741-84e8-70ef104d7727"
 			]
 		}
 	],
@@ -133,6 +135,33 @@
 				{
 					"details": "change the hearts",
 					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "f461636d-8e97-4741-84e8-70ef104d7727",
+			"title": "add the menus",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": []
+		},
+		{
+			"uuid": "fd280efa-0eed-42e6-a3ba-b86862da8b3b",
+			"title": "add a heal system",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "display charges in the UI",
+					"done": false
+				},
+				{
+					"details": "Animation on press",
+					"done": false
+				},
+				{
+					"details": "Heal on animation end",
+					"done": false
 				}
 			]
 		}

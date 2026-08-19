@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c0eeqmo301rm"
-path="res://.godot/imported/ISAACFONTDESCRIPTIONENGRUS-ORIGINAL-SVG_0.TTF-fabe43f22bde875242a82a9d0ef5db49.fontdata"
+uid="uid://bs5rqu6my5lmt"
+path="res://.godot/imported/Ithaca-LVB75.ttf-c69a1f6d6212f536fa5dc0e9891fd9f6.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/ISAACFONTDESCRIPTIONENGRUS-ORIGINAL-SVG_0.TTF"
-dest_files=["res://.godot/imported/ISAACFONTDESCRIPTIONENGRUS-ORIGINAL-SVG_0.TTF-fabe43f22bde875242a82a9d0ef5db49.fontdata"]
+source_file="res://assets/fonts/Ithaca-LVB75.ttf"
+dest_files=["res://.godot/imported/Ithaca-LVB75.ttf-c69a1f6d6212f536fa5dc0e9891fd9f6.fontdata"]
 
 [params]
 
