@@ -26,9 +26,9 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	# Ignore player
+	# Don't destroy the projectile if it touches the player
 	if body.is_in_group("player"):
 		return
-	# Destroy if touches something rigid
-	if body.is_in_group("rigid"):
-		queue_free()
+
+	# Destroy on any physics body
+	queue_free()
