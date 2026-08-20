@@ -19,10 +19,12 @@
 [ext_resource type="Texture2D" uid="uid://c7hjy0rg6mhda" path="res://assets/sprites/Items/beer_empty.png" id="16_v2bt7"]
 [ext_resource type="Texture2D" uid="uid://bxf153isthoyp" path="res://assets/sprites/Items/beer.png" id="17_utgfe"]
 [ext_resource type="Texture2D" uid="uid://d2wbh51m0kvje" path="res://assets/sprites/Items/beer_use.png" id="18_1pxbi"]
-[ext_resource type="PackedScene" uid="uid://b5bggoq0o8h24" path="res://scenes/menus/multiplayer_menu.tscn" id="20_utgfe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
 size = Vector2(41, 69)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bx8n8"]
+size = Vector2(31, 43)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5h11f"]
 size = Vector2(37, 64)
@@ -1257,9 +1259,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bx8n8"]
-size = Vector2(31, 43)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ehsx"]
 atlas = ExtResource("8_nbgf2")
 region = Rect2(0, 0, 36, 33)
@@ -1810,6 +1809,17 @@ position = Vector2(-4.5, 7.5)
 shape = SubResource("RectangleShape2D_bhunq")
 debug_color = Color(0.8052927, 0.0023824722, 0.9971649, 0.41960785)
 
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1666683253 node_paths=PackedStringArray("ram") groups=["player"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("2_xyavq")
+ram = NodePath("..")
+
+[node name="Hurtbox" type="CollisionShape2D" parent="Hurtbox" unique_id=497906085]
+position = Vector2(-4.5, 11.5)
+shape = SubResource("RectangleShape2D_bx8n8")
+debug_color = Color(0.9614535, 0, 0.020520065, 0.41960785)
+
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=938434895 groups=["player"]]
 position = Vector2(-4.5, 8)
 shape = SubResource("RectangleShape2D_5h11f")
@@ -1839,17 +1849,6 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://assets/sprites/Idle_Buffed.aseprite",
 "source_uid": 7843143191872878945
 }
-
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1666683253 node_paths=PackedStringArray("ram") groups=["player"]]
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("2_xyavq")
-ram = NodePath("..")
-
-[node name="Hurtbox" type="CollisionShape2D" parent="Hurtbox" unique_id=497906085]
-position = Vector2(-4.5, 11.5)
-shape = SubResource("RectangleShape2D_bx8n8")
-debug_color = Color(0.9614535, 0, 0.020520065, 0.41960785)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=323937361 groups=["player"]]
 position_smoothing_speed = 10.0
@@ -1936,13 +1935,7 @@ offset_top = -52.0
 offset_right = -42.0
 offset_bottom = -52.0
 
-[node name="MultiplayerMenu" parent="." unique_id=506024787 instance=ExtResource("20_utgfe")]
-offset_left = 220.0
-offset_top = -179.0
-offset_right = 220.0
-offset_bottom = -179.0
-
 [connection signal="area_entered" from="ItemCheck" to="." method="_on_item_check_area_entered"]
-[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="animation_finished" from="Camera2D/Hud/Hearts/Heart_Slot1/Heart_1" to="." method="_on_heart_1_animation_finished"]

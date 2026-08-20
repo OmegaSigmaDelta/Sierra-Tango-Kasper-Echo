@@ -30,7 +30,6 @@ buses/default_bus_layout="uid://vjwschbyg6nk"
 [autoload]
 
 CursorManager="*uid://bdarrwsakr1cp"
-MultiplayerManager="*uid://ce0wqkmvsq4f"
 
 [display]
 

@@ -5,8 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://e6exbou7wbfr" path="res://scenes/items/beer.tscn" id="2_6jy8w"]
 [ext_resource type="PackedScene" uid="uid://btqjw3wdpjfys" path="res://scenes/characters/slime.tscn" id="4_2mx3f"]
 [ext_resource type="PackedScene" uid="uid://xjt5aemubat8" path="res://scenes/characters/dummy.tscn" id="5_6wdjx"]
-[ext_resource type="Script" uid="uid://ckuhho5oywd5k" path="res://scripts/game_manager.gd" id="6_ivrm8"]
-[ext_resource type="PackedScene" uid="uid://07bbjmmgb373" path="res://scenes/characters/MultiplayerRam.tscn" id="7_a2x04"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m3ct3"]
 size = Vector2(2400, 3)
@@ -78,7 +76,3 @@ autoplay = &"move"
 
 [node name="Dummy" parent="." unique_id=1068089805 instance=ExtResource("5_6wdjx")]
 position = Vector2(454, 11)
-
-[node name="GameManager" type="Node2D" parent="." unique_id=1111169182]
-script = ExtResource("6_ivrm8")
-player_scene = ExtResource("7_a2x04")
