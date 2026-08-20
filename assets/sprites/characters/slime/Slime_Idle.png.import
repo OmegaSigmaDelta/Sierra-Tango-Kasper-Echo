@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg4l5bc1o6i3r"
-path="res://.godot/imported/смегма ходьба-Sheet.png-9b9db4007819cc0a155167871448d909.ctex"
+uid="uid://l1r8a5k5uhye"
+path="res://.godot/imported/Slime_Idle.png-4c2f3209ba2cb29b4ac951821c87116a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/slime/смегма ходьба-Sheet.png"
-dest_files=["res://.godot/imported/смегма ходьба-Sheet.png-9b9db4007819cc0a155167871448d909.ctex"]
+source_file="res://assets/sprites/characters/slime/Slime_Idle.png"
+dest_files=["res://.godot/imported/Slime_Idle.png-4c2f3209ba2cb29b4ac951821c87116a.ctex"]
 
 [params]
 

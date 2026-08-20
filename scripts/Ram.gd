@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const PROJECTILE = preload("res://scenes/items/projectile.tscn")
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 @onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot1/Heart_1
@@ -95,15 +97,15 @@ func _physics_process(delta: float):
 	move_and_slide()
 	Health()
 	fullscreen()
+	shoot()
 
 
-# HP
+# Heal (number) of HP
 func heal(number):
 	if HP < MAX_HP:
 		HP += number
 		print(HP)
-
-
+# Damage Ram by (number) of HP
 func hit(number):
 	# Don't take damage while invulnerable
 	if is_invulnerable:
@@ -132,7 +134,7 @@ func hit(number):
 	animated_sprite_2d.material.set_shader_parameter("flash_amount", 0.0)
 	
 	is_invulnerable = false
-
+# Heal 2 hearts by using up 1 charge of beer
 func beer_use():
 	if Input.is_action_just_pressed("heal"):
 		if heals == 2:
@@ -151,7 +153,7 @@ func beer_use():
 			animated_sprite_2d.play("Heal")
 			heal_1.play("use")
 			heal_2.play("empty")
-
+# Refill 1 beer charge
 func beer_refill():
 	if heals == 1:
 		heals = 2
@@ -161,24 +163,24 @@ func beer_refill():
 		heals = 1
 		heal_1.play("refill")
 		heal_2.play("empty")
-
+# Damage yourself by 1 damage (debug1)
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
 		hit(1)
 		print(HP)
-
+# Heal yourself by 1 heart (debug2)
 func debug_heal():
 	if Input.is_action_just_pressed("debug2"):
 		heal(1)
 		print(HP)
-
+# Change animations to armored/unarmored (debug3)
 func debug_armor():
 	if Input.is_action_just_pressed("debug3"):
 		if in_armor == true:
 			in_armor = false
 		elif in_armor == false:
 			in_armor = true
-
+# Give yourself 100000000 HP (debug~)
 func godmode():
 	if Input.is_action_just_pressed("debug~"):
 		if godmode_state == false:
@@ -191,22 +193,20 @@ func godmode():
 			MAX_HP = 6
 			HP = 6
 			print("godmode deactivated")
-
+# Handles armor/unarmor MAX_HP change  (!!!FIX!!!)
 func unarmor():
 	if godmode_state == false:
 		if armored == true:
 			MAX_HP = 6
 		else:
 			MAX_HP = 3
-
+# Sets window mode to fullscreen/maximized
 func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-
-
 # Health HUD Animations And death call ("die()")
 func Health():
 	beer_use()
@@ -320,30 +320,37 @@ func Health():
 	# Prevent HP exceeding MAX_HP
 	if HP > MAX_HP:
 		HP = MAX_HP
-
-
 # Armor break animation finished
 func _on_heart_1_animation_finished():
 	if heart_1.animation == "Full_Armored_Break":
 		heart_1.play("Full")
 		heart_2.play("Full")
 		heart_3.play("Full_Animated")
-
-
 # Dying
 func die():
 	is_dead = true
 	velocity.x = 0
 	velocity.y = 0
 	animated_sprite_2d.play("Die")
-
-
+# AnimatedSprite2D finished animation trigger
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":
 		get_tree().change_scene_to_file("res://scenes/menus/game_over.tscn")
 	if animated_sprite_2d.animation == "Heal":
 		is_healing = false
 		heal(2)
-
+# Refill beer on entering the ItemCheck Area2D
 func _on_item_check_area_entered(_area: Area2D):
 	beer_refill()
+# Shoot a projectile by pressing LMB
+func shoot():
+	if Input.is_action_just_pressed("shoot"):
+		var projectile = PROJECTILE.instantiate()
+
+		var mouse_position = get_global_mouse_position()
+		var shoot_direction = global_position.direction_to(mouse_position)
+
+		projectile.global_position = global_position
+		projectile.direction = shoot_direction
+
+		get_parent().add_child(projectile)

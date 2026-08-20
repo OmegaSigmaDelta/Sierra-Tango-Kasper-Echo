@@ -1928,7 +1928,7 @@ sprite_frames = SubResource("SpriteFrames_riqys")
 animation = &"full"
 autoplay = "full"
 
-[node name="Pause" parent="." unique_id=142770787 instance=ExtResource("16_fu2o8")]
+[node name="Pause" parent="Camera2D" unique_id=142770787 instance=ExtResource("16_fu2o8")]
 visible = false
 offset_left = -42.0
 offset_top = -52.0

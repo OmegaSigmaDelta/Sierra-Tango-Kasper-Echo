@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://l1r8a5k5uhye"
-path="res://.godot/imported/смегма статичная-Sheet.png-5b9106afee2851041c7d3c1b2deef0c9.ctex"
+uid="uid://cabu85vqppxon"
+path="res://.godot/imported/projectile.png-ed173a22099d86882018c3dbd19c969a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/slime/смегма статичная-Sheet.png"
-dest_files=["res://.godot/imported/смегма статичная-Sheet.png-5b9106afee2851041c7d3c1b2deef0c9.ctex"]
+source_file="res://assets/sprites/Items/projectile.png"
+dest_files=["res://.godot/imported/projectile.png-ed173a22099d86882018c3dbd19c969a.ctex"]
 
 [params]
 

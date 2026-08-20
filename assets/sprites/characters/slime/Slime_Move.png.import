@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wiq0mic5m6is"
-path="res://.godot/imported/Collectible.png-1a4ce9d229f8ddcebfce0f559aa41dd5.ctex"
+uid="uid://cg4l5bc1o6i3r"
+path="res://.godot/imported/Slime_Move.png-d65c06f5893e3a51b06da201992b00a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Items/Collectible.png"
-dest_files=["res://.godot/imported/Collectible.png-1a4ce9d229f8ddcebfce0f559aa41dd5.ctex"]
+source_file="res://assets/sprites/characters/slime/Slime_Move.png"
+dest_files=["res://.godot/imported/Slime_Move.png-d65c06f5893e3a51b06da201992b00a5.ctex"]
 
 [params]
 
