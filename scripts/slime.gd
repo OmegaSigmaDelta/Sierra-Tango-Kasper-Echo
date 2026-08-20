@@ -12,15 +12,15 @@ func flash_white():
 
 	is_flashing = true
 
-	var material_ := animated_sprite_2d.material as ShaderMaterial
+	var material := animated_sprite_2d.material as ShaderMaterial
 	if material == null:
 		return
 
-	material_.set_shader_parameter("flash_amount", 0.25)
+	material.set_shader_parameter("flash_amount", 0.25)
 
 	await get_tree().create_timer(0.08).timeout
 
-	material_.set_shader_parameter("flash_amount", 0.0)
+	material.set_shader_parameter("flash_amount", 0.0)
 
 	is_flashing = false
 
@@ -34,9 +34,10 @@ func take_damage():
 func die():
 	animated_sprite_2d.play("die")
 
-func _on_hurt_box_body_entered(_body: Node2D) -> void:
+func _on_hurt_box_body_entered(_body: Node2D):
 	take_damage()
 
 
-func _on_animated_sprite_2d_animation_finished() -> void:
+
+func _on_animated_sprite_2d_animation_finished():
 	queue_free()

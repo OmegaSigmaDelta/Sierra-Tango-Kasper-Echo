@@ -106,7 +106,7 @@ autoplay = "move"
 [node name="DamageBox" type="Area2D" parent="." unique_id=467440276]
 position = Vector2(-1, 23.999998)
 scale = Vector2(8.296, 4.583)
-collision_layer = 2
+collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageBox" unique_id=2035916506]
@@ -116,7 +116,7 @@ shape = SubResource("RectangleShape2D_bhunq")
 position = Vector2(-1, 23.999998)
 scale = Vector2(8.296, 4.583)
 collision_layer = 8
-collision_mask = 8
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1650920041]
 shape = SubResource("RectangleShape2D_bhunq")

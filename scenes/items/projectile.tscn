@@ -3,24 +3,6 @@
 [ext_resource type="Script" uid="uid://dt2sq8fr460km" path="res://scripts/projectile.gd" id="1_m3ct3"]
 [ext_resource type="Texture2D" uid="uid://cabu85vqppxon" path="res://assets/sprites/Items/projectile.png" id="2_oo15e"]
 
-[sub_resource type="Shader" id="Shader_gh1sf"]
-code = "shader_type canvas_item;
-
-uniform float flash_amount : hint_range(0.0, 1.0) = 0.0;
-
-void fragment() {
-	vec4 tex = texture(TEXTURE, UV);
-
-	// Mix the normal sprite with a non-bright white.
-	vec3 flashed = mix(tex.rgb, vec3(1.0), flash_amount);
-
-	COLOR = vec4(flashed, tex.a);
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_boxg1"]
-shader = SubResource("Shader_gh1sf")
-shader_parameter/flash_amount = 0.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_m3ct3"]
 atlas = ExtResource("2_oo15e")
 region = Rect2(96, 0, 32, 32)
@@ -61,16 +43,15 @@ animations = [{
 radius = 16.0
 
 [node name="Projectile" type="CharacterBody2D" unique_id=936251104]
-collision_layer = 8
-collision_mask = 8
+collision_layer = 0
+collision_mask = 9
 script = ExtResource("1_m3ct3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=337635343]
-material = SubResource("ShaderMaterial_boxg1")
 sprite_frames = SubResource("SpriteFrames_bhunq")
 animation = &"flying"
 autoplay = "flying"
-frame_progress = 0.6654139
+frame_progress = 0.83277243
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=445485365]
 shape = SubResource("CircleShape2D_riqys")
