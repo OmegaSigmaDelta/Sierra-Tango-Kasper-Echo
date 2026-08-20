@@ -1856,15 +1856,16 @@ position_smoothing_speed = 10.0
 [node name="Hud" type="Control" parent="Camera2D" unique_id=720647744]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -320.0
-offset_top = -184.0
-offset_right = 320.0
-offset_bottom = 176.0
+offset_left = -319.0
+offset_top = -180.0
+offset_right = 321.0
+offset_bottom = 180.0
 
 [node name="Hearts" type="HBoxContainer" parent="Camera2D/Hud" unique_id=504925921]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_top = 4.0
+offset_right = 116.0
+offset_bottom = 44.0
 
 [node name="Heart_Slot1" type="Control" parent="Camera2D/Hud/Hearts" unique_id=870291389]
 custom_minimum_size = Vector2(36, 33)
@@ -1902,9 +1903,9 @@ frame_progress = 0.09063312
 [node name="Heals" type="HBoxContainer" parent="Camera2D/Hud" unique_id=1118622152]
 layout_mode = 0
 offset_left = 9.0
-offset_top = 37.0
+offset_top = 41.0
 offset_right = 49.0
-offset_bottom = 56.0
+offset_bottom = 60.0
 scale = Vector2(1.505884, 1.505884)
 
 [node name="Heal_Slot1" type="Control" parent="Camera2D/Hud/Heals" unique_id=417188835]

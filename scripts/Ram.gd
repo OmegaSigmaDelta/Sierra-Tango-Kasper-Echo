@@ -173,7 +173,7 @@ func debug_heal():
 		print(HP)
 
 func debug_armor():
-	if Input.is_action_just_pressed("debug4"):
+	if Input.is_action_just_pressed("debug3"):
 		if in_armor == true:
 			in_armor = false
 		elif in_armor == false:

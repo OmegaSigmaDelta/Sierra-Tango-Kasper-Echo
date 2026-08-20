@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wiq0mic5m6is"
-path="res://.godot/imported/Collectible.png-2a345148e0059688d88257db01ae6292.ctex"
+uid="uid://8ktenrtirmua"
+path="res://.godot/imported/text-select.png-0bcf2ac4eb65d7084245bfe1de7e8a78.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/MetroidvaniaSystem/SampleProject/Sprites/Collectible.png"
-dest_files=["res://.godot/imported/Collectible.png-2a345148e0059688d88257db01ae6292.ctex"]
+source_file="res://assets/sprites/UI/cursor/text-select.png"
+dest_files=["res://.godot/imported/text-select.png-0bcf2ac4eb65d7084245bfe1de7e8a78.ctex"]
 
 [params]
 

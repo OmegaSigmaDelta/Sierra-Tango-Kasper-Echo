@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://btgvo27tngq4o" path="res://addons/MetroidvaniaSystem/SampleProject/Scripts/Game.gd" id="1_xdpfu"]
 [ext_resource type="PackedScene" uid="uid://xpbhai8nlgtx" path="res://addons/MetroidvaniaSystem/SampleProject/Player.tscn" id="2_bam1a"]
 [ext_resource type="PackedScene" uid="uid://dch8dyylb7526" path="res://addons/MetroidvaniaSystem/Template/Nodes/Minimap.tscn" id="3_a3gfy"]
-[ext_resource type="Texture2D" uid="uid://wiq0mic5m6is" path="res://addons/MetroidvaniaSystem/SampleProject/Sprites/Collectible.png" id="3_kng3d"]
+[ext_resource type="Texture2D" uid="uid://wiq0mic5m6is" path="res://assets/sprites/Items/Collectible.png" id="3_kng3d"]
 [ext_resource type="PackedScene" uid="uid://bd5w7n7gew76f" path="res://addons/MetroidvaniaSystem/SampleProject/Objects/CollectionGridItem.tscn" id="4_uuja8"]
 [ext_resource type="Texture2D" uid="uid://dpwli04va881g" path="res://addons/MetroidvaniaSystem/SampleProject/Sprites/MapItem.png" id="6_lpbfn"]
 

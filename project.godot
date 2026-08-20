@@ -30,6 +30,7 @@ buses/default_bus_layout="uid://vjwschbyg6nk"
 [autoload]
 
 MetSys="*uid://c01ibpvrp2wsd"
+CursorManager="*uid://bdarrwsakr1cp"
 
 [display]
 
@@ -37,6 +38,7 @@ window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/mode=2
 window/stretch/mode="canvas_items"
+mouse_cursor/custom_image="uid://3gqaga1uw70j"
 
 [editor_plugins]
 
