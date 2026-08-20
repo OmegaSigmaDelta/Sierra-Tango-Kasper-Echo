@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://xjt5aemubat8"]
+
+[ext_resource type="Script" uid="uid://dhva2p8i78ob8" path="res://dummy.gd" id="1_k5f3b"]
+[ext_resource type="Texture2D" uid="uid://iigmobpwctj3" path="res://assets/sprites/characters/Dummy/Idle.png" id="2_6m2ry"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
+size = Vector2(37, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4gkx"]
+atlas = ExtResource("2_6m2ry")
+region = Rect2(0, 0, 50, 70)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bhunq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4gkx")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Dummy" type="Node2D" unique_id=917264044]
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1068089805]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_k5f3b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1508924107]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_riqys")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HurtBox" unique_id=1172190929]
+sprite_frames = SubResource("SpriteFrames_bhunq")
+autoplay = "default"
+
+[node name="DamageLabel" type="HBoxContainer" parent="HurtBox" unique_id=1180574266]
+offset_left = -9.0
+offset_top = -49.0
+offset_right = 11.0
+offset_bottom = -35.0
+alignment = 1
+
+[node name="DamageLabel" type="Label" parent="HurtBox/DamageLabel" unique_id=1035090916]
+layout_mode = 2
+text = "a"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="HurtBox" to="HurtBox" method="_on_body_entered"]

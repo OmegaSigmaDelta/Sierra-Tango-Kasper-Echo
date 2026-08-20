@@ -4,8 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://by2jtluyxo0xa" path="res://assets/sprites/Items/Missing_Texture.png" id="2_2mx3f"]
 [ext_resource type="PackedScene" uid="uid://e6exbou7wbfr" path="res://scenes/items/beer.tscn" id="2_6jy8w"]
 [ext_resource type="PackedScene" uid="uid://btqjw3wdpjfys" path="res://scenes/characters/slime.tscn" id="4_2mx3f"]
+[ext_resource type="PackedScene" uid="uid://xjt5aemubat8" path="res://scenes/characters/dummy.tscn" id="5_6wdjx"]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w47ul"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3ct3"]
+size = Vector2(2400, 3)
 
 [sub_resource type="Animation" id="Animation_2mx3f"]
 length = 0.001
@@ -53,8 +55,8 @@ position = Vector2(0, 6)
 position = Vector2(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=463619022]
-position = Vector2(-5, 47)
-shape = SubResource("WorldBoundaryShape2D_w47ul")
+position = Vector2(-4, 46.5)
+shape = SubResource("RectangleShape2D_m3ct3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor" unique_id=155861162]
 position = Vector2(-4, 46.999996)
@@ -62,7 +64,7 @@ scale = Vector2(300, 0.371)
 texture = ExtResource("2_2mx3f")
 
 [node name="Beer" parent="." unique_id=1519919476 instance=ExtResource("2_6jy8w")]
-position = Vector2(-100, 1)
+position = Vector2(553, 1)
 
 [node name="Slime" parent="." unique_id=1575703234 instance=ExtResource("4_2mx3f")]
 position = Vector2(-419, 36)
@@ -71,3 +73,6 @@ scale = Vector2(0.2, 0.2)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slime" unique_id=1466206905]
 libraries/ = SubResource("AnimationLibrary_fjl3m")
 autoplay = &"move"
+
+[node name="Dummy" parent="." unique_id=1068089805 instance=ExtResource("5_6wdjx")]
+position = Vector2(454, 11)
