@@ -16,7 +16,7 @@ general/updates_per_second=1
 
 config/name="Gnoy simulator"
 config/version="beta"
-run/main_scene="uid://bkhdx0kayl2d"
+run/main_scene="uid://dfxne42qakka0"
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
@@ -29,8 +29,8 @@ buses/default_bus_layout="uid://vjwschbyg6nk"
 
 [autoload]
 
-MetSys="*uid://c01ibpvrp2wsd"
 CursorManager="*uid://bdarrwsakr1cp"
+MultiplayerManager="*uid://ce0wqkmvsq4f"
 
 [display]
 

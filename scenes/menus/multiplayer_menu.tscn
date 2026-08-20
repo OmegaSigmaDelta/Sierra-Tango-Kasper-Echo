@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b5bggoq0o8h24"]
+
+[ext_resource type="Script" uid="uid://bf1jvxi4frm11" path="res://scripts/multiplayer_menu.gd" id="1_2823p"]
+
+[node name="MultiplayerMenu" type="Control" unique_id=506024787]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_2823p")
+
+[node name="Control" type="Control" parent="." unique_id=1679467254]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=121534643]
+layout_mode = 0
+offset_right = 98.0
+offset_bottom = 74.0
+
+[node name="HostButton" type="Button" parent="Control/VBoxContainer" unique_id=1339822922]
+layout_mode = 2
+text = "Хостить"
+
+[node name="IPAdress" type="LineEdit" parent="Control/VBoxContainer" unique_id=698250576]
+layout_mode = 2
+placeholder_text = "IP"
+
+[node name="JoinButton" type="Button" parent="Control/VBoxContainer" unique_id=1311371370]
+layout_mode = 2
+text = "Присоединиться"
+
+[connection signal="pressed" from="Control/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
