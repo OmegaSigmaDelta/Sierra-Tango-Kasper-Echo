@@ -16,7 +16,7 @@ general/updates_per_second=1
 
 config/name="Gnoy simulator"
 config/version="beta"
-run/main_scene="uid://dfxne42qakka0"
+run/main_scene="uid://bkhdx0kayl2d"
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
