@@ -28,7 +28,7 @@ func flash_white():
 func take_damage(number):
 	HP -= number
 	flash_white()
-
+	
 	if HP <= 0:
 		die()
 

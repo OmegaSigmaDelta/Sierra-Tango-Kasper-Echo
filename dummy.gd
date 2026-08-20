@@ -2,8 +2,9 @@ extends Area2D
 
 @onready var damage_label: Label = $DamageLabel/DamageLabel
 
-var damagedone = 0
+var damage_done := 0
+
 
 func take_damage(number):
-	damagedone += number
-	damage_label.text = damagedone
+	damage_done += number
+	damage_label.text = str(damage_done)

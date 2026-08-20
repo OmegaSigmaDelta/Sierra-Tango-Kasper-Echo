@@ -44,6 +44,11 @@ mouse_cursor/custom_image="uid://3gqaga1uw70j"
 
 enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg")
 
+[global_group]
+
+player=""
+rigid=""
+
 [gui]
 
 common/snap_controls_to_pixels=false

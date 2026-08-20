@@ -20,17 +20,15 @@ func _physics_process(delta):
 
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.name == "HurtBox":
-		var enemy = area.get_parent()
-
-		if enemy.has_method("take_damage"):
-			enemy.take_damage(1)
+	if area.has_method("take_damage"):
+		area.take_damage(1)
 		queue_free()
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is RigidBody2D:
-		if body.is_in_group("player"):
-			return
-
+	# Ignore player
+	if body.is_in_group("player"):
+		return
+	# Destroy if touches something rigid
+	if body.is_in_group("rigid"):
 		queue_free()

@@ -1797,10 +1797,10 @@ animations = [{
 "speed": 32.0
 }]
 
-[node name="Ram" type="CharacterBody2D" unique_id=189022650]
+[node name="Ram" type="CharacterBody2D" unique_id=189022650 groups=["player"]]
 script = ExtResource("1_unegs")
 
-[node name="ItemCheck" type="Area2D" parent="." unique_id=80858057]
+[node name="ItemCheck" type="Area2D" parent="." unique_id=80858057 groups=["player"]]
 collision_layer = 4
 collision_mask = 4
 
@@ -1809,11 +1809,11 @@ position = Vector2(-4.5, 7.5)
 shape = SubResource("RectangleShape2D_bhunq")
 debug_color = Color(0.8052927, 0.0023824722, 0.9971649, 0.41960785)
 
-[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=938434895]
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=938434895 groups=["player"]]
 position = Vector2(-4.5, 8)
 shape = SubResource("RectangleShape2D_5h11f")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1838183055]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1838183055 groups=["player"]]
 material = SubResource("ShaderMaterial_fu2o8")
 position = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_qbkrf")
@@ -1839,7 +1839,7 @@ metadata/_aseprite_wizard_config_ = {
 "source_uid": 7843143191872878945
 }
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1666683253 node_paths=PackedStringArray("ram")]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1666683253 node_paths=PackedStringArray("ram") groups=["player"]]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("2_xyavq")
@@ -1850,7 +1850,7 @@ position = Vector2(-4.5, 11.5)
 shape = SubResource("RectangleShape2D_bx8n8")
 debug_color = Color(0.9614535, 0, 0.020520065, 0.41960785)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=323937361]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=323937361 groups=["player"]]
 position_smoothing_speed = 10.0
 
 [node name="Hud" type="Control" parent="Camera2D" unique_id=720647744]

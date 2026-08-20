@@ -51,7 +51,7 @@ _data = {
 [node name="Ram" parent="." unique_id=189022650 instance=ExtResource("1_whx73")]
 position = Vector2(0, 6)
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=922739754]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=922739754 groups=["rigid"]]
 position = Vector2(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=463619022]
