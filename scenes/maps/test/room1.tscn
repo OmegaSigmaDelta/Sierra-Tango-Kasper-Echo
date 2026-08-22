@@ -2,40 +2,78 @@
 
 [ext_resource type="Texture2D" uid="uid://by2jtluyxo0xa" path="res://assets/sprites/Items/Missing_Texture.png" id="1_3rs26"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_sigrx"]
-[ext_resource type="Texture2D" uid="uid://cm64p8a7h7nb2" path="res://assets/sprites/UI/HP/HP_Empty.png" id="2_sigrx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qyxpv"]
 size = Vector2(2400, 3)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bhunq"]
+font_color = Color(0, 0, 0, 1)
 
 [node name="Room1" type="Node2D" unique_id=86323220]
 
 [node name="RoomInstance" parent="." unique_id=1246059462 instance=ExtResource("1_sigrx")]
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=5323041]
-position = Vector2(0, 1)
+[node name="Walls" type="Node2D" parent="." unique_id=1342482444]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1634978722]
+[node name="Floor" type="StaticBody2D" parent="Walls" unique_id=5323041]
+position = Vector2(320, 306)
+scale = Vector2(0.267, 1.103)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Floor" unique_id=1634978722]
 position = Vector2(-4, 46.5)
 shape = SubResource("RectangleShape2D_qyxpv")
 
-[node name="Sprite2D" type="Sprite2D" parent="Floor" unique_id=519445247]
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Floor" unique_id=519445247]
 position = Vector2(-4, 46.999996)
 scale = Vector2(300, 0.371)
 texture = ExtResource("1_3rs26")
 
-[node name="Ceiling" type="StaticBody2D" parent="." unique_id=1802748508]
-position = Vector2(0, -307)
-rotation = 3.1415927
+[node name="Wall" type="StaticBody2D" parent="Walls" unique_id=813220939]
+position = Vector2(54, 104.000015)
+rotation = 1.5710213
+scale = Vector2(0.08647815, 1.1188225)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling" unique_id=1090149327]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall" unique_id=990182125]
 position = Vector2(-4, 46.5)
 shape = SubResource("RectangleShape2D_qyxpv")
 
-[node name="Sprite2D" type="Sprite2D" parent="Ceiling" unique_id=1170888570]
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall" unique_id=10462059]
 position = Vector2(-4, 46.999996)
 scale = Vector2(300, 0.371)
 texture = ExtResource("1_3rs26")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=282700998]
-position = Vector2(0, -45)
-texture = ExtResource("2_sigrx")
+[node name="Wall2" type="StaticBody2D" parent="Walls" unique_id=1115552105]
+position = Vector2(690, 104.000015)
+rotation = 1.5710213
+scale = Vector2(0.08647815, 1.1188225)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2" unique_id=1717510550]
+position = Vector2(-4, 46.5)
+shape = SubResource("RectangleShape2D_qyxpv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Wall2" unique_id=1611678198]
+position = Vector2(-4, 46.999996)
+scale = Vector2(300, 0.371)
+texture = ExtResource("1_3rs26")
+
+[node name="Ceiling" type="StaticBody2D" parent="Walls" unique_id=1173035181]
+position = Vector2(320, -48.99997)
+scale = Vector2(0.267, 1.103)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Ceiling" unique_id=232949059]
+position = Vector2(-4, 46.5)
+shape = SubResource("RectangleShape2D_qyxpv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/Ceiling" unique_id=932693994]
+position = Vector2(-4, 46.999996)
+scale = Vector2(300, 0.371)
+texture = ExtResource("1_3rs26")
+
+[node name="Label" type="Label" parent="." unique_id=795189162]
+offset_left = 285.0
+offset_top = 135.0
+offset_right = 325.0
+offset_bottom = 149.0
+scale = Vector2(2, 2)
+text = "Room 1"
+label_settings = SubResource("LabelSettings_bhunq")
