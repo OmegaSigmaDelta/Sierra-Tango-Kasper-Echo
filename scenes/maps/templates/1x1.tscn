@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://kmavy4wilsdg" path="res://assets/sprites/Final/Tiles.png" id="3_pk2ym"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bhunq"]
-font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_luv43"]
 texture = ExtResource("3_pk2ym")
@@ -1384,14 +1383,14 @@ sources/0 = SubResource("TileSetAtlasSource_luv43")
 
 [node name="1x1" type="Node2D" unique_id=86323220]
 
-[node name="RoomInstance" parent="." unique_id=1246059462 instance=ExtResource("1_06al6")]
-
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=315753519]
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=582287855]
 position = Vector2(320.00003, 180)
 scale = Vector2(0.8333334, 0.8653846)
 texture = ExtResource("2_mb3af")
+
+[node name="RoomInstance" parent="." unique_id=1246059462 instance=ExtResource("1_06al6")]
 
 [node name="Label" type="Label" parent="." unique_id=795189162]
 offset_left = 285.0
