@@ -1821,7 +1821,7 @@ shape = SubResource("RectangleShape2D_bx8n8")
 debug_color = Color(0.9614535, 0, 0.020520065, 0.41960785)
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=938434895 groups=["player"]]
-position = Vector2(-4.5, 8)
+position = Vector2(-4.5, 9)
 shape = SubResource("RectangleShape2D_5h11f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1838183055 groups=["player"]]

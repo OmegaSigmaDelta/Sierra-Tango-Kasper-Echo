@@ -7,4 +7,5 @@
 script = ExtResource("1_ui0vk")
 theme = ExtResource("2_3kt0x")
 map_data_file = "res://scenes/maps/MapData.txt"
-_last_scene_folder = "res://scenes/maps/test"
+in_game_cell_size = Vector2(640, 360)
+_last_scene_folder = "res://scenes/maps/templates"

@@ -8,4 +8,4 @@ script = ExtResource("1_ooth8")
 starting_map = "uid://cunirm1kwpuv1"
 
 [node name="Ram" parent="." unique_id=189022650 instance=ExtResource("2_nwmp2")]
-position = Vector2(152, 2)
+position = Vector2(41, 315)

@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://nnupjip35vxk"]
+[gd_scene format=3 uid="uid://bx2yh6ovjl2ab"]
 
-[ext_resource type="Texture2D" uid="uid://by2jtluyxo0xa" path="res://assets/sprites/Items/Missing_Texture.png" id="1_7i7nr"]
-[ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_mw26a"]
+[ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_tx4le"]
+[ext_resource type="Texture2D" uid="uid://by2jtluyxo0xa" path="res://assets/sprites/Items/Missing_Texture.png" id="2_8cjyw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7i7nr"]
 size = Vector2(2400, 3)
@@ -11,7 +11,7 @@ font_color = Color(0, 0, 0, 1)
 
 [node name="Room2" type="Node2D" unique_id=245931143]
 
-[node name="RoomInstance" parent="." unique_id=1246059462 instance=ExtResource("1_mw26a")]
+[node name="RoomInstance" parent="." unique_id=1246059462 instance=ExtResource("1_tx4le")]
 
 [node name="Walls" type="Node2D" parent="." unique_id=1932743554]
 scale = Vector2(2, 1)
@@ -27,7 +27,7 @@ shape = SubResource("RectangleShape2D_7i7nr")
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Floor" unique_id=2029725989]
 position = Vector2(-4, 46.999996)
 scale = Vector2(300, 0.371)
-texture = ExtResource("1_7i7nr")
+texture = ExtResource("2_8cjyw")
 
 [node name="Wall" type="StaticBody2D" parent="Walls" unique_id=417503249]
 position = Vector2(54, 104.000015)
@@ -41,7 +41,7 @@ shape = SubResource("RectangleShape2D_7i7nr")
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall" unique_id=762565563]
 position = Vector2(-4, 46.999996)
 scale = Vector2(300, 0.371)
-texture = ExtResource("1_7i7nr")
+texture = ExtResource("2_8cjyw")
 
 [node name="Wall2" type="StaticBody2D" parent="Walls" unique_id=2126995629]
 position = Vector2(690, 104.000015)
@@ -55,7 +55,7 @@ shape = SubResource("RectangleShape2D_7i7nr")
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Wall2" unique_id=1248010251]
 position = Vector2(-4, 46.999996)
 scale = Vector2(300, 0.371)
-texture = ExtResource("1_7i7nr")
+texture = ExtResource("2_8cjyw")
 
 [node name="Ceiling" type="StaticBody2D" parent="Walls" unique_id=347231208]
 position = Vector2(320, -48.99997)
@@ -68,7 +68,7 @@ shape = SubResource("RectangleShape2D_7i7nr")
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Ceiling" unique_id=188573942]
 position = Vector2(-4, 46.999996)
 scale = Vector2(300, 0.371)
-texture = ExtResource("1_7i7nr")
+texture = ExtResource("2_8cjyw")
 
 [node name="Label" type="Label" parent="." unique_id=560943309]
 offset_left = 285.0

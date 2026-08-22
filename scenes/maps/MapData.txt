@@ -1,4 +1,2 @@
-[1,0,0]
-0,0,0,0|||uid://nnupjip35vxk
 [0,0,0]
-0,0,0,0|||uid://cunirm1kwpuv1
+0,0,0,0|||uid://cyrxk1g0finca
