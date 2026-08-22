@@ -1,9 +1,6 @@
 extends "res://addons/MetroidvaniaSystem/Template/Scripts/MetSysGame.gd"
 
 
-@export_file("room_link") var starting_map: String
-
-
 func _ready() -> void:
 	MetSys.reset_state()
 	MetSys.set_save_data()
@@ -11,8 +8,6 @@ func _ready() -> void:
 	set_player($Ram)
 
 	room_loaded.connect(init_room, CONNECT_DEFERRED)
-
-	load_room(starting_map)
 
 	add_module("RoomTransitions.gd")
 

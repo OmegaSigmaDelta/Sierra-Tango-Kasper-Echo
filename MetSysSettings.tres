@@ -8,4 +8,5 @@ script = ExtResource("1_ui0vk")
 theme = ExtResource("2_3kt0x")
 map_data_file = "res://scenes/maps/MapData.txt"
 in_game_cell_size = Vector2(640, 360)
+discover_whole_rooms = true
 _last_scene_folder = "res://scenes/maps/templates"
