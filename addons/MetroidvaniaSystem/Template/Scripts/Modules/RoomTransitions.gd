@@ -9,27 +9,26 @@ func _on_room_changed(target_room: String) -> void:
 	if target_room == MetSys.get_current_room_id():
 		return
 
+	var fade: ColorRect = game.get_node("CanvasLayer2/Fade")
 	var prev_room_instance = MetSys.get_current_room_instance()
 
-	# Get the fade from the game scene.
-	var fade: ColorRect = game.get_node("CanvasLayer/Fade")
-
-	# Fade OUT.
+	# Fade to black
 	var tween: Tween = game.get_tree().create_tween()
 	tween.tween_property(fade, "color:a", 1.0, 0.25)
 	await tween.finished
 
-	# IMPORTANT:
-	# Keep the original MetSys room transition behavior.
+	# Remove old room
 	if prev_room_instance:
 		prev_room_instance.get_parent().remove_child(prev_room_instance)
 
+	# Load new room
 	await game.load_room(target_room)
 
+	# Preserve automatic MetSys positioning
 	if prev_room_instance:
 		game.player.position -= MetSys.get_current_room_instance().get_room_position_offset(prev_room_instance)
 		prev_room_instance.queue_free()
 
-	# Fade IN.
+	# Fade back in
 	tween = game.get_tree().create_tween()
 	tween.tween_property(fade, "color:a", 0.0, 0.25)
