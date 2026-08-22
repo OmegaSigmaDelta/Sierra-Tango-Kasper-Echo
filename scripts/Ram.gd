@@ -13,8 +13,11 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 
 # Constants
 const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-
+const JUMP_VELOCITY := -400.0
+const MIN_JUMP_VELOCITY := -200.0
+const JUMP_HOLD_TIME := 0.25
+var jump_timer := 0.0
+var is_holding_jump := false
 # HP Variables
 var MAX_HP = 6
 var HP = MAX_HP
@@ -51,7 +54,21 @@ func _physics_process(delta: float):
 	# Handle jump.
 	if is_dead == false:
 		if Input.is_action_just_pressed("jump") and is_on_floor():
-			velocity.y = JUMP_VELOCITY
+			velocity.y = MIN_JUMP_VELOCITY
+			jump_timer = 0.0
+			is_holding_jump = true
+
+		if Input.is_action_pressed("jump") and is_holding_jump:
+			jump_timer += delta
+
+			var t := clamp(jump_timer / JUMP_HOLD_TIME, 0.0, 1.0)
+			velocity.y = lerp(MIN_JUMP_VELOCITY, JUMP_VELOCITY, t)
+
+			if t >= 1.0:
+				is_holding_jump = false
+
+		if Input.is_action_just_released("jump"):
+			is_holding_jump = false
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
@@ -207,6 +224,18 @@ func fullscreen():
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+# Shoot a projectile by pressing LMB
+func shoot():
+	if Input.is_action_just_pressed("shoot"):
+		var projectile = PROJECTILE.instantiate()
+
+		var mouse_position = get_global_mouse_position()
+		var shoot_direction = global_position.direction_to(mouse_position)
+
+		projectile.global_position = global_position
+		projectile.direction = shoot_direction
+
+		get_parent().add_child(projectile)
 # Health HUD Animations And death call ("die()")
 func Health():
 	beer_use()
@@ -342,15 +371,3 @@ func _on_animated_sprite_2d_animation_finished():
 # Refill beer on entering the ItemCheck Area2D
 func _on_item_check_area_entered(_area: Area2D):
 	beer_refill()
-# Shoot a projectile by pressing LMB
-func shoot():
-	if Input.is_action_just_pressed("shoot"):
-		var projectile = PROJECTILE.instantiate()
-
-		var mouse_position = get_global_mouse_position()
-		var shoot_direction = global_position.direction_to(mouse_position)
-
-		projectile.global_position = global_position
-		projectile.direction = shoot_direction
-
-		get_parent().add_child(projectile)

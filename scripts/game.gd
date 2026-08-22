@@ -16,9 +16,9 @@ func _ready() -> void:
 		push_error("Starting Map is empty! Assign a .room_link file in the Game node Inspector.")
 		return
 
-	load_room(starting_map)
-
 	add_module("RoomTransitions.gd")
+
+	load_room(starting_map)
 
 
 func init_room() -> void:

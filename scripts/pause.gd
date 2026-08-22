@@ -2,6 +2,7 @@ extends Control
 
 @onready var main_menu: Button = $Panel/VBoxContainer/MainMenu
 
+
 func _ready():
 	hide()
 
@@ -31,4 +32,3 @@ func _on_resume_pressed():
 func _on_main_menu_pressed():
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
-	

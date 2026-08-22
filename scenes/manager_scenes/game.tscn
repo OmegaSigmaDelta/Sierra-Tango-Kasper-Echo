@@ -2,10 +2,15 @@
 
 [ext_resource type="Script" uid="uid://ds5kafuutyv80" path="res://scripts/game.gd" id="1_ooth8"]
 [ext_resource type="PackedScene" uid="uid://urqbyo7w5cq8" path="res://scenes/characters/Ram.tscn" id="2_nwmp2"]
+[ext_resource type="AudioStream" uid="uid://dabstpebyj7ul" path="res://assets/audio/Dirtmouth.mp3" id="3_nwmp2"]
 
 [node name="Game" type="Node2D" unique_id=1825498049]
 script = ExtResource("1_ooth8")
 starting_map = "uid://cyrxk1g0finca"
 
 [node name="Ram" parent="." unique_id=189022650 instance=ExtResource("2_nwmp2")]
-position = Vector2(66, 285)
+position = Vector2(318, 295)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1808192541]
+stream = ExtResource("3_nwmp2")
+autoplay = true
