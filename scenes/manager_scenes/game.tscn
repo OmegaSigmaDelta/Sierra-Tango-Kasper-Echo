@@ -566,9 +566,8 @@ position = Vector2(318, 295)
 layout_mode = 3
 anchors_preset = 0
 offset_left = -1.0
-offset_top = 115.0
 offset_right = 639.0
-offset_bottom = 475.0
+offset_bottom = 360.0
 
 [node name="Hearts" type="HBoxContainer" parent="CanvasLayer/Hud" unique_id=424812074]
 layout_mode = 0

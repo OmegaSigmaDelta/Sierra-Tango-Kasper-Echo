@@ -4,12 +4,12 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
-@onready var heart_1: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot1/Heart_1
-@onready var heart_2: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot2/Heart_2
-@onready var heart_3: AnimatedSprite2D = $Camera2D/Hud/Hearts/Heart_Slot3/Heart_3
+@onready var heart_1: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Hearts/Heart_Slot1/Heart_1")
+@onready var heart_2: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Hearts/Heart_Slot2/Heart_2")
+@onready var heart_3: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Hearts/Heart_Slot3/Heart_3")
 
-@onready var heal_1: AnimatedSprite2D = $Camera2D/Hud/Heals/Heal_Slot1/Heal1
-@onready var heal_2: AnimatedSprite2D = $Camera2D/Hud/Heals/Heal_Slot2/Heal2
+@onready var heal_1: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot1/Heal1")
+@onready var heal_2: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot2/Heal2")
 
 # Constants
 const SPEED = 300.0
