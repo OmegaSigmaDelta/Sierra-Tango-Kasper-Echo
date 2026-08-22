@@ -11,6 +11,8 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 @onready var heal_1: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot1/Heal1")
 @onready var heal_2: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot2/Heal2")
 
+@onready var progress_bar: ProgressBar = $"../CanvasLayer/Hud/ProgressBar"
+
 # Constants
 const SPEED = 300.0
 const JUMP_VELOCITY := -350.0
@@ -29,10 +31,6 @@ var armor_broke = false # For animation transitions from armor to hearts
 var godmode_state = false
 var is_dead = false
 var is_healing = false
-
-#stats
-var max_rage = 100
-var rage = 0
 
 # I-Frames
 const IFRAME_DURATION = 1.0
@@ -120,6 +118,11 @@ func _physics_process(delta: float):
 	fullscreen()
 	shoot()
 
+var rage: int = 1:
+	set(value):
+		rage = clampi(value, 1, 100)
+		if progress_bar:
+			progress_bar.value = rage
 
 # Heal (number) of HP
 func heal(number):
