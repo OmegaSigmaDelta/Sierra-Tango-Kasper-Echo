@@ -560,51 +560,53 @@ starting_map = "uid://cyrxk1g0finca"
 [node name="Ram" parent="." unique_id=189022650 instance=ExtResource("2_nwmp2")]
 position = Vector2(318, 295)
 
-[node name="Hud" type="Control" parent="Ram" unique_id=1418905245]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2144669374]
+
+[node name="Hud" type="Control" parent="CanvasLayer" unique_id=1418905245]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -319.0
-offset_top = -180.0
-offset_right = 321.0
-offset_bottom = 180.0
+offset_left = -1.0
+offset_top = 115.0
+offset_right = 639.0
+offset_bottom = 475.0
 
-[node name="Hearts" type="HBoxContainer" parent="Ram/Hud" unique_id=424812074]
+[node name="Hearts" type="HBoxContainer" parent="CanvasLayer/Hud" unique_id=424812074]
 layout_mode = 0
 offset_top = 4.0
 offset_right = 116.0
 offset_bottom = 44.0
 
-[node name="Heart_Slot1" type="Control" parent="Ram/Hud/Hearts" unique_id=1545090573]
+[node name="Heart_Slot1" type="Control" parent="CanvasLayer/Hud/Hearts" unique_id=1545090573]
 custom_minimum_size = Vector2(36, 33)
 layout_mode = 2
 
-[node name="Heart_1" type="AnimatedSprite2D" parent="Ram/Hud/Hearts/Heart_Slot1" unique_id=2047684914]
+[node name="Heart_1" type="AnimatedSprite2D" parent="CanvasLayer/Hud/Hearts/Heart_Slot1" unique_id=2047684914]
 position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_gkarp")
 animation = &"Full_Animated"
 autoplay = "Full"
 
-[node name="Heart_Slot2" type="Control" parent="Ram/Hud/Hearts" unique_id=1811329572]
+[node name="Heart_Slot2" type="Control" parent="CanvasLayer/Hud/Hearts" unique_id=1811329572]
 custom_minimum_size = Vector2(36, 33)
 layout_mode = 2
 
-[node name="Heart_2" type="AnimatedSprite2D" parent="Ram/Hud/Hearts/Heart_Slot2" unique_id=38179775]
+[node name="Heart_2" type="AnimatedSprite2D" parent="CanvasLayer/Hud/Hearts/Heart_Slot2" unique_id=38179775]
 position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_gkarp")
 animation = &"Full_Animated"
 autoplay = "Full"
 
-[node name="Heart_Slot3" type="Control" parent="Ram/Hud/Hearts" unique_id=234734729]
+[node name="Heart_Slot3" type="Control" parent="CanvasLayer/Hud/Hearts" unique_id=234734729]
 custom_minimum_size = Vector2(36, 33)
 layout_mode = 2
 
-[node name="Heart_3" type="AnimatedSprite2D" parent="Ram/Hud/Hearts/Heart_Slot3" unique_id=1518711794]
+[node name="Heart_3" type="AnimatedSprite2D" parent="CanvasLayer/Hud/Hearts/Heart_Slot3" unique_id=1518711794]
 position = Vector2(18, 16.5)
 sprite_frames = SubResource("SpriteFrames_gkarp")
 animation = &"Full_Animated"
 autoplay = "Full"
 
-[node name="Heals" type="HBoxContainer" parent="Ram/Hud" unique_id=1116337132]
+[node name="Heals" type="HBoxContainer" parent="CanvasLayer/Hud" unique_id=1116337132]
 layout_mode = 0
 offset_left = 9.0
 offset_top = 41.0
@@ -612,27 +614,27 @@ offset_right = 49.0
 offset_bottom = 60.0
 scale = Vector2(1.505884, 1.505884)
 
-[node name="Heal_Slot1" type="Control" parent="Ram/Hud/Heals" unique_id=1941114952]
+[node name="Heal_Slot1" type="Control" parent="CanvasLayer/Hud/Heals" unique_id=1941114952]
 custom_minimum_size = Vector2(8, 19)
 layout_mode = 2
 
-[node name="Heal1" type="AnimatedSprite2D" parent="Ram/Hud/Heals/Heal_Slot1" unique_id=1591341302]
+[node name="Heal1" type="AnimatedSprite2D" parent="CanvasLayer/Hud/Heals/Heal_Slot1" unique_id=1591341302]
 position = Vector2(4, 9)
 sprite_frames = SubResource("SpriteFrames_mtesg")
 animation = &"full"
 autoplay = "full"
 
-[node name="Heal_Slot2" type="Control" parent="Ram/Hud/Heals" unique_id=785499824]
+[node name="Heal_Slot2" type="Control" parent="CanvasLayer/Hud/Heals" unique_id=785499824]
 custom_minimum_size = Vector2(8, 19)
 layout_mode = 2
 
-[node name="Heal2" type="AnimatedSprite2D" parent="Ram/Hud/Heals/Heal_Slot2" unique_id=724922230]
+[node name="Heal2" type="AnimatedSprite2D" parent="CanvasLayer/Hud/Heals/Heal_Slot2" unique_id=724922230]
 position = Vector2(4.0000076, 9)
 sprite_frames = SubResource("SpriteFrames_mtesg")
 animation = &"full"
 autoplay = "full"
 
-[node name="Pause" parent="Ram/Hud" unique_id=142770787 instance=ExtResource("13_p1tng")]
+[node name="Pause" parent="CanvasLayer/Hud" unique_id=142770787 instance=ExtResource("13_p1tng")]
 visible = false
 layout_mode = 1
 offset_left = -42.0
