@@ -11,15 +11,14 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 @onready var heal_1: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot1/Heal1")
 @onready var heal_2: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot2/Heal2")
 
-@onready var progress_bar: ProgressBar = $"../CanvasLayer/Hud/ProgressBar"
+@onready var progress_bar: ProgressBar = get_node("/root/Game/CanvasLayer/Hud/ProgressBar")
 
 # Constants
 const SPEED = 300.0
 const JUMP_VELOCITY := -350.0
 const MIN_JUMP_VELOCITY := -200.0
 const JUMP_HOLD_TIME := 0.25
-var jump_timer := 0.0
-var is_holding_jump := false
+const JUMP_BUFFER_TIME: float = 0.12
 # HP Variables
 var MAX_HP = 6
 var HP = MAX_HP
@@ -31,7 +30,6 @@ var armor_broke = false # For animation transitions from armor to hearts
 var godmode_state = false
 var is_dead = false
 var is_healing = false
-
 # I-Frames
 const IFRAME_DURATION = 1.0
 var is_invulnerable = false
@@ -46,6 +44,36 @@ var heart_played1 = false
 var heart_played2 = false
 var heart_played3 = false
 
+# Rage variables
+var rage_tween: Tween
+
+# Jump variables
+var jump_timer := 0.0
+var is_holding_jump := false
+var jump_buffer_timer: float = 0.0
+
+
+func _ready() -> void:
+	progress_bar.min_value = 0
+	progress_bar.max_value = 100
+	progress_bar.value = rage
+
+var rage: int = 100:
+	set(value):
+		rage = clampi(value, 0, 100)
+
+		if is_node_ready() and progress_bar:
+			if rage_tween:
+				rage_tween.kill()
+
+			rage_tween = create_tween()
+			rage_tween.tween_property(
+				progress_bar,
+				"value",
+				float(rage),
+				0.25
+			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 
 # Physics and Animations
 func _physics_process(delta: float):
@@ -55,7 +83,14 @@ func _physics_process(delta: float):
 
 	# Handle jump.
 	if is_dead == false:
-		if Input.is_action_just_pressed("jump") and is_on_floor():
+		if Input.is_action_just_pressed("jump"):
+			jump_buffer_timer = JUMP_BUFFER_TIME
+
+		if jump_buffer_timer > 0.0:
+			jump_buffer_timer -= delta
+
+		if jump_buffer_timer > 0.0 and is_on_floor():
+			jump_buffer_timer = 0.0
 			velocity.y = MIN_JUMP_VELOCITY
 			jump_timer = 0.0
 			is_holding_jump = true
@@ -63,14 +98,14 @@ func _physics_process(delta: float):
 		if Input.is_action_pressed("jump") and is_holding_jump:
 			jump_timer += delta
 
-			var t: float = clampf(jump_timer / JUMP_HOLD_TIME, 0.0, 1.0)
-			velocity.y = lerp(MIN_JUMP_VELOCITY, JUMP_VELOCITY, t)
+	var jump_progress: float = clampf(jump_timer / JUMP_HOLD_TIME, 0.0, 1.0)
+	velocity.y = lerp(MIN_JUMP_VELOCITY, JUMP_VELOCITY, jump_progress)
 
-			if t >= 1.0:
-				is_holding_jump = false
+	if jump_progress >= 1.0:
+		is_holding_jump = false
 
-		if Input.is_action_just_released("jump"):
-			is_holding_jump = false
+	if Input.is_action_just_released("jump"):
+		is_holding_jump = false
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("left", "right")
@@ -117,12 +152,6 @@ func _physics_process(delta: float):
 	Health()
 	fullscreen()
 	shoot()
-
-var rage: int = 1:
-	set(value):
-		rage = clampi(value, 1, 100)
-		if progress_bar:
-			progress_bar.value = rage
 
 # Heal (number) of HP
 func heal(number):
@@ -245,6 +274,10 @@ func shoot():
 			projectile.direction = shoot_direction
 
 			get_parent().add_child(projectile)
+# Set rage to 100 (debug4)
+func debug_rage():
+	if Input.is_action_just_pressed("debug4"):
+		rage = 100
 # Health HUD Animations And death call ("die()")
 func Health():
 	beer_use()
@@ -253,6 +286,7 @@ func Health():
 	debug_hit()
 	debug_heal()
 	debug_armor()
+	debug_rage()
 
 	# Godmode
 	if HP > 1000:
