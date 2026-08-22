@@ -30,6 +30,10 @@ var godmode_state = false
 var is_dead = false
 var is_healing = false
 
+#stats
+var max_rage = 100
+var rage = 0
+
 # I-Frames
 const IFRAME_DURATION = 1.0
 var is_invulnerable = false
@@ -153,7 +157,7 @@ func hit(number):
 	is_invulnerable = false
 # Heal 2 hearts by using up 1 charge of beer
 func beer_use():
-	if Input.is_action_just_pressed("heal"):
+	if Input.is_action_just_pressed("heal") and is_healing == false:
 		if heals == 2:
 			velocity.x = 0
 			velocity.y = 0
@@ -227,15 +231,17 @@ func fullscreen():
 # Shoot a projectile by pressing LMB
 func shoot():
 	if Input.is_action_just_pressed("shoot"):
-		var projectile = PROJECTILE.instantiate()
+		if rage >= 25:
+			rage -= 25
+			var projectile = PROJECTILE.instantiate()
 
-		var mouse_position = get_global_mouse_position()
-		var shoot_direction = global_position.direction_to(mouse_position)
+			var mouse_position = get_global_mouse_position()
+			var shoot_direction = global_position.direction_to(mouse_position)
 
-		projectile.global_position = global_position
-		projectile.direction = shoot_direction
+			projectile.global_position = global_position
+			projectile.direction = shoot_direction
 
-		get_parent().add_child(projectile)
+			get_parent().add_child(projectile)
 # Health HUD Animations And death call ("die()")
 func Health():
 	beer_use()
