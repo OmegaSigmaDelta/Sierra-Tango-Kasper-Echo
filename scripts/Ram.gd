@@ -13,7 +13,7 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 
 # Constants
 const SPEED = 300.0
-const JUMP_VELOCITY := -400.0
+const JUMP_VELOCITY := -350.0
 const MIN_JUMP_VELOCITY := -200.0
 const JUMP_HOLD_TIME := 0.25
 var jump_timer := 0.0
@@ -61,7 +61,7 @@ func _physics_process(delta: float):
 		if Input.is_action_pressed("jump") and is_holding_jump:
 			jump_timer += delta
 
-			var t := clamp(jump_timer / JUMP_HOLD_TIME, 0.0, 1.0)
+			var t: float = clampf(jump_timer / JUMP_HOLD_TIME, 0.0, 1.0)
 			velocity.y = lerp(MIN_JUMP_VELOCITY, JUMP_VELOCITY, t)
 
 			if t >= 1.0:

@@ -173,7 +173,12 @@
 			"title": "Map system",
 			"description": "",
 			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
-			"steps": []
+			"steps": [
+				{
+					"details": "actual map",
+					"done": false
+				}
+			]
 		},
 		{
 			"uuid": "3072bb20-9c1b-4e3c-ba56-6578ecfbef3b",
