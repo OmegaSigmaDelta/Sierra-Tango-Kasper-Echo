@@ -4,5 +4,5 @@ extends Area2D
 
 
 # Check if something collides with the hurtbox
-func _on_area_entered(body):
+func _on_area_entered(_body):
 	ram.hit(1)

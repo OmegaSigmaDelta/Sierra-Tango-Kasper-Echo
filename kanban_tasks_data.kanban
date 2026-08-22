@@ -11,7 +11,8 @@
 			"uuid": "ddd4b37b-e436-43f6-911f-f7e73de47a4c",
 			"title": "Todo",
 			"tasks": [
-				"5f2e1ca1-56c8-4534-bc57-6675e2740612"
+				"5f2e1ca1-56c8-4534-bc57-6675e2740612",
+				"3072bb20-9c1b-4e3c-ba56-6578ecfbef3b"
 			]
 		},
 		{
@@ -19,7 +20,9 @@
 			"title": "Doing",
 			"tasks": [
 				"a0a0a61e-4e07-4ca0-a5ac-c5e9c0a1fa4f",
-				"72b76b71-c723-446c-a56b-ea1ac1241950"
+				"72b76b71-c723-446c-a56b-ea1ac1241950",
+				"0b209252-c0df-4e2a-ba9f-c976ef12fa18",
+				"c097b2ae-137b-4fea-9fa4-81e24086f5a9"
 			]
 		},
 		{
@@ -105,7 +108,7 @@
 					"done": true
 				},
 				{
-					"details": "XP/Mana",
+					"details": "Anger/Mana",
 					"done": false
 				},
 				{
@@ -162,6 +165,61 @@
 				{
 					"details": "Heal on animation end",
 					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "0b209252-c0df-4e2a-ba9f-c976ef12fa18",
+			"title": "Map system",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": []
+		},
+		{
+			"uuid": "3072bb20-9c1b-4e3c-ba56-6578ecfbef3b",
+			"title": "Save system",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "HP",
+					"done": false
+				},
+				{
+					"details": "Heals",
+					"done": false
+				},
+				{
+					"details": "Map discovery",
+					"done": false
+				},
+				{
+					"details": "location",
+					"done": false
+				},
+				{
+					"details": "money(?)",
+					"done": false
+				},
+				{
+					"details": "Mana/stamina(?)",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "c097b2ae-137b-4fea-9fa4-81e24086f5a9",
+			"title": "Anger/Mana",
+			"description": "",
+			"category": "595a9297-5e7e-438a-84d1-07a2cdd8af9b",
+			"steps": [
+				{
+					"details": "gain on hit",
+					"done": false
+				},
+				{
+					"details": "spend to shoot a projectile",
+					"done": false
 				}
 			]
 		}

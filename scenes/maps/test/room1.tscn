@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://cunirm1kwpuv1"]
+
+[ext_resource type="Texture2D" uid="uid://by2jtluyxo0xa" path="res://assets/sprites/Items/Missing_Texture.png" id="1_3rs26"]
+[ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_sigrx"]
+[ext_resource type="Texture2D" uid="uid://cm64p8a7h7nb2" path="res://assets/sprites/UI/HP/HP_Empty.png" id="2_sigrx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qyxpv"]
+size = Vector2(2400, 3)
+
+[node name="Room1" type="Node2D" unique_id=86323220]
+
+[node name="RoomInstance" parent="." unique_id=1246059462 instance=ExtResource("1_sigrx")]
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=5323041]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1634978722]
+position = Vector2(-4, 46.5)
+shape = SubResource("RectangleShape2D_qyxpv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor" unique_id=519445247]
+position = Vector2(-4, 46.999996)
+scale = Vector2(300, 0.371)
+texture = ExtResource("1_3rs26")
+
+[node name="Ceiling" type="StaticBody2D" parent="." unique_id=1802748508]
+position = Vector2(0, -307)
+rotation = 3.1415927
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling" unique_id=1090149327]
+position = Vector2(-4, 46.5)
+shape = SubResource("RectangleShape2D_qyxpv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ceiling" unique_id=1170888570]
+position = Vector2(-4, 46.999996)
+scale = Vector2(300, 0.371)
+texture = ExtResource("1_3rs26")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=282700998]
+position = Vector2(0, -45)
+texture = ExtResource("2_sigrx")

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c156q54i8qlow"]
+
+[ext_resource type="Script" uid="uid://ds5kafuutyv80" path="res://scripts/game.gd" id="1_ooth8"]
+[ext_resource type="PackedScene" uid="uid://urqbyo7w5cq8" path="res://scenes/characters/Ram.tscn" id="2_nwmp2"]
+
+[node name="Game" type="Node2D" unique_id=1825498049]
+script = ExtResource("1_ooth8")
+
+[node name="Ram" parent="." unique_id=189022650 instance=ExtResource("2_nwmp2")]
+position = Vector2(152, 2)

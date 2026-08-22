@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://xjt5aemubat8"]
 
-[ext_resource type="Script" uid="uid://dhva2p8i78ob8" path="res://dummy.gd" id="1_k5f3b"]
+[ext_resource type="Script" uid="uid://dhva2p8i78ob8" path="res://scripts/dummy.gd" id="1_k5f3b"]
 [ext_resource type="Texture2D" uid="uid://iigmobpwctj3" path="res://assets/sprites/characters/Dummy/Idle.png" id="2_6m2ry"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_riqys"]
