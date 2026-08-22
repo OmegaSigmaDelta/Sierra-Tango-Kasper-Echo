@@ -642,12 +642,16 @@ animation = &"full"
 autoplay = "full"
 
 [node name="Pause" parent="CanvasLayer/Hud" unique_id=142770787 instance=ExtResource("13_p1tng")]
-visible = false
 layout_mode = 1
-offset_left = -42.0
-offset_top = -52.0
-offset_right = -42.0
-offset_bottom = -52.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -60.0
+offset_right = -40.0
+offset_bottom = -60.0
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Hud" unique_id=1614926271]
 layout_mode = 0

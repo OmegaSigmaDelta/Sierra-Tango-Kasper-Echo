@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dkyh4ydfrjjm" path="res://assets/sprites/Ram/Idle/Idle.png" id="5_46efi"]
 [ext_resource type="Texture2D" uid="uid://iwlt4m8ourjv" path="res://assets/sprites/Ram/Walk/Walk_Armorless.png" id="6_bh766"]
 [ext_resource type="Texture2D" uid="uid://bmcomoljtfo0d" path="res://assets/sprites/Ram/Walk/Walk.png" id="7_tl7kb"]
+[ext_resource type="Texture2D" uid="uid://cqy62ofrhjy2p" path="res://assets/sprites/UI/cursor/crosshair.png" id="10_qp4k1"]
 [ext_resource type="PackedScene" uid="uid://ddm5150ohcyjr" path="res://scenes/menus/pause.tscn" id="16_fu2o8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
@@ -1311,6 +1312,12 @@ offset_left = -42.0
 offset_top = -52.0
 offset_right = -42.0
 offset_bottom = -52.0
+
+[node name="GamepadCrosshair" type="Node2D" parent="." unique_id=1226063307]
+
+[node name="Sprite2D" type="Sprite2D" parent="GamepadCrosshair" unique_id=1411080881]
+scale = Vector2(0.40625, 0.40625)
+texture = ExtResource("10_qp4k1")
 
 [connection signal="area_entered" from="ItemCheck" to="." method="_on_item_check_area_entered"]
 [connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]

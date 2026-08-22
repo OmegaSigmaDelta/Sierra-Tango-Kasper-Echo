@@ -13,51 +13,50 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 
 @onready var progress_bar: ProgressBar = get_node("/root/Game/CanvasLayer/Hud/ProgressBar")
 
+@onready var gamepad_crosshair: Node2D = $GamepadCrosshair
+
 # Constants
-const SPEED = 300.0
-const JUMP_VELOCITY := -350.0
+const SPEED = 200.0
+const JUMP_VELOCITY := -300.0
 const MIN_JUMP_VELOCITY := -200.0
 const JUMP_HOLD_TIME := 0.25
 const JUMP_BUFFER_TIME: float = 0.12
-# HP Variables
+
+# Health variables
 var MAX_HP = 6
 var HP = MAX_HP
 var MAX_HEALS = 2
 var heals = MAX_HEALS
-var in_armor = true # For animations
-var armored = true # For
-var armor_broke = false # For animation transitions from armor to hearts
+var in_armor = true
+var armored = true
+var armor_broke = false
 var godmode_state = false
 var is_dead = false
 var is_healing = false
-# I-Frames
+
+# I-frames
 const IFRAME_DURATION = 1.0
 var is_invulnerable = false
 
-# Armor checkers
+# Armor animation checkers
 var armor_played2 = false
 var armor_played3 = false
 var armor_played3_2 = false
 
-# HP checkers
+# Health animation checkers
 var heart_played1 = false
 var heart_played2 = false
 var heart_played3 = false
 
-# Rage variables
+# Rage bar tweening
 var rage_tween: Tween
 
-# Jump variables
-var jump_timer := 0.0
-var is_holding_jump := false
+# Coyote frames
+var jump_timer: float = 0.0
+var is_holding_jump: bool = false
 var jump_buffer_timer: float = 0.0
 
-
-func _ready() -> void:
-	progress_bar.min_value = 0
-	progress_bar.max_value = 100
-	progress_bar.value = rage
-
+# Rage declaration
 var rage: int = 100:
 	set(value):
 		rage = clampi(value, 0, 100)
@@ -74,14 +73,26 @@ var rage: int = 100:
 				0.25
 			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
+# Crosshair stuff
+const CROSSHAIR_DISTANCE: float = 50.0
+const RIGHT_STICK_DEADZONE: float = 0.2
+var aim_direction: Vector2 = Vector2.RIGHT
+var using_gamepad_aim: bool = false
+var last_mouse_position: Vector2
 
-# Physics and Animations
+func _ready() -> void:
+	progress_bar.min_value = 0
+	progress_bar.max_value = 100
+	progress_bar.value = rage
+	last_mouse_position = get_viewport().get_mouse_position()
+	gamepad_crosshair.hide()
+
+
 func _physics_process(delta: float):
-	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
+# Jump handling
 	if is_dead == false:
 		if Input.is_action_just_pressed("jump"):
 			jump_buffer_timer = JUMP_BUFFER_TIME
@@ -98,16 +109,26 @@ func _physics_process(delta: float):
 		if Input.is_action_pressed("jump") and is_holding_jump:
 			jump_timer += delta
 
-	var jump_progress: float = clampf(jump_timer / JUMP_HOLD_TIME, 0.0, 1.0)
-	velocity.y = lerp(MIN_JUMP_VELOCITY, JUMP_VELOCITY, jump_progress)
+			var jump_progress: float = clampf(
+				jump_timer / JUMP_HOLD_TIME,
+				0.0,
+				1.0
+			)
 
-	if jump_progress >= 1.0:
-		is_holding_jump = false
+			velocity.y = lerp(
+				MIN_JUMP_VELOCITY,
+				JUMP_VELOCITY,
+				jump_progress
+			)
 
-	if Input.is_action_just_released("jump"):
-		is_holding_jump = false
+			if jump_progress >= 1.0:
+				is_holding_jump = false
 
-	# Get the input direction and handle the movement/deceleration.
+		if Input.is_action_just_released("jump"):
+			is_holding_jump = false
+
+
+# Moving
 	var direction := Input.get_axis("left", "right")
 
 	if is_dead == false and is_healing == false:
@@ -116,30 +137,25 @@ func _physics_process(delta: float):
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
-	# Animation Handling
+# Animation handling
 	if is_dead == false and is_healing == false:
-		# Walks
 		if velocity.x != 0 and animated_sprite_2d.animation != "jump":
 			if in_armor == true:
 				animated_sprite_2d.play("Walk_Armored")
 			elif in_armor == false:
 				animated_sprite_2d.play("Walk")
-
-		# Jumps
 		elif velocity.y != 0:
 			if in_armor == true:
 				animated_sprite_2d.play("Jump_Armored")
 			elif in_armor == false:
 				animated_sprite_2d.play("Jump")
-
-		# Idles
 		else:
 			if in_armor == true:
 				animated_sprite_2d.play("Idle_Armored")
 			elif in_armor == false:
 				animated_sprite_2d.play("Idle")
 
-	# Animation Flipping
+# Sprite flipping
 	if is_dead == false:
 		if direction == 0:
 			pass
@@ -148,46 +164,80 @@ func _physics_process(delta: float):
 		elif direction < 0:
 			animated_sprite_2d.flip_h = false
 
+# Gamepad aiming
+	var aim_input: Vector2 = Input.get_vector(
+		"aim_left",
+		"aim_right",
+		"aim_up",
+		"aim_down"
+	)
+
+	if aim_input.length() > RIGHT_STICK_DEADZONE:
+		aim_direction = aim_input.normalized()
+
+	gamepad_crosshair.position = aim_direction * CROSSHAIR_DISTANCE
+
 	move_and_slide()
 	Health()
 	fullscreen()
 	shoot()
+	update_aim()
 
-# Heal (number) of HP
+func update_aim() -> void:
+	var aim_input: Vector2 = Input.get_vector(
+		"aim_left",
+		"aim_right",
+		"aim_up",
+		"aim_down"
+	)
+
+	var mouse_position: Vector2 = get_viewport().get_mouse_position()
+
+	if aim_input.length() > RIGHT_STICK_DEADZONE:
+		using_gamepad_aim = true
+		aim_direction = aim_input.normalized()
+
+		gamepad_crosshair.show()
+		gamepad_crosshair.position = aim_direction * CROSSHAIR_DISTANCE
+
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+	elif mouse_position != last_mouse_position:
+		using_gamepad_aim = false
+
+		gamepad_crosshair.hide()
+
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+	last_mouse_position = mouse_position
+
+# Get healed by [number]
 func heal(number):
 	if HP < MAX_HP:
 		HP += number
 		print(HP)
-# Damage Ram by (number) of HP
+# Get damaged by [number]
 func hit(number):
-	# Don't take damage while invulnerable
 	if is_invulnerable:
 		return
-	
-	# Don't take damage after death
+
 	if is_dead:
 		return
-	
-	# Deal damage
+
 	HP -= number
 	print(HP)
-	
-	# Start i-frames
 	is_invulnerable = true
-	
-	# Flash white during i-frames
+
 	for i in range(5):
 		animated_sprite_2d.material.set_shader_parameter("flash_amount", 1.0)
 		await get_tree().create_timer(0.10).timeout
-		
+
 		animated_sprite_2d.material.set_shader_parameter("flash_amount", 0.0)
 		await get_tree().create_timer(0.10).timeout
-	
-	# Check if the sprite is normal afterward
+
 	animated_sprite_2d.material.set_shader_parameter("flash_amount", 0.0)
-	
 	is_invulnerable = false
-# Heal 2 hearts by using up 1 charge of beer
+# Heal using beer
 func beer_use():
 	if Input.is_action_just_pressed("heal") and is_healing == false:
 		if heals == 2:
@@ -198,6 +248,7 @@ func beer_use():
 			animated_sprite_2d.play("Heal")
 			heal_1.play("full")
 			heal_2.play("use")
+
 		elif heals == 1:
 			velocity.x = 0
 			velocity.y = 0
@@ -206,34 +257,35 @@ func beer_use():
 			animated_sprite_2d.play("Heal")
 			heal_1.play("use")
 			heal_2.play("empty")
-# Refill 1 beer charge
+# Recover beer uses
 func beer_refill():
 	if heals == 1:
 		heals = 2
 		heal_1.play("full")
 		heal_2.play("refill")
+
 	elif heals == 0:
 		heals = 1
 		heal_1.play("refill")
 		heal_2.play("empty")
-# Damage yourself by 1 damage (debug1)
+# Damage yourself by 1 (debug 1)
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
 		hit(1)
 		print(HP)
-# Heal yourself by 1 heart (debug2)
+# Heal 1 hp (debug 2)
 func debug_heal():
 	if Input.is_action_just_pressed("debug2"):
 		heal(1)
 		print(HP)
-# Change animations to armored/unarmored (debug3)
+# Swap between armored and unarmored animations (debug 3)
 func debug_armor():
 	if Input.is_action_just_pressed("debug3"):
 		if in_armor == true:
 			in_armor = false
 		elif in_armor == false:
 			in_armor = true
-# Give yourself 100000000 HP (debug~)
+# Set HP to 100000000 (debug ~)
 func godmode():
 	if Input.is_action_just_pressed("debug~"):
 		if godmode_state == false:
@@ -241,44 +293,50 @@ func godmode():
 			MAX_HP = 100000000
 			HP = 100000000
 			print("godmode activated")
+
 		elif godmode_state == true:
 			godmode_state = false
 			MAX_HP = 6
 			HP = 6
 			print("godmode deactivated")
-# Handles armor/unarmor MAX_HP change  (!!!FIX!!!)
+# bugged, does nothing
 func unarmor():
 	if godmode_state == false:
 		if armored == true:
 			MAX_HP = 6
 		else:
 			MAX_HP = 3
-# Sets window mode to fullscreen/maximized
+# Swap between Fullscreen and Windowed (F11)
 func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-# Shoot a projectile by pressing LMB
+# Shoot a projectile that deals 1 damage (Lmb/RT) 
 func shoot():
 	if Input.is_action_just_pressed("shoot"):
 		if rage >= 25:
 			rage -= 25
-			var projectile = PROJECTILE.instantiate()
 
-			var mouse_position = get_global_mouse_position()
-			var shoot_direction = global_position.direction_to(mouse_position)
+			var projectile = PROJECTILE.instantiate()
+			var shoot_direction: Vector2
+
+			if using_gamepad_aim:
+				shoot_direction = aim_direction
+			else:
+				var mouse_position: Vector2 = get_global_mouse_position()
+				shoot_direction = global_position.direction_to(mouse_position)
 
 			projectile.global_position = global_position
 			projectile.direction = shoot_direction
 
 			get_parent().add_child(projectile)
-# Set rage to 100 (debug4)
+# Set rage to 100
 func debug_rage():
 	if Input.is_action_just_pressed("debug4"):
 		rage = 100
-# Health HUD Animations And death call ("die()")
+# Handle Health and UI updates
 func Health():
 	beer_use()
 	unarmor()
@@ -288,33 +346,32 @@ func Health():
 	debug_armor()
 	debug_rage()
 
-	# Godmode
 	if HP > 1000:
 		heart_1.play("Godmode")
 		heart_2.play("Godmode")
 		heart_3.play("Godmode")
 
 	if godmode_state == false:
-		# Full armor
 		if HP == 6:
 			armor_played2 = false
 			armor_played3 = false
 			armor_played3_2 = false
+
 			heart_1.play("Full_Armored")
 			heart_2.play("Full_Armored")
 			heart_3.play("Full_Armored")
 
-		# 5 HP
 		elif HP == 5:
 			armor_played2 = false
 			armor_played3_2 = false
+
 			heart_1.play("Full_Armored")
 			heart_2.play("Full_Armored")
+
 			if armor_played3 == false:
 				heart_3.play("Full_Armored_Hit")
 				armor_played3 = true
 
-		# 4 HP
 		elif HP == 4:
 			if armor_played3_2 == false:
 				armor_played3_2 = true
@@ -331,7 +388,6 @@ func Health():
 				armor_played3 = true
 				armor_broke = false
 
-		# Armor breaks at 3 HP
 		elif HP == 3 and armor_broke == false:
 			heart_played1 = false
 			heart_played2 = false
@@ -343,7 +399,6 @@ func Health():
 
 			armor_broke = true
 
-		# Normal hearts
 		elif HP == 3 and armor_broke == true:
 			heart_played1 = false
 			heart_played2 = false
@@ -354,7 +409,6 @@ func Health():
 				heart_2.play("Full")
 				heart_3.play("Full_Animated")
 
-		# 2 HP
 		elif HP == 2:
 			heart_played1 = false
 			heart_played2 = false
@@ -366,7 +420,6 @@ func Health():
 				heart_3.play("Full_Hit")
 				heart_played3 = true
 
-		# 1 HP
 		elif HP == 1:
 			heart_played1 = false
 
@@ -378,7 +431,6 @@ func Health():
 
 			heart_3.play("Empty")
 
-		# Dead
 		elif HP <= 0:
 			if heart_played1 == false:
 				heart_1.play("Full_Hit")
@@ -389,28 +441,32 @@ func Health():
 
 			die()
 
-	# Prevent HP exceeding MAX_HP
 	if HP > MAX_HP:
 		HP = MAX_HP
-# Armor break animation finished
+
+
 func _on_heart_1_animation_finished():
 	if heart_1.animation == "Full_Armored_Break":
 		heart_1.play("Full")
 		heart_2.play("Full")
 		heart_3.play("Full_Animated")
-# Dying
+
+
 func die():
 	is_dead = true
 	velocity.x = 0
 	velocity.y = 0
 	animated_sprite_2d.play("Die")
-# AnimatedSprite2D finished animation trigger
+
+
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":
 		get_tree().change_scene_to_file("res://scenes/menus/game_over.tscn")
+
 	if animated_sprite_2d.animation == "Heal":
 		is_healing = false
 		heal(2)
-# Refill beer on entering the ItemCheck Area2D
+
+
 func _on_item_check_area_entered(_area: Area2D):
 	beer_refill()
