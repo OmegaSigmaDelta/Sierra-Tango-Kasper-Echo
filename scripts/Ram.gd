@@ -164,24 +164,12 @@ func _physics_process(delta: float):
 		elif direction < 0:
 			animated_sprite_2d.flip_h = false
 
-# Gamepad aiming
-	var aim_input: Vector2 = Input.get_vector(
-		"aim_left",
-		"aim_right",
-		"aim_up",
-		"aim_down"
-	)
-
-	if aim_input.length() > RIGHT_STICK_DEADZONE:
-		aim_direction = aim_input.normalized()
-
-	gamepad_crosshair.position = aim_direction * CROSSHAIR_DISTANCE
-
+	update_aim()
 	move_and_slide()
 	Health()
 	fullscreen()
 	shoot()
-	update_aim()
+	
 
 func update_aim() -> void:
 	var aim_input: Vector2 = Input.get_vector(
