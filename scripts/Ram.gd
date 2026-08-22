@@ -77,14 +77,11 @@ var rage: int = 100:
 const CROSSHAIR_DISTANCE: float = 50.0
 const RIGHT_STICK_DEADZONE: float = 0.2
 var aim_direction: Vector2 = Vector2.RIGHT
-var using_gamepad_aim: bool = false
-var last_mouse_position: Vector2
 
 func _ready() -> void:
 	progress_bar.min_value = 0
 	progress_bar.max_value = 100
 	progress_bar.value = rage
-	last_mouse_position = get_viewport().get_mouse_position()
 	gamepad_crosshair.hide()
 
 
@@ -179,25 +176,16 @@ func update_aim() -> void:
 		"aim_down"
 	)
 
-	var mouse_position: Vector2 = get_viewport().get_mouse_position()
-
 	if aim_input.length() > RIGHT_STICK_DEADZONE:
-		using_gamepad_aim = true
 		aim_direction = aim_input.normalized()
 
-		gamepad_crosshair.show()
 		gamepad_crosshair.position = aim_direction * CROSSHAIR_DISTANCE
+		gamepad_crosshair.show()
 
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-
-	elif mouse_position != last_mouse_position:
-		using_gamepad_aim = false
-
+	else:
 		gamepad_crosshair.hide()
 
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-	last_mouse_position = mouse_position
 
 # Get healed by [number]
 func heal(number):
@@ -308,10 +296,17 @@ func shoot():
 			rage -= 25
 
 			var projectile = PROJECTILE.instantiate()
+			var aim_input: Vector2 = Input.get_vector(
+				"aim_left",
+				"aim_right",
+				"aim_up",
+				"aim_down"
+			)
+
 			var shoot_direction: Vector2
 
-			if using_gamepad_aim:
-				shoot_direction = aim_direction
+			if aim_input.length() > RIGHT_STICK_DEADZONE:
+				shoot_direction = aim_input.normalized()
 			else:
 				var mouse_position: Vector2 = get_global_mouse_position()
 				shoot_direction = global_position.direction_to(mouse_position)
