@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cdejm0holsce1"]
+
+[ext_resource type="Texture2D" path="res://addons/MetroidvaniaSystem/Themes/EM/PlayerLocation.png" id="1_d1gmf"]
+
+[node name="PlayerLocation" type="Sprite2D"]
+texture = ExtResource("1_d1gmf")
