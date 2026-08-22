@@ -642,6 +642,7 @@ animation = &"full"
 autoplay = "full"
 
 [node name="Pause" parent="CanvasLayer/Hud" unique_id=142770787 instance=ExtResource("13_p1tng")]
+custom_minimum_size = Vector2(0, -0.055)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

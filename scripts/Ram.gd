@@ -77,12 +77,15 @@ var rage: int = 100:
 const CROSSHAIR_DISTANCE: float = 50.0
 const RIGHT_STICK_DEADZONE: float = 0.2
 var aim_direction: Vector2 = Vector2.RIGHT
+var using_gamepad_aim: bool = false
 
 func _ready() -> void:
 	progress_bar.min_value = 0
 	progress_bar.max_value = 100
 	progress_bar.value = rage
+
 	gamepad_crosshair.hide()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func _physics_process(delta: float):
@@ -166,7 +169,7 @@ func _physics_process(delta: float):
 	Health()
 	fullscreen()
 	shoot()
-	
+
 
 func update_aim() -> void:
 	var aim_input: Vector2 = Input.get_vector(
@@ -177,14 +180,13 @@ func update_aim() -> void:
 	)
 
 	if aim_input.length() > RIGHT_STICK_DEADZONE:
+		using_gamepad_aim = true
 		aim_direction = aim_input.normalized()
 
 		gamepad_crosshair.position = aim_direction * CROSSHAIR_DISTANCE
 		gamepad_crosshair.show()
 
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	else:
-		gamepad_crosshair.hide()
 
 
 # Get healed by [number]
@@ -244,6 +246,9 @@ func beer_refill():
 		heals = 1
 		heal_1.play("refill")
 		heal_2.play("empty")
+# Recover rage by [number]
+func rage_refill(number):
+	rage += number
 # Damage yourself by 1 (debug 1)
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
@@ -426,21 +431,18 @@ func Health():
 
 	if HP > MAX_HP:
 		HP = MAX_HP
-
-
-func _on_heart_1_animation_finished():
-	if heart_1.animation == "Full_Armored_Break":
-		heart_1.play("Full")
-		heart_2.play("Full")
-		heart_3.play("Full_Animated")
-
-
+# die
 func die():
 	is_dead = true
 	velocity.x = 0
 	velocity.y = 0
 	animated_sprite_2d.play("Die")
 
+func _on_heart_1_animation_finished():
+	if heart_1.animation == "Full_Armored_Break":
+		heart_1.play("Full")
+		heart_2.play("Full")
+		heart_3.play("Full_Animated")
 
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":
@@ -450,6 +452,8 @@ func _on_animated_sprite_2d_animation_finished():
 		is_healing = false
 		heal(2)
 
-
-func _on_item_check_area_entered(_area: Area2D):
-	beer_refill()
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		using_gamepad_aim = false
+		gamepad_crosshair.hide()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

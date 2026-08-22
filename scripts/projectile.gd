@@ -9,7 +9,6 @@ var start_position := Vector2.ZERO
 
 func _ready():
 	start_position = global_position
-	direction = global_position.direction_to(get_global_mouse_position())
 
 
 func _physics_process(delta):
