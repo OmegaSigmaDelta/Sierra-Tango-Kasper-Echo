@@ -163,15 +163,24 @@ func _physics_process(delta: float):
 			animated_sprite_2d.flip_h = true
 		elif direction < 0:
 			animated_sprite_2d.flip_h = false
-
+	
+	# Gamepad/Mouse aiming
 	update_aim()
-	move_and_slide()
-	Health()
-	fullscreen()
 	shoot()
+	# Health
+	Health()
+	# Settings
+	fullscreen()
+	# Movement
+	move_and_slide()
 
 
+# Swap between mouse and gamepad aiming
 func update_aim() -> void:
+	if not Input.is_action_pressed("gamepad_shoot"):
+		gamepad_crosshair.hide()
+		return
+
 	var aim_input: Vector2 = Input.get_vector(
 		"aim_left",
 		"aim_right",
@@ -180,15 +189,12 @@ func update_aim() -> void:
 	)
 
 	if aim_input.length() > RIGHT_STICK_DEADZONE:
-		using_gamepad_aim = true
 		aim_direction = aim_input.normalized()
 
-		gamepad_crosshair.position = aim_direction * CROSSHAIR_DISTANCE
-		gamepad_crosshair.show()
+	gamepad_crosshair.position = aim_direction * CROSSHAIR_DISTANCE
+	gamepad_crosshair.show()
 
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-
-
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 # Get healed by [number]
 func heal(number):
 	if HP < MAX_HP:
@@ -295,29 +301,35 @@ func fullscreen():
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 # Shoot a projectile that deals 1 damage (Lmb/RT) 
-func shoot():
+func shoot() -> void:
+
+
+	# Mouse shooting on LMB press
 	if Input.is_action_just_pressed("shoot"):
 		if rage >= 25:
 			rage -= 25
 
 			var projectile = PROJECTILE.instantiate()
-			var aim_input: Vector2 = Input.get_vector(
-				"aim_left",
-				"aim_right",
-				"aim_up",
-				"aim_down"
-			)
 
-			var shoot_direction: Vector2
-
-			if aim_input.length() > RIGHT_STICK_DEADZONE:
-				shoot_direction = aim_input.normalized()
-			else:
-				var mouse_position: Vector2 = get_global_mouse_position()
-				shoot_direction = global_position.direction_to(mouse_position)
+			var mouse_position: Vector2 = get_global_mouse_position()
+			var shoot_direction: Vector2 = global_position.direction_to(mouse_position)
 
 			projectile.global_position = global_position
 			projectile.direction = shoot_direction
+
+			get_parent().add_child(projectile)
+
+	# Gamepad shooting on RT release
+	if Input.is_action_just_released("gamepad_shoot"):
+		gamepad_crosshair.hide()
+
+		if rage >= 25:
+			rage -= 25
+
+			var projectile = PROJECTILE.instantiate()
+
+			projectile.global_position = global_position
+			projectile.direction = aim_direction
 
 			get_parent().add_child(projectile)
 # Set rage to 100
