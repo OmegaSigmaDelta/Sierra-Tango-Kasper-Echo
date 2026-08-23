@@ -313,6 +313,7 @@ func shoot() -> void:
 
 			var mouse_position: Vector2 = get_global_mouse_position()
 			var shoot_direction: Vector2 = global_position.direction_to(mouse_position)
+			face_shoot_direction(shoot_direction)
 
 			projectile.global_position = global_position
 			projectile.direction = shoot_direction
@@ -324,6 +325,7 @@ func shoot() -> void:
 		gamepad_crosshair.hide()
 		if rage >= 25:
 			rage -= 25
+			face_shoot_direction(aim_direction)
 			animated_sprite_2d.play("Shoot")
 
 			var projectile = PROJECTILE.instantiate()
@@ -471,3 +473,9 @@ func _input(event: InputEvent) -> void:
 		using_gamepad_aim = false
 		gamepad_crosshair.hide()
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func face_shoot_direction(shoot_direction: Vector2) -> void:
+	if shoot_direction.x > 0:
+		animated_sprite_2d.flip_h = true
+	elif shoot_direction.x < 0:
+		animated_sprite_2d.flip_h = false
