@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cprui7t8gadtn"
-path="res://.godot/imported/shoot.png-61643ceb974accda9bde70ccdecebd23.ctex"
+uid="uid://7qn0bgjhei8l"
+path="res://.godot/imported/shoot.png-567c2085221b352697343077bbc7a2fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Ram/Idle/shoot.png"
-dest_files=["res://.godot/imported/shoot.png-61643ceb974accda9bde70ccdecebd23.ctex"]
+source_file="res://assets/sprites/Ram/Actions/shoot.png"
+dest_files=["res://.godot/imported/shoot.png-567c2085221b352697343077bbc7a2fd.ctex"]
 
 [params]
 

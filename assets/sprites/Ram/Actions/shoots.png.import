@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ylnv0hoj2mx8"
-path="res://.godot/imported/Buff.png-595501499e4526184b4d2bc363f9bb41.ctex"
+uid="uid://dbl6p0t07xsna"
+path="res://.godot/imported/shoots.png-c5a2fc7d617e2ad752b2c9650c04fbb7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Ram/Actions/Buff.png"
-dest_files=["res://.godot/imported/Buff.png-595501499e4526184b4d2bc363f9bb41.ctex"]
+source_file="res://assets/sprites/Ram/Actions/shoots.png"
+dest_files=["res://.godot/imported/shoots.png-c5a2fc7d617e2ad752b2c9650c04fbb7.ctex"]
 
 [params]
 

@@ -48,15 +48,12 @@ var heart_played1 = false
 var heart_played2 = false
 var heart_played3 = false
 
-# Rage bar tweening
-var rage_tween: Tween
-
 # Coyote frames
 var jump_timer: float = 0.0
 var is_holding_jump: bool = false
 var jump_buffer_timer: float = 0.0
 
-# Rage declaration
+# Rage stuff
 var rage: int = 100:
 	set(value):
 		rage = clampi(value, 0, 100)
@@ -72,12 +69,16 @@ var rage: int = 100:
 				float(rage),
 				0.25
 			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+var rage_tween: Tween
 
 # Crosshair stuff
 const CROSSHAIR_DISTANCE: float = 50.0
 const RIGHT_STICK_DEADZONE: float = 0.2
 var aim_direction: Vector2 = Vector2.RIGHT
 var using_gamepad_aim: bool = false
+
+# Shooting variables
+var is_shooting = false
 
 func _ready() -> void:
 	progress_bar.min_value = 0
@@ -138,7 +139,7 @@ func _physics_process(delta: float):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 # Animation handling
-	if is_dead == false and is_healing == false:
+	if is_dead == false and is_healing == false and is_shooting == false:
 		if velocity.x != 0 and animated_sprite_2d.animation != "jump":
 			if in_armor == true:
 				animated_sprite_2d.play("Walk_Armored")
@@ -302,13 +303,12 @@ func fullscreen():
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 # Shoot a projectile that deals 1 damage (Lmb/RT) 
 func shoot() -> void:
-
-
 	# Mouse shooting on LMB press
 	if Input.is_action_just_pressed("shoot"):
 		if rage >= 25:
 			rage -= 25
-
+			animated_sprite_2d.play("Shoot")
+			is_shooting = true
 			var projectile = PROJECTILE.instantiate()
 
 			var mouse_position: Vector2 = get_global_mouse_position()
@@ -322,9 +322,9 @@ func shoot() -> void:
 	# Gamepad shooting on RT release
 	if Input.is_action_just_released("gamepad_shoot"):
 		gamepad_crosshair.hide()
-
 		if rage >= 25:
 			rage -= 25
+			animated_sprite_2d.play("Shoot")
 
 			var projectile = PROJECTILE.instantiate()
 
@@ -463,6 +463,8 @@ func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Heal":
 		is_healing = false
 		heal(2)
+	if animated_sprite_2d.animation == "Shoot":
+		is_shooting = false
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
