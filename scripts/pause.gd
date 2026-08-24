@@ -52,7 +52,6 @@ func open_pause_menu() -> void:
 	pause_panel.show()
 	show()
 	get_tree().paused = true
-	resume_button.grab_focus()
 
 
 func close_pause_menu() -> void:
@@ -111,7 +110,6 @@ func _on_settings_pressed() -> void:
 func _on_settings_back_pressed() -> void:
 	settings_menu.hide()
 	pause_panel.show()
-	settings_button.grab_focus()
 
 
 func _on_main_menu_pressed() -> void:
