@@ -27,8 +27,7 @@ var MAX_HP = 6
 var HP = MAX_HP
 var MAX_HEALS = 2
 var heals = MAX_HEALS
-var in_armor = true
-var armored = true
+var armored = false
 var armor_broke = false
 var godmode_state = false
 var is_dead = false
@@ -54,9 +53,9 @@ var is_holding_jump: bool = false
 var jump_buffer_timer: float = 0.0
 
 # Rage stuff
-var rage: int = 100:
+var rage: int = 99:
 	set(value):
-		rage = clampi(value, 0, 100)
+		rage = clampi(value, 0, 99)
 
 		if is_node_ready() and progress_bar:
 			if rage_tween:
@@ -82,7 +81,7 @@ var is_shooting = false
 
 func _ready() -> void:
 	progress_bar.min_value = 0
-	progress_bar.max_value = 100
+	progress_bar.max_value = 99
 	progress_bar.value = rage
 
 	gamepad_crosshair.hide()
@@ -141,19 +140,19 @@ func _physics_process(delta: float):
 # Animation handling
 	if is_dead == false and is_healing == false and is_shooting == false:
 		if velocity.x != 0 and animated_sprite_2d.animation != "jump":
-			if in_armor == true:
+			if armored == true:
 				animated_sprite_2d.play("Walk_Armored")
-			elif in_armor == false:
+			elif armored == false:
 				animated_sprite_2d.play("Walk")
 		elif velocity.y != 0:
-			if in_armor == true:
+			if armored == true:
 				animated_sprite_2d.play("Jump_Armored")
-			elif in_armor == false:
+			elif armored == false:
 				animated_sprite_2d.play("Jump")
 		else:
-			if in_armor == true:
+			if armored == true:
 				animated_sprite_2d.play("Idle_Armored")
-			elif in_armor == false:
+			elif armored == false:
 				animated_sprite_2d.play("Idle")
 
 # Sprite flipping
@@ -269,10 +268,10 @@ func debug_heal():
 # Swap between armored and unarmored animations (debug 3)
 func debug_armor():
 	if Input.is_action_just_pressed("debug3"):
-		if in_armor == true:
-			in_armor = false
-		elif in_armor == false:
-			in_armor = true
+		if armored == true:
+			armored = false
+		elif armored == false:
+			armored = true
 # Set HP to 100000000 (debug ~)
 func godmode():
 	if Input.is_action_just_pressed("debug~"):
@@ -288,12 +287,18 @@ func godmode():
 			HP = 6
 			print("godmode deactivated")
 # bugged, does nothing
-func unarmor():
-	if godmode_state == false:
-		if armored == true:
-			MAX_HP = 6
-		else:
-			MAX_HP = 3
+func unarmor() -> void:
+	if godmode_state:
+		return
+
+	if armored:
+		MAX_HP = 6
+	else:
+		MAX_HP = 3
+
+	# Don't allow HP to stay above the new maximum.
+	if HP > MAX_HP:
+		HP = MAX_HP
 # Swap between Fullscreen and Windowed (F11)
 func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):
@@ -305,8 +310,8 @@ func fullscreen():
 func shoot() -> void:
 	# Mouse shooting on LMB press
 	if Input.is_action_just_pressed("shoot"):
-		if rage >= 25:
-			rage -= 25
+		if rage >= 33:
+			rage -= 33
 			animated_sprite_2d.play("Shoot")
 			is_shooting = true
 			var projectile = PROJECTILE.instantiate()
@@ -323,8 +328,8 @@ func shoot() -> void:
 	# Gamepad shooting on RT release
 	if Input.is_action_just_released("gamepad_shoot"):
 		gamepad_crosshair.hide()
-		if rage >= 25:
-			rage -= 25
+		if rage >= 33:
+			rage -= 33
 			face_shoot_direction(aim_direction)
 			animated_sprite_2d.play("Shoot")
 
