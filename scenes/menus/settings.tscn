@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://huy16ifmycp3"]
 
-[node name="settings" type="Control" unique_id=932139700]
+[ext_resource type="Script" uid="uid://bbsh8tr3jrsu3" path="res://scripts/settings.gd" id="1_del6v"]
+
+[node name="Settings" type="Control" unique_id=932139700]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_del6v")
 
 [node name="Panel" type="Panel" parent="." unique_id=641626568]
 layout_mode = 0
@@ -19,12 +22,14 @@ offset_right = 40.0
 offset_bottom = 40.0
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer" unique_id=979216298]
+[node name="Settings" type="Label" parent="Panel/VBoxContainer" unique_id=979216298]
 layout_mode = 2
 text = "Настройки"
 
 [node name="Master" type="HSlider" parent="Panel/VBoxContainer" unique_id=218403169]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Back")
+focus_neighbor_bottom = NodePath("../Music")
 rounded = true
 tick_count = 3
 ticks_on_borders = true
@@ -36,6 +41,8 @@ text = "Музыка"
 
 [node name="Music" type="HSlider" parent="Panel/VBoxContainer" unique_id=643746292]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Master")
+focus_neighbor_bottom = NodePath("../SFX")
 tick_count = 3
 ticks_on_borders = true
 ticks_position = 3
@@ -46,6 +53,14 @@ text = "Эффекты"
 
 [node name="SFX" type="HSlider" parent="Panel/VBoxContainer" unique_id=826585789]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Music")
+focus_neighbor_bottom = NodePath("../Back")
 tick_count = 3
 ticks_on_borders = true
 ticks_position = 3
+
+[node name="Back" type="Button" parent="Panel/VBoxContainer" unique_id=865198729]
+layout_mode = 2
+focus_neighbor_top = NodePath("../SFX")
+focus_neighbor_bottom = NodePath("../Master")
+text = "Назад"

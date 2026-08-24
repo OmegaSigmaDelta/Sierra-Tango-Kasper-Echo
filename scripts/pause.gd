@@ -2,14 +2,17 @@ extends Control
 
 @onready var resume_button: Button = $Panel/VBoxContainer/Resume
 @onready var main_menu_button: Button = $Panel/VBoxContainer/MainMenu
-
+@onready var pause_panel: Panel = $Panel
+@onready var settings_menu: Control = $Settings
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 	resume_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	main_menu_button.process_mode = Node.PROCESS_MODE_ALWAYS
-
+	
+	settings_menu.pressed.connect(_on_settings_pressed)
+	settings_menu.hide()
 	hide()
 
 
@@ -94,3 +97,13 @@ func _on_main_menu_pressed() -> void:
 	get_tree().change_scene_to_file(
 		"res://scenes/menus/main_menu.tscn"
 	)
+
+func _on_settings_pressed() -> void:
+	pause_panel.hide()
+	settings_menu.show()
+	settings_menu.get_node("Panel/VBoxContainer/Master").grab_focus()
+
+func _on_settings_back_pressed() -> void:
+	settings_menu.hide()
+	pause_panel.show()
+	settings_menu.grab_focus()
