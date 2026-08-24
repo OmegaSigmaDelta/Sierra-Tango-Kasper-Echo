@@ -44,13 +44,6 @@ position = Vector2(320, 180)
 stream = ExtResource("3_v3vey")
 autoplay = true
 
-[node name="SettingsMenu" parent="." unique_id=932139700 instance=ExtResource("4_6bivr")]
-layout_mode = 1
-offset_left = 224.0
-offset_top = 85.0
-offset_right = 224.0
-offset_bottom = 85.0
-
 [node name="Buttons" type="VBoxContainer" parent="." unique_id=862301871]
 layout_mode = 0
 offset_left = 251.0
@@ -62,19 +55,36 @@ alignment = 1
 [node name="Start" type="Button" parent="Buttons" unique_id=1582670342]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../Exit")
+focus_neighbor_top = NodePath("../Exit")
+focus_neighbor_bottom = NodePath("../Settings")
 text = "Играть"
 
 [node name="Settings" type="Button" parent="Buttons" unique_id=381794572]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
+focus_neighbor_top = NodePath("../Start")
+focus_neighbor_bottom = NodePath("../Exit")
 text = "Настройки"
 
 [node name="Exit" type="Button" parent="Buttons" unique_id=1094108069]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-focus_neighbor_top = NodePath("../Start")
+focus_neighbor_top = NodePath("../Settings")
+focus_neighbor_bottom = NodePath("../Start")
 text = "Выйти"
 
+[node name="SettingsMenu" parent="." unique_id=932139700 instance=ExtResource("4_6bivr")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 224.0
+offset_top = 85.0
+offset_right = 364.0
+offset_bottom = 85.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [connection signal="pressed" from="Buttons/Start" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Buttons/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Buttons/Exit" to="." method="_on_exit_pressed"]
