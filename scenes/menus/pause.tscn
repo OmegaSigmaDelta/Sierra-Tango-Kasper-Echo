@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ddm5150ohcyjr"]
 
 [ext_resource type="Script" uid="uid://dukd03uv5m7xp" path="res://scripts/pause.gd" id="1_iohl6"]
+[ext_resource type="PackedScene" uid="uid://huy16ifmycp3" path="res://scenes/menus/settings.tscn" id="2_q52mi"]
 
 [node name="Pause" type="Control" unique_id=142770787]
 process_mode = 3
@@ -11,6 +12,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_iohl6")
+
+[node name="Settings" parent="." unique_id=932139700 instance=ExtResource("2_q52mi")]
+layout_mode = 1
 
 [node name="Panel" type="Panel" parent="." unique_id=1415224576]
 layout_mode = 0
