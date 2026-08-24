@@ -29,6 +29,7 @@ func _ready() -> void:
 	music_slider.value_changed.connect(_on_music_changed)
 	sfx_slider.value_changed.connect(_on_sfx_changed)
 	back_button.pressed.connect(_on_back_pressed)
+
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	back_button.focus_neighbor_top = NodePath("../SFX")
 
@@ -37,14 +38,14 @@ func db_to_slider(db: float) -> float:
 	if db <= -80.0:
 		return 0.0
 
-	return clampf((db + 80.0) / 80.0 * 100.0, 0.0, 100.0)
+	return clampf(db_to_linear(db) * 100.0, 0.0, 100.0)
 
 
 func slider_to_db(value: float) -> float:
 	if value <= 0.0:
 		return -80.0
 
-	return lerpf(-80.0, 0.0, value / 100.0)
+	return linear_to_db(value / 100.0)
 
 
 func _on_master_changed(value: float) -> void:
@@ -69,5 +70,9 @@ func _on_sfx_changed(value: float) -> void:
 
 
 func _on_back_pressed() -> void:
-
 	hide()
+
+	var pause_menu = get_parent()
+
+	if pause_menu.has_method("_on_settings_back_pressed"):
+		pause_menu._on_settings_back_pressed()

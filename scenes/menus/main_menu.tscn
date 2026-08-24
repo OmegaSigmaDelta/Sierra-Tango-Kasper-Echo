@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bgb84s343y67q" path="res://scripts/main_menu.gd" id="1_71r40"]
 [ext_resource type="VideoStream" uid="uid://dugc04ljnomq5" path="res://assets/video/clideo_editor_9bf5d067067b482486a169e5949a0646.ogv" id="2_ddmp4"]
 [ext_resource type="AudioStream" uid="uid://q2q1juafc1qj" path="res://assets/audio/MainMenu.mp3" id="3_v3vey"]
+[ext_resource type="PackedScene" uid="uid://huy16ifmycp3" path="res://scenes/menus/settings.tscn" id="4_6bivr"]
 
 [node name="MainMenu" type="Control" unique_id=415044625]
 layout_mode = 3
@@ -26,29 +27,11 @@ autoplay = true
 expand = true
 loop = true
 
-[node name="Start" type="Button" parent="." unique_id=1582670342]
-layout_mode = 0
-offset_left = 256.0
-offset_top = 169.0
-offset_right = 384.0
-offset_bottom = 194.0
-focus_neighbor_bottom = NodePath("../Exit")
-text = "Играть"
-
-[node name="Exit" type="Button" parent="." unique_id=1094108069]
-layout_mode = 0
-offset_left = 256.0
-offset_top = 214.0
-offset_right = 384.0
-offset_bottom = 239.0
-focus_neighbor_top = NodePath("../Start")
-text = "Выйти"
-
 [node name="GameName" type="Label" parent="." unique_id=1808010893]
 layout_mode = 0
-offset_left = 154.0
+offset_left = 149.0
 offset_top = 75.0
-offset_right = 265.0
+offset_right = 260.0
 offset_bottom = 92.0
 scale = Vector2(2.9988582, 2.9988582)
 text = "Maggot Pus"
@@ -61,5 +44,37 @@ position = Vector2(320, 180)
 stream = ExtResource("3_v3vey")
 autoplay = true
 
-[connection signal="pressed" from="Start" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
+[node name="SettingsMenu" parent="." unique_id=932139700 instance=ExtResource("4_6bivr")]
+layout_mode = 1
+offset_left = 224.0
+offset_top = 85.0
+offset_right = 224.0
+offset_bottom = 85.0
+
+[node name="Buttons" type="VBoxContainer" parent="." unique_id=862301871]
+layout_mode = 0
+offset_left = 251.0
+offset_top = 171.0
+offset_right = 391.0
+offset_bottom = 245.0
+alignment = 1
+
+[node name="Start" type="Button" parent="Buttons" unique_id=1582670342]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Exit")
+text = "Играть"
+
+[node name="Settings" type="Button" parent="Buttons" unique_id=381794572]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "Настройки"
+
+[node name="Exit" type="Button" parent="Buttons" unique_id=1094108069]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Start")
+text = "Выйти"
+
+[connection signal="pressed" from="Buttons/Start" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Buttons/Exit" to="." method="_on_exit_pressed"]

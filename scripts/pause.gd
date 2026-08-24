@@ -110,6 +110,7 @@ func _on_settings_pressed() -> void:
 func _on_settings_back_pressed() -> void:
 	settings_menu.hide()
 	pause_panel.show()
+	resume_button.grab_focus()
 
 
 func _on_main_menu_pressed() -> void:
