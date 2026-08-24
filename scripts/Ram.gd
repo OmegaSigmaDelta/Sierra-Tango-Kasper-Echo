@@ -11,9 +11,10 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 @onready var heal_1: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot1/Heal1")
 @onready var heal_2: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot2/Heal2")
 
-@onready var progress_bar: ProgressBar = get_node("/root/Game/CanvasLayer/Hud/ProgressBar")
+@onready var rage_bar: ProgressBar = get_node("/root/Game/CanvasLayer/Hud/ProgressBar")
 
 @onready var gamepad_crosshair: Node2D = $GamepadCrosshair
+@onready var projectile_marker: Marker2D = $AnimatedSprite2D/ProjectileMarker
 
 # Constants
 const SPEED = 200.0
@@ -57,13 +58,13 @@ var rage: int = 99:
 	set(value):
 		rage = clampi(value, 0, 99)
 
-		if is_node_ready() and progress_bar:
+		if is_node_ready() and rage_bar:
 			if rage_tween:
 				rage_tween.kill()
 
 			rage_tween = create_tween()
 			rage_tween.tween_property(
-				progress_bar,
+				rage_bar,
 				"value",
 				float(rage),
 				0.25
@@ -80,9 +81,9 @@ var using_gamepad_aim: bool = false
 var is_shooting = false
 
 func _ready() -> void:
-	progress_bar.min_value = 0
-	progress_bar.max_value = 99
-	progress_bar.value = rage
+	rage_bar.min_value = 0
+	rage_bar.max_value = 99
+	rage_bar.value = rage
 
 	gamepad_crosshair.hide()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -307,39 +308,66 @@ func fullscreen():
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 # Shoot a projectile that deals 1 damage (Lmb/RT) 
+# Shoot a projectile that deals 1 damage (LMB / RT)
 func shoot() -> void:
-	if is_healing == false:
-		# Mouse shooting on LMB press
-		if Input.is_action_just_pressed("shoot"):
-			if rage >= 33:
-				rage -= 33
-				animated_sprite_2d.play("Shoot")
-				is_shooting = true
-				var projectile = PROJECTILE.instantiate()
+	if is_healing or is_dead:
+		return
 
-				var mouse_position: Vector2 = get_global_mouse_position()
-				var shoot_direction: Vector2 = global_position.direction_to(mouse_position)
-				face_shoot_direction(shoot_direction)
 
-				projectile.global_position = global_position
-				projectile.direction = shoot_direction
+	# MOUSE SHOOTING (Fires immediately when LMB is pressed)
+	if Input.is_action_just_pressed("shoot"):
+		if rage >= 33:
+			rage -= 33
 
-				get_parent().add_child(projectile)
+			var mouse_position: Vector2 = get_global_mouse_position()
 
-		# Gamepad shooting on RT release
-		if Input.is_action_just_released("gamepad_shoot"):
-			gamepad_crosshair.hide()
-			if rage >= 33:
-				rage -= 33
-				face_shoot_direction(aim_direction)
-				animated_sprite_2d.play("Shoot")
+			# Calculate the direction from the marker,
+			# not from the center of Ram.
+			var shoot_direction: Vector2 = (
+				projectile_marker.global_position.direction_to(
+					mouse_position
+				)
+			)
 
-				var projectile = PROJECTILE.instantiate()
+			# Turn Ram toward the shot.
+			face_shoot_direction(shoot_direction)
 
-				projectile.global_position = global_position
-				projectile.direction = aim_direction
+			# Play shoot animation.
+			animated_sprite_2d.play("Shoot")
+			is_shooting = true
 
-				get_parent().add_child(projectile)
+			# Create projectile.
+			var projectile = PROJECTILE.instantiate()
+
+			# Spawn exactly at ProjectileMarker.
+			projectile.global_position = projectile_marker.global_position
+			projectile.direction = shoot_direction
+
+			get_parent().add_child(projectile)
+
+
+	# GAMEPAD SHOOTING (Fires when RT is released)
+	if Input.is_action_just_released("gamepad_shoot"):
+		gamepad_crosshair.hide()
+
+		if rage >= 33:
+			rage -= 33
+
+			# Turn Ram toward the gamepad aim direction.
+			face_shoot_direction(aim_direction)
+
+			# Play shoot animation.
+			animated_sprite_2d.play("Shoot")
+			is_shooting = true
+
+			# Create projectile.
+			var projectile = PROJECTILE.instantiate()
+
+			# Spawn exactly at ProjectileMarker.
+			projectile.global_position = projectile_marker.global_position
+			projectile.direction = aim_direction
+
+			get_parent().add_child(projectile)
 # Set rage to 100
 func debug_rage():
 	if Input.is_action_just_pressed("debug4"):
@@ -481,7 +509,20 @@ func _input(event: InputEvent) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func face_shoot_direction(shoot_direction: Vector2) -> void:
-	if shoot_direction.x > 0:
+	if shoot_direction.x > 0.0:
 		animated_sprite_2d.flip_h = true
-	elif shoot_direction.x < 0:
+
+	elif shoot_direction.x < 0.0:
 		animated_sprite_2d.flip_h = false
+
+	update_projectile_marker()
+
+func update_projectile_marker() -> void:
+	var marker_position: Vector2 = projectile_marker.position
+
+	if animated_sprite_2d.flip_h:
+		marker_position.x = absf(marker_position.x)
+	else:
+		marker_position.x = -absf(marker_position.x)
+
+	projectile_marker.position = marker_position
