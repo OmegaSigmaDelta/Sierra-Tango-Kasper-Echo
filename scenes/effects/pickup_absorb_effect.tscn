@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bkns3ppkib5qn"]
+
+[ext_resource type="Script" uid="uid://cxcrp20nvt8j5" path="res://scripts/pickup_absorb_effect.gd" id="1_uieq3"]
+[ext_resource type="Texture2D" uid="uid://4u2s0lm01fm2" path="res://assets/sprites/effects/particle.png" id="2_4dbws"]
+
+[node name="PickupAbsorbEffect" type="Node2D" unique_id=1575469122]
+script = ExtResource("1_uieq3")
+particle_texture = ExtResource("2_4dbws")
+absorb_speed = 250.0

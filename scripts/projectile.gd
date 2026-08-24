@@ -3,12 +3,22 @@ extends Area2D
 @export var speed := 500.0
 @export var max_distance := 1000.0
 
+const PARTICLE_EFFECT = preload(
+	"res://scenes/effects/projectile_particle_effect.tscn"
+)
+
 var direction := Vector2.ZERO
 var start_position := Vector2.ZERO
 
 
 func _ready():
-	start_position = global_position
+	var effect: Node2D = PARTICLE_EFFECT.instantiate()
+
+	effect.global_position = global_position
+
+	get_tree().current_scene.add_child(effect)
+
+	effect.play()
 
 
 func _physics_process(delta):

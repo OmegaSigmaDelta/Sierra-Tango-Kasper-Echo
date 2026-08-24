@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c3de0ly5k06wt"]
+
+[ext_resource type="Script" uid="uid://bpbrlmniu63y1" path="res://scripts/projectile_particle_effect.gd" id="1_ssbnn"]
+[ext_resource type="Texture2D" uid="uid://4u2s0lm01fm2" path="res://assets/sprites/effects/particle.png" id="2_d5w1l"]
+
+[node name="ProjectileParticleEffect" type="Node2D" unique_id=739258288]
+script = ExtResource("1_ssbnn")
+particle_texture = ExtResource("2_d5w1l")

@@ -308,37 +308,38 @@ func fullscreen():
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 # Shoot a projectile that deals 1 damage (Lmb/RT) 
 func shoot() -> void:
-	# Mouse shooting on LMB press
-	if Input.is_action_just_pressed("shoot"):
-		if rage >= 33:
-			rage -= 33
-			animated_sprite_2d.play("Shoot")
-			is_shooting = true
-			var projectile = PROJECTILE.instantiate()
+	if is_healing == false:
+		# Mouse shooting on LMB press
+		if Input.is_action_just_pressed("shoot"):
+			if rage >= 33:
+				rage -= 33
+				animated_sprite_2d.play("Shoot")
+				is_shooting = true
+				var projectile = PROJECTILE.instantiate()
 
-			var mouse_position: Vector2 = get_global_mouse_position()
-			var shoot_direction: Vector2 = global_position.direction_to(mouse_position)
-			face_shoot_direction(shoot_direction)
+				var mouse_position: Vector2 = get_global_mouse_position()
+				var shoot_direction: Vector2 = global_position.direction_to(mouse_position)
+				face_shoot_direction(shoot_direction)
 
-			projectile.global_position = global_position
-			projectile.direction = shoot_direction
+				projectile.global_position = global_position
+				projectile.direction = shoot_direction
 
-			get_parent().add_child(projectile)
+				get_parent().add_child(projectile)
 
-	# Gamepad shooting on RT release
-	if Input.is_action_just_released("gamepad_shoot"):
-		gamepad_crosshair.hide()
-		if rage >= 33:
-			rage -= 33
-			face_shoot_direction(aim_direction)
-			animated_sprite_2d.play("Shoot")
+		# Gamepad shooting on RT release
+		if Input.is_action_just_released("gamepad_shoot"):
+			gamepad_crosshair.hide()
+			if rage >= 33:
+				rage -= 33
+				face_shoot_direction(aim_direction)
+				animated_sprite_2d.play("Shoot")
 
-			var projectile = PROJECTILE.instantiate()
+				var projectile = PROJECTILE.instantiate()
 
-			projectile.global_position = global_position
-			projectile.direction = aim_direction
+				projectile.global_position = global_position
+				projectile.direction = aim_direction
 
-			get_parent().add_child(projectile)
+				get_parent().add_child(projectile)
 # Set rage to 100
 func debug_rage():
 	if Input.is_action_just_pressed("debug4"):

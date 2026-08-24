@@ -1216,6 +1216,10 @@ metadata/_aseprite_wizard_config_ = {
 "source_uid": 7843143191872878945
 }
 
+[node name="ProjectileMarker" type="Marker2D" parent="AnimatedSprite2D" unique_id=822008765]
+position = Vector2(-35, 11)
+gizmo_extents = 4.0
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=323937361 groups=["player"]]
 position_smoothing_speed = 10.0
 
