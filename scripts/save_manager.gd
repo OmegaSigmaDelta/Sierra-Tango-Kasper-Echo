@@ -5,7 +5,7 @@ const MetSysSaveManager = preload("res://addons/MetroidvaniaSystem/Template/Scri
 const SAVE_PATH := "user://save.sav"
 
 var data: Dictionary = {}
-
+var current_entrance := ""
 
 func save_game() -> void:
 	var save := MetSysSaveManager.new()
@@ -40,38 +40,33 @@ func get_player_data() -> Dictionary:
 
 
 func get_location_data() -> Dictionary:
+	return {
+		"room": MetSys.get_current_room_id(),
+		"entrance": current_entrance
+	}
+
+func update_current_entrance() -> void:
+	var player := get_tree().get_first_node_in_group("player")
 	var room := MetSys.get_current_room_instance()
 
-	if room == null:
-		return {
-			"room": "",
-			"entrance": ""
-		}
+	if player == null or room == null:
+		return
 
 	var nearest_entrance: Node2D = null
 	var nearest_distance := INF
 
-	for node in room.get_tree().get_nodes_in_group("save_entrance"):
-		if not node.is_inside_tree():
+	for node in get_tree().get_nodes_in_group("save_entrance"):
+		if not node is Node2D:
 			continue
 
 		if node.owner != room.owner:
 			continue
 
-		var distance := node.global_position.distance_to(
-			get_tree().get_first_node_in_group("player").global_position
-		)
+		var distance = node.global_position.distance_to(player.global_position)
 
 		if distance < nearest_distance:
 			nearest_distance = distance
 			nearest_entrance = node
 
-	var entrance_id := ""
-
 	if nearest_entrance != null:
-		entrance_id = nearest_entrance.get_meta("entrance_id", "")
-
-	return {
-		"room": MetSys.get_current_room_id(),
-		"entrance": entrance_id
-	}
+		current_entrance = nearest_entrance.get_meta("entrance_id", "")

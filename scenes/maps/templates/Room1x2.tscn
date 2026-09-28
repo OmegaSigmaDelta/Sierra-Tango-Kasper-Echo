@@ -1560,6 +1560,6 @@ tile_set = SubResource("TileSet_riqys")
 [node name="Foreground" type="TileMapLayer" parent="TileMap/Background" unique_id=1866586431]
 tile_set = SubResource("TileSet_bhunq")
 
-[node name="Entrance_Right" type="Marker2D" parent="." unique_id=177003742]
+[node name="Entrance_Right" type="Marker2D" parent="." unique_id=177003742 groups=["save_entrance"]]
 position = Vector2(1280, 300)
 metadata/entrance_id = "right"

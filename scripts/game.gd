@@ -40,6 +40,8 @@ func init_room() -> void:
 	# Keep the camera centered on Ram
 	camera.global_position = $Ram.global_position
 
+	SaveManager.update_current_entrance()
+
 	print("ROOM LOADED: ", room)
 	print("ROOM SIZE: ", room.get_size())
 	print(
