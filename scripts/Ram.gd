@@ -147,10 +147,14 @@ func _physics_process(delta: float):
 				animated_sprite_2d.play("Walk")
 		elif velocity.y != 0:
 			if armored == true:
-				animated_sprite_2d.play("Jump_Armored")
+				animated_sprite_2d.play("Jump")
+				if is_on_floor() == true:
+					animated_sprite_2d.play("Land")
 			elif armored == false:
 				animated_sprite_2d.play("Jump")
-		else:
+				if is_on_floor() == true:
+					animated_sprite_2d.play("Land")
+		elif animated_sprite_2d.animation != "Jump":
 			if armored == true:
 				animated_sprite_2d.play("Idle_Armored")
 			elif armored == false:
@@ -307,9 +311,8 @@ func fullscreen():
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-# Shoot a projectile that deals 1 damage (Lmb/RT) 
 # Shoot a projectile that deals 1 damage (LMB / RT)
-func shoot() -> void:
+func shoot():
 	if is_healing or is_dead:
 		return
 
@@ -502,13 +505,13 @@ func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Shoot":
 		is_shooting = false
 
-func _input(event: InputEvent) -> void:
+func _input(event: InputEvent):
 	if event is InputEventMouseMotion:
 		using_gamepad_aim = false
 		gamepad_crosshair.hide()
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-func face_shoot_direction(shoot_direction: Vector2) -> void:
+func face_shoot_direction(shoot_direction: Vector2):
 	if shoot_direction.x > 0.0:
 		animated_sprite_2d.flip_h = true
 
@@ -517,7 +520,7 @@ func face_shoot_direction(shoot_direction: Vector2) -> void:
 
 	update_projectile_marker()
 
-func update_projectile_marker() -> void:
+func update_projectile_marker():
 	var marker_position: Vector2 = projectile_marker.position
 
 	if animated_sprite_2d.flip_h:
@@ -526,3 +529,15 @@ func update_projectile_marker() -> void:
 		marker_position.x = -absf(marker_position.x)
 
 	projectile_marker.position = marker_position
+
+func get_save_data() -> Dictionary:
+	return {
+		"health": HP,
+		"rage": rage,
+		"heals": heals
+	}
+
+func load_save_data(data: Dictionary):
+	HP = data.get("health", MAX_HP)
+	rage = data.get("rage", 0)
+	heals = data.get("heals", 2)

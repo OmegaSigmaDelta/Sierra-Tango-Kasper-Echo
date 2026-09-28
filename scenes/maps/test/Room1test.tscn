@@ -1111,3 +1111,11 @@ position = Vector2(367, 185)
 [node name="RageOrb" parent="." unique_id=118523742 instance=ExtResource("5_gf4t3")]
 position = Vector2(328, 109)
 scale = Vector2(0.7, 0.7)
+
+[node name="Entrance_Left" type="Marker2D" parent="." unique_id=1681745290]
+position = Vector2(0, 300)
+metadata/entrance_id = "Left"
+
+[node name="Entrance_Right" type="Marker2D" parent="." unique_id=641039567]
+position = Vector2(640, 300)
+metadata/entrance_id = "Right"

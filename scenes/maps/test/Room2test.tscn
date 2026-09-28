@@ -1444,3 +1444,7 @@ autoplay = &"move"
 
 [node name="Dummy" parent="." unique_id=917264044 instance=ExtResource("5_f5bwt")]
 position = Vector2(361, 301)
+
+[node name="Entrance_Left" type="Marker2D" parent="." unique_id=2137708833]
+position = Vector2(0, 300)
+metadata/entrance_id = "Left"

@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://7qn0bgjhei8l" path="res://assets/sprites/Ram/Actions/shoot.png" id="7_6ms0c"]
 [ext_resource type="Texture2D" uid="uid://b536tdtc2fbnt" path="res://assets/sprites/Ram/Actions/jump.png" id="7_mcpij"]
 [ext_resource type="Texture2D" uid="uid://bmcomoljtfo0d" path="res://assets/sprites/Ram/Walk/Walk.png" id="7_tl7kb"]
+[ext_resource type="Texture2D" uid="uid://j5al3suhyjgh" path="res://assets/sprites/Ram/Actions/land.png" id="8_8a7j7"]
 [ext_resource type="Texture2D" uid="uid://cqy62ofrhjy2p" path="res://assets/sprites/UI/cursor/crosshair.png" id="10_qp4k1"]
 [ext_resource type="PackedScene" uid="uid://ddm5150ohcyjr" path="res://scenes/menus/pause.tscn" id="16_fu2o8"]
 
@@ -632,6 +633,22 @@ region = Rect2(384, 0, 64, 80)
 atlas = ExtResource("7_mcpij")
 region = Rect2(448, 0, 64, 80)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ejqg"]
+atlas = ExtResource("8_8a7j7")
+region = Rect2(0, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ro7u"]
+atlas = ExtResource("8_8a7j7")
+region = Rect2(64, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4f3bi"]
+atlas = ExtResource("8_8a7j7")
+region = Rect2(128, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvcpb"]
+atlas = ExtResource("8_8a7j7")
+region = Rect2(192, 0, 64, 80)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ms0c"]
 atlas = ExtResource("7_6ms0c")
 region = Rect2(0, 0, 70, 80)
@@ -1156,8 +1173,25 @@ animations = [{
 "texture": SubResource("AtlasTexture_ohf2a")
 }],
 "loop": 0,
-"name": &"Jump_Armored",
+"name": &"Jump",
 "speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ejqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ro7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4f3bi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvcpb")
+}],
+"loop": 1,
+"name": &"Land",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1248,8 +1282,9 @@ shape = SubResource("RectangleShape2D_5h11f")
 material = SubResource("ShaderMaterial_fu2o8")
 position = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_qbkrf")
-animation = &"Jump_Armored"
+animation = &"Land"
 autoplay = "Idle_Armored"
+frame_progress = 0.26053265
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": false,
 "pending_changes": {}

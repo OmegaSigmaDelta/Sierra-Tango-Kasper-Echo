@@ -31,6 +31,7 @@ buses/default_bus_layout="uid://vjwschbyg6nk"
 
 CursorManager="*uid://bdarrwsakr1cp"
 MetSys="*uid://c01ibpvrp2wsd"
+SaveManager="*uid://cidrsoeqj56vg"
 
 [display]
 
@@ -52,6 +53,12 @@ player=""
 
 common/snap_controls_to_pixels=false
 theme/custom_font="uid://bs5rqu6my5lmt"
+
+[importer_defaults]
+
+animation_library={
+&"animation/fps": 120.0
+}
 
 [input]
 
