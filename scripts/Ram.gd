@@ -11,7 +11,7 @@ const PROJECTILE = preload("res://scenes/items/projectile.tscn")
 @onready var heal_1: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot1/Heal1")
 @onready var heal_2: AnimatedSprite2D = get_node("/root/Game/CanvasLayer/Hud/Heals/Heal_Slot2/Heal2")
 
-@onready var rage_bar: ProgressBar = get_node("/root/Game/CanvasLayer/Hud/ProgressBar")
+@onready var rage_bar: ProgressBar = get_node("/root/Game/CanvasLayer/Hud/RageBar")
 
 @onready var gamepad_crosshair: Node2D = $GamepadCrosshair
 @onready var projectile_marker: Marker2D = $AnimatedSprite2D/ProjectileMarker
@@ -288,7 +288,7 @@ func godmode():
 			HP = 6
 			print("godmode deactivated")
 # bugged, does nothing
-func unarmor() -> void:
+func unarmor():
 	if godmode_state:
 		return
 

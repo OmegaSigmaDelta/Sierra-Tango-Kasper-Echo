@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dkyh4ydfrjjm" path="res://assets/sprites/Ram/Idle/Idle.png" id="5_46efi"]
 [ext_resource type="Texture2D" uid="uid://iwlt4m8ourjv" path="res://assets/sprites/Ram/Walk/Walk_Armorless.png" id="6_bh766"]
 [ext_resource type="Texture2D" uid="uid://7qn0bgjhei8l" path="res://assets/sprites/Ram/Actions/shoot.png" id="7_6ms0c"]
+[ext_resource type="Texture2D" uid="uid://b536tdtc2fbnt" path="res://assets/sprites/Ram/Actions/jump.png" id="7_mcpij"]
 [ext_resource type="Texture2D" uid="uid://bmcomoljtfo0d" path="res://assets/sprites/Ram/Walk/Walk.png" id="7_tl7kb"]
 [ext_resource type="Texture2D" uid="uid://cqy62ofrhjy2p" path="res://assets/sprites/UI/cursor/crosshair.png" id="10_qp4k1"]
 [ext_resource type="PackedScene" uid="uid://ddm5150ohcyjr" path="res://scenes/menus/pause.tscn" id="16_fu2o8"]
@@ -599,6 +600,38 @@ region = Rect2(1024, 0, 64, 80)
 atlas = ExtResource("5_46efi")
 region = Rect2(1088, 0, 64, 80)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8a7j7"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(0, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g5ic"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(64, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6fx2"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(128, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf1tt"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(192, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gpc21"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(256, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dy1mt"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(320, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wo4a"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(384, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohf2a"]
+atlas = ExtResource("7_mcpij")
+region = Rect2(448, 0, 64, 80)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ms0c"]
 atlas = ExtResource("7_6ms0c")
 region = Rect2(0, 0, 70, 80)
@@ -1097,13 +1130,32 @@ animations = [{
 "name": &"Idle_Armored",
 "speed": 10.0
 }, {
-"frames": [],
-"loop": 1,
-"name": &"Jump",
-"speed": 15.0
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8a7j7")
 }, {
-"frames": [],
-"loop": 1,
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3g5ic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6fx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qf1tt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gpc21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dy1mt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wo4a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohf2a")
+}],
+"loop": 0,
 "name": &"Jump_Armored",
 "speed": 15.0
 }, {
@@ -1196,7 +1248,7 @@ shape = SubResource("RectangleShape2D_5h11f")
 material = SubResource("ShaderMaterial_fu2o8")
 position = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_qbkrf")
-animation = &"Shoot"
+animation = &"Jump_Armored"
 autoplay = "Idle_Armored"
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": false,

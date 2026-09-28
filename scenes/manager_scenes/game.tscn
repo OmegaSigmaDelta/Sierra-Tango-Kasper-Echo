@@ -659,7 +659,7 @@ sprite_frames = SubResource("SpriteFrames_mtesg")
 animation = &"full"
 autoplay = "full"
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Hud" unique_id=1614926271]
+[node name="RageBar" type="ProgressBar" parent="CanvasLayer/Hud" unique_id=1614926271]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 71.0

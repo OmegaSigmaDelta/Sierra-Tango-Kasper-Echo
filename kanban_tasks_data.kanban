@@ -109,7 +109,7 @@
 				},
 				{
 					"details": "Anger/Mana",
-					"done": false
+					"done": true
 				},
 				{
 					"details": "HUD frame (H150/45V)",
@@ -224,7 +224,7 @@
 				},
 				{
 					"details": "spend to shoot a projectile",
-					"done": false
+					"done": true
 				}
 			]
 		}
