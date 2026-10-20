@@ -54,6 +54,7 @@ var is_holding_jump: bool = false
 var jump_buffer_timer: float = 0.0
 
 # Rage stuff
+const RAGE_PER_HIT := 11 # NEW: ярость за одно попадание (3 попадания = 1 выстрел)
 var rage: int = 99:
 	set(value):
 		rage = clampi(value, 0, 99)
@@ -81,6 +82,8 @@ var using_gamepad_aim: bool = false
 var is_shooting = false
 
 func _ready() -> void:
+	add_to_group("player") # NEW: чтобы объекты могли найти Рэма через группу
+
 	rage_bar.min_value = 0
 	rage_bar.max_value = 99
 	rage_bar.value = rage
@@ -260,6 +263,12 @@ func beer_refill():
 # Recover rage by [number]
 func rage_refill(number):
 	rage += number
+# NEW: Gain rage for landing a hit on an enemy.
+# Intended for MELEE hits only. For now the projectile calls it as a TEMP stand-in.
+func on_hit_landed() -> void:
+	if is_dead:
+		return
+	rage_refill(RAGE_PER_HIT)
 # Damage yourself by 1 (debug 1)
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
