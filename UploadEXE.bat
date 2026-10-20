@@ -380,13 +380,41 @@ if errorlevel 1 (
 echo.
 
 
+```bat
 REM ============================================================
-REM 5. PUSH MAIN BRANCH
+REM 5. SYNC AND PUSH MAIN BRANCH
 REM ============================================================
 
-echo [5/10] Pushing main branch...
+echo [5/10] Syncing and pushing main branch...
 echo.
 
+echo Fetching latest changes from GitHub...
+git fetch origin
+
+if errorlevel 1 (
+    echo.
+    echo ERROR: Could not fetch changes from GitHub.
+    echo Your local commit has been preserved.
+    echo.
+    pause
+    exit /b 1
+)
+
+echo Rebasing local commits onto origin/%GIT_BRANCH%...
+git pull --rebase origin %GIT_BRANCH%
+
+if errorlevel 1 (
+    echo.
+    echo ============================================================
+    echo ERROR: Could not rebase local changes.
+    echo Resolve conflicts before running this script again.
+    echo ============================================================
+    echo.
+    pause
+    exit /b 1
+)
+
+echo Pushing synchronized branch...
 git push origin %GIT_BRANCH%
 
 if errorlevel 1 (
@@ -400,15 +428,9 @@ if errorlevel 1 (
 )
 
 echo.
-echo Main branch successfully pushed.
+echo Main branch successfully synchronized and pushed.
 echo.
-
-
-REM ============================================================
-REM SKIP BUILD / RELEASE
-REM ============================================================
-
-if "%SKIP_BUILD%"=="1" goto SKIP_BUILD
+```
 
 
 REM ============================================================
