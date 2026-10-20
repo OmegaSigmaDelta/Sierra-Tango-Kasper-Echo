@@ -1,3 +1,4 @@
+```bat
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
 
@@ -38,16 +39,16 @@ REM VERIFY GODOT PROJECT
 REM ============================================================
 
 if not exist "project.godot" (
-    echo.
-    echo ============================================================
-    echo ERROR: project.godot was not found.
-    echo ============================================================
-    echo.
-    echo This script must be placed in the root of the
-    echo Godot project.
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: project.godot was not found.
+	echo ============================================================
+	echo.
+	echo This script must be placed in the root of the
+	echo Godot project.
+	echo.
+	pause
+	exit /b 1
 )
 
 
@@ -56,9 +57,9 @@ REM GET DATE / TIME
 REM ============================================================
 
 for /f "delims=" %%A in (
-    'powershell -NoProfile -Command "Get-Date -Format dd.MM.yyyy-HH:mm"'
+	'powershell -NoProfile -Command "Get-Date -Format dd.MM.yyyy-HH:mm"'
 ) do (
-    set "DATE_TIME=%%A"
+	set "DATE_TIME=%%A"
 )
 
 
@@ -67,9 +68,9 @@ REM CREATE GIT-SAFE RELEASE TAG
 REM ============================================================
 
 for /f "delims=" %%A in (
-    'powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmmss"'
+	'powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmmss"'
 ) do (
-    set "RELEASE_TAG=build-%%A"
+	set "RELEASE_TAG=build-%%A"
 )
 
 
@@ -128,8 +129,8 @@ REM ============================================================
 set "SKIP_BUILD=0"
 
 if /I "%RELEASE_NOTES%"=="skip" (
-    set "SKIP_BUILD=1"
-    set "RELEASE_NOTES=Skipped game archive upload."
+	set "SKIP_BUILD=1"
+	set "RELEASE_NOTES=Skipped game archive upload."
 )
 
 
@@ -138,7 +139,7 @@ REM DEFAULT RELEASE NOTES
 REM ============================================================
 
 if "%RELEASE_NOTES%"=="" (
-    set "RELEASE_NOTES=No additional notes."
+	set "RELEASE_NOTES=No additional notes."
 )
 
 
@@ -168,11 +169,11 @@ echo %RELEASE_NOTES%
 echo.
 
 if "%SKIP_BUILD%"=="1" (
-    echo Build/release:
-    echo SKIPPED
+	echo Build/release:
+	echo SKIPPED
 ) else (
-    echo Build/release:
-    echo ENABLED
+	echo Build/release:
+	echo ENABLED
 )
 
 echo.
@@ -196,41 +197,41 @@ echo.
 where git >nul 2>&1
 
 if errorlevel 1 (
-    echo ERROR: Git was not found.
-    echo.
-    pause
-    exit /b 1
+	echo ERROR: Git was not found.
+	echo.
+	pause
+	exit /b 1
 )
 
 where gh >nul 2>&1
 
 if errorlevel 1 (
-    echo ERROR: GitHub CLI was not found.
-    echo.
-    pause
-    exit /b 1
+	echo ERROR: GitHub CLI was not found.
+	echo.
+	pause
+	exit /b 1
 )
 
 if "%SKIP_BUILD%"=="0" (
 
-    if not exist "%GODOT_EXE%" (
-        echo ERROR: Godot executable was not found:
-        echo.
-        echo %GODOT_EXE%
-        echo.
-        pause
-        exit /b 1
-    )
+	if not exist "%GODOT_EXE%" (
+		echo ERROR: Godot executable was not found:
+		echo.
+		echo %GODOT_EXE%
+		echo.
+		pause
+		exit /b 1
+	)
 
-    echo Git:        OK
-    echo GitHub CLI: OK
-    echo Godot:      OK
+	echo Git:        OK
+	echo GitHub CLI: OK
+	echo Godot:      OK
 
 ) else (
 
-    echo Git:        OK
-    echo GitHub CLI: OK
-    echo Godot:      SKIPPED
+	echo Git:        OK
+	echo GitHub CLI: OK
+	echo Godot:      SKIPPED
 
 )
 
@@ -247,13 +248,13 @@ echo.
 gh auth status >nul 2>&1
 
 if errorlevel 1 (
-    echo ERROR: GitHub CLI is not logged in.
-    echo.
-    echo Run:
-    echo gh auth login
-    echo.
-    pause
-    exit /b 1
+	echo ERROR: GitHub CLI is not logged in.
+	echo.
+	echo Run:
+	echo gh auth login
+	echo.
+	pause
+	exit /b 1
 )
 
 echo GitHub authentication: OK
@@ -270,19 +271,19 @@ echo.
 git rev-parse --show-toplevel >nul 2>&1
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: This folder is not a Git repository.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: This folder is not a Git repository.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
 for /f "delims=" %%A in (
-    'git rev-parse --show-toplevel'
+	'git rev-parse --show-toplevel'
 ) do (
-    set "GIT_ROOT=%%A"
+	set "GIT_ROOT=%%A"
 )
 
 echo Godot project:
@@ -297,14 +298,22 @@ echo.
 
 echo Git branch:
 for /f "delims=" %%A in (
-    'git branch --show-current'
+	'git branch --show-current'
 ) do (
-    set "CURRENT_BRANCH=%%A"
+	set "CURRENT_BRANCH=%%A"
 )
 
 echo !CURRENT_BRANCH!
 
 echo.
+
+if /I not "!CURRENT_BRANCH!"=="%GIT_BRANCH%" (
+	echo ERROR: The current branch is not %GIT_BRANCH%.
+	echo Switch to the correct branch before running this script.
+	echo.
+	pause
+	exit /b 1
+)
 
 echo Git repository: OK
 echo.
@@ -329,13 +338,13 @@ echo.
 git add .
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: git add failed.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: git add failed.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
 echo Git status AFTER staging:
@@ -348,39 +357,38 @@ git diff --cached --quiet
 
 if errorlevel 1 (
 
-    echo Changes detected.
-    echo.
+	echo Changes detected.
+	echo.
 
-    echo Creating commit:
-    echo Auto release %DATE_TIME%
-    echo.
+	echo Creating commit:
+	echo Auto release %DATE_TIME%
+	echo.
 
-    git commit -m "Auto release %DATE_TIME%"
+	git commit -m "Auto release %DATE_TIME%"
 
-    if errorlevel 1 (
-        echo.
-        echo ============================================================
-        echo ERROR: Git commit failed.
-        echo ============================================================
-        echo.
-        pause
-        exit /b 1
-    )
+	if errorlevel 1 (
+		echo.
+		echo ============================================================
+		echo ERROR: Git commit failed.
+		echo ============================================================
+		echo.
+		pause
+		exit /b 1
+	)
 
-    echo.
-    echo Git commit created successfully.
+	echo.
+	echo Git commit created successfully.
 
 ) else (
 
-    echo No source changes detected.
-    echo No new Git commit is necessary.
+	echo No source changes detected.
+	echo No new Git commit is necessary.
 
 )
 
 echo.
 
 
-```bat
 REM ============================================================
 REM 5. SYNC AND PUSH MAIN BRANCH
 REM ============================================================
@@ -392,45 +400,59 @@ echo Fetching latest changes from GitHub...
 git fetch origin
 
 if errorlevel 1 (
-    echo.
-    echo ERROR: Could not fetch changes from GitHub.
-    echo Your local commit has been preserved.
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: Could not fetch changes from GitHub.
+	echo Your local commit has been preserved.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
+echo.
 echo Rebasing local commits onto origin/%GIT_BRANCH%...
 git pull --rebase origin %GIT_BRANCH%
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: Could not rebase local changes.
-    echo Resolve conflicts before running this script again.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: Could not rebase local changes.
+	echo ============================================================
+	echo.
+	echo Git may have stopped because of merge conflicts.
+	echo Run "git status" to inspect the situation.
+	echo Resolve conflicts before continuing.
+	echo Do not run this script again until the rebase is resolved.
+	echo.
+	pause
+	exit /b 1
 )
 
+echo.
 echo Pushing synchronized branch...
 git push origin %GIT_BRANCH%
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: Git push failed.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: Git push failed.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
 echo.
 echo Main branch successfully synchronized and pushed.
 echo.
-```
+
+
+REM ============================================================
+REM SKIP BUILD / RELEASE
+REM ============================================================
+
+if "%SKIP_BUILD%"=="1" goto SKIP_BUILD
 
 
 REM ============================================================
@@ -447,23 +469,23 @@ echo.
 git rev-parse "%RELEASE_TAG%" >nul 2>&1
 
 if not errorlevel 1 (
-    echo ERROR: Tag already exists:
-    echo %RELEASE_TAG%
-    echo.
-    pause
-    exit /b 1
+	echo ERROR: Tag already exists:
+	echo %RELEASE_TAG%
+	echo.
+	pause
+	exit /b 1
 )
 
 git tag "%RELEASE_TAG%"
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: Git could not create the tag.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: Git could not create the tag.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
 echo Local tag created successfully.
@@ -473,13 +495,13 @@ echo.
 git push origin "%RELEASE_TAG%"
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: Git could not push the tag.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: Git could not push the tag.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
 echo.
@@ -495,28 +517,28 @@ echo [7/10] Preparing build directory...
 echo.
 
 if not exist "%BUILD_DIR%" (
-    mkdir "%BUILD_DIR%"
+	mkdir "%BUILD_DIR%"
 )
 
 if errorlevel 1 (
-    echo.
-    echo ERROR: Could not create:
-    echo %BUILD_DIR%
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ERROR: Could not create:
+	echo %BUILD_DIR%
+	echo.
+	pause
+	exit /b 1
 )
 
 if exist "%BUILD_DIR%\%GAME_NAME%.exe" (
-    del /q "%BUILD_DIR%\%GAME_NAME%.exe"
+	del /q "%BUILD_DIR%\%GAME_NAME%.exe"
 )
 
 if exist "%BUILD_DIR%\%GAME_NAME%.pck" (
-    del /q "%BUILD_DIR%\%GAME_NAME%.pck"
+	del /q "%BUILD_DIR%\%GAME_NAME%.pck"
 )
 
 if exist "%BUILD_DIR%\%GAME_NAME%.zip" (
-    del /q "%BUILD_DIR%\%GAME_NAME%.zip"
+	del /q "%BUILD_DIR%\%GAME_NAME%.zip"
 )
 
 echo Build directory ready.
@@ -541,33 +563,33 @@ echo %BUILD_DIR%\%GAME_NAME%.exe
 echo.
 
 "%GODOT_EXE%" ^
-    --headless ^
-    --path "%CD%" ^
-    --export-release "%GODOT_PRESET%" ^
-    "%BUILD_DIR%\%GAME_NAME%.exe"
+	--headless ^
+	--path "%CD%" ^
+	--export-release "%GODOT_PRESET%" ^
+	"%BUILD_DIR%\%GAME_NAME%.exe"
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: Godot export failed.
-    echo ============================================================
-    echo.
-    echo Git backup: SUCCESS
-    echo Git push:   SUCCESS
-    echo Git tag:    SUCCESS
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: Godot export failed.
+	echo ============================================================
+	echo.
+	echo Git backup: SUCCESS
+	echo Git push:   SUCCESS
+	echo Git tag:    SUCCESS
+	echo.
+	pause
+	exit /b 1
 )
 
 if not exist "%BUILD_DIR%\%GAME_NAME%.exe" (
-    echo.
-    echo ============================================================
-    echo ERROR: EXE was not created.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: EXE was not created.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
 echo.
@@ -583,24 +605,24 @@ echo [9/10] Creating ZIP archive...
 echo.
 
 powershell -NoProfile -Command ^
-    "Compress-Archive -Path '%BUILD_DIR%\%GAME_NAME%.*' -DestinationPath '%BUILD_DIR%\%GAME_NAME%.zip' -Force"
+	"Compress-Archive -Path '%BUILD_DIR%\%GAME_NAME%.*' -DestinationPath '%BUILD_DIR%\%GAME_NAME%.zip' -Force"
 
 if errorlevel 1 (
-    echo.
-    echo ============================================================
-    echo ERROR: ZIP creation failed.
-    echo ============================================================
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ============================================================
+	echo ERROR: ZIP creation failed.
+	echo ============================================================
+	echo.
+	pause
+	exit /b 1
 )
 
 if not exist "%BUILD_DIR%\%GAME_NAME%.zip" (
-    echo.
-    echo ERROR: ZIP was not created.
-    echo.
-    pause
-    exit /b 1
+	echo.
+	echo ERROR: ZIP was not created.
+	echo.
+	pause
+	exit /b 1
 )
 
 echo.
@@ -641,9 +663,9 @@ REM ============================================================
 set "NOTES_FILE=%TEMP%\gnoy_release_notes.txt"
 
 (
-    echo %DATE_TIME%
-    echo.
-    echo %RELEASE_NOTES%
+	echo %DATE_TIME%
+	echo.
+	echo %RELEASE_NOTES%
 ) > "%NOTES_FILE%"
 
 
@@ -664,11 +686,11 @@ echo ============================================================
 echo.
 
 gh release create "%RELEASE_TAG%" ^
-    "%BUILD_DIR%\%GAME_NAME%.zip" ^
-    --repo "%GITHUB_REPO%" ^
-    --title "Auto release" ^
-    --notes-file "%NOTES_FILE%" ^
-    --prerelease
+	"%BUILD_DIR%\%GAME_NAME%.zip" ^
+	--repo "%GITHUB_REPO%" ^
+	--title "Auto release" ^
+	--notes-file "%NOTES_FILE%" ^
+	--prerelease
 
 if not errorlevel 1 goto SUCCESS
 
@@ -696,7 +718,7 @@ REM ============================================================
 :SUCCESS
 
 if exist "%NOTES_FILE%" (
-    del /q "%NOTES_FILE%"
+	del /q "%NOTES_FILE%"
 )
 
 echo.
@@ -824,7 +846,7 @@ REM ============================================================
 :RELEASE_FAILED
 
 if exist "%NOTES_FILE%" (
-    del /q "%NOTES_FILE%"
+	del /q "%NOTES_FILE%"
 )
 
 echo.
@@ -864,3 +886,4 @@ echo.
 pause
 
 exit /b 1
+```
