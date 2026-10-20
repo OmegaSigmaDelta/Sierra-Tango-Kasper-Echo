@@ -70,3 +70,16 @@ func update_current_entrance() -> void:
 
 	if nearest_entrance != null:
 		current_entrance = nearest_entrance.get_meta("entrance_id", "")
+
+func load_player_data() -> void:
+	var player = get_tree().get_first_node_in_group("player")
+
+	if player == null:
+		push_error("SaveManager: Player not found.")
+		return
+
+	var player_data: Dictionary = data.get("player", {})
+	if player_data.is_empty():
+		return
+
+	player.load_save_data(player_data)

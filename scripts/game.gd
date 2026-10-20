@@ -2,10 +2,14 @@ extends "res://addons/MetroidvaniaSystem/Template/Scripts/MetSysGame.gd"
 
 @export_file("room_link") var starting_map: String
 
+var has_loaded_player_data
 
 func _ready() -> void:
-	MetSys.reset_state()
-	MetSys.set_save_data()
+	var has_save: bool = SaveManager.load_game()
+
+	if not has_save:
+		MetSys.reset_state()
+		MetSys.set_save_data()
 
 	set_player($Ram)
 	$Ram.z_index = 100
@@ -15,6 +19,9 @@ func _ready() -> void:
 	if starting_map.is_empty():
 		push_error("Starting Map is empty! Assign a .room_link file in the Game node Inspector.")
 		return
+
+	@warning_ignore("shadowed_variable", "unused_variable")
+	var has_loaded_player_data := false
 
 	load_room(starting_map)
 
@@ -39,6 +46,10 @@ func init_room() -> void:
 
 	# Keep the camera centered on Ram
 	camera.global_position = $Ram.global_position
+
+	if not has_loaded_player_data and SaveManager.data.has("player"):
+		SaveManager.load_player_data()
+		has_loaded_player_data = true
 
 	SaveManager.update_current_entrance()
 
