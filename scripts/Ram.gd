@@ -33,6 +33,8 @@ var armor_broke = false
 var godmode_state = false
 var is_dead = false
 var is_healing = false
+# FIX: защита от многократного перехода на экран Game Over
+var game_over_started = false
 
 # I-frames
 const IFRAME_DURATION = 1.0
@@ -54,7 +56,6 @@ var is_holding_jump: bool = false
 var jump_buffer_timer: float = 0.0
 
 # Rage stuff
-const RAGE_PER_HIT := 11 # NEW: ярость за одно попадание (3 попадания = 1 выстрел)
 var rage: int = 99:
 	set(value):
 		rage = clampi(value, 0, 99)
@@ -82,8 +83,6 @@ var using_gamepad_aim: bool = false
 var is_shooting = false
 
 func _ready() -> void:
-	add_to_group("player") # NEW: чтобы объекты могли найти Рэма через группу
-
 	rage_bar.min_value = 0
 	rage_bar.max_value = 99
 	rage_bar.value = rage
@@ -109,6 +108,10 @@ func _physics_process(delta: float):
 			velocity.y = MIN_JUMP_VELOCITY
 			jump_timer = 0.0
 			is_holding_jump = true
+
+		# FIX: при ударе головой о потолок прыжок больше не "залипает"
+		if is_on_ceiling():
+			is_holding_jump = false
 
 		if Input.is_action_pressed("jump") and is_holding_jump:
 			jump_timer += delta
@@ -171,7 +174,7 @@ func _physics_process(delta: float):
 			animated_sprite_2d.flip_h = true
 		elif direction < 0:
 			animated_sprite_2d.flip_h = false
-	
+
 	# Gamepad/Mouse aiming
 	update_aim()
 	shoot()
@@ -181,6 +184,13 @@ func _physics_process(delta: float):
 	fullscreen()
 	# Movement
 	move_and_slide()
+
+
+# FIX: метод, к которому подключён сигнал area_entered у ItemCheck в Ram.tscn.
+# Раньше его не существовало -> ошибка подключения сигнала.
+# Подбор предметов сейчас обрабатывают сами предметы (beer.gd / rage_orb.gd).
+func _on_item_check_area_entered(_area: Area2D) -> void:
+	pass
 
 
 # Swap between mouse and gamepad aiming
@@ -205,6 +215,10 @@ func update_aim() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 # Get healed by [number]
 func heal(number):
+	# FIX: мёртвого персонажа лечить нельзя
+	if is_dead:
+		return
+
 	if HP < MAX_HP:
 		HP += number
 		print(HP)
@@ -221,21 +235,33 @@ func hit(number):
 	is_invulnerable = true
 
 	for i in range(5):
+		# FIX: узел мог быть удалён во время await (смена сцены / смерть)
+		if not is_instance_valid(animated_sprite_2d):
+			return
 		animated_sprite_2d.material.set_shader_parameter("flash_amount", 1.0)
 		await get_tree().create_timer(0.10).timeout
 
+		if not is_instance_valid(animated_sprite_2d):
+			return
 		animated_sprite_2d.material.set_shader_parameter("flash_amount", 0.0)
 		await get_tree().create_timer(0.10).timeout
 
+	if not is_instance_valid(animated_sprite_2d):
+		return
 	animated_sprite_2d.material.set_shader_parameter("flash_amount", 0.0)
 	is_invulnerable = false
 # Heal using beer
 func beer_use():
+	# FIX: нельзя лечиться после смерти
+	if is_dead:
+		return
+
 	if Input.is_action_just_pressed("heal") and is_healing == false:
 		if heals == 2:
 			velocity.x = 0
 			velocity.y = 0
 			is_healing = true
+			is_shooting = false # FIX: иначе is_shooting мог остаться true навсегда
 			heals = 1
 			animated_sprite_2d.play("Heal")
 			heal_1.play("full")
@@ -245,6 +271,7 @@ func beer_use():
 			velocity.x = 0
 			velocity.y = 0
 			is_healing = true
+			is_shooting = false # FIX: см. выше
 			heals = 0
 			animated_sprite_2d.play("Heal")
 			heal_1.play("use")
@@ -263,12 +290,6 @@ func beer_refill():
 # Recover rage by [number]
 func rage_refill(number):
 	rage += number
-# NEW: Gain rage for landing a hit on an enemy.
-# Intended for MELEE hits only. For now the projectile calls it as a TEMP stand-in.
-func on_hit_landed() -> void:
-	if is_dead:
-		return
-	rage_refill(RAGE_PER_HIT)
 # Damage yourself by 1 (debug 1)
 func debug_hit():
 	if Input.is_action_just_pressed("debug1"):
@@ -317,7 +338,9 @@ func unarmor():
 func fullscreen():
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+			# FIX: раньше было WINDOW_MODE_MAXIMIZED, из-за чего окно
+			# не возвращалось в обычный оконный режим
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 # Shoot a projectile that deals 1 damage (LMB / RT)
@@ -487,13 +510,17 @@ func Health():
 			heart_2.play("Empty")
 			heart_3.play("Empty")
 
-			die()
+			# FIX: die() раньше вызывался каждый кадр
+			if not is_dead:
+				die()
 
 	if HP > MAX_HP:
 		HP = MAX_HP
 # die
 func die():
 	is_dead = true
+	is_healing = false
+	is_shooting = false
 	velocity.x = 0
 	velocity.y = 0
 	animated_sprite_2d.play("Die")
@@ -506,11 +533,16 @@ func _on_heart_1_animation_finished():
 
 func _on_animated_sprite_2d_animation_finished():
 	if animated_sprite_2d.animation == "Die":
-		get_tree().change_scene_to_file("res://scenes/menus/game_over.tscn")
+		# FIX: переход на Game Over только один раз
+		if not game_over_started:
+			game_over_started = true
+			get_tree().change_scene_to_file("res://scenes/menus/game_over.tscn")
 
 	if animated_sprite_2d.animation == "Heal":
 		is_healing = false
-		heal(2)
+		# FIX: не лечим, если персонаж умер во время анимации лечения
+		if not is_dead:
+			heal(2)
 	if animated_sprite_2d.animation == "Shoot":
 		is_shooting = false
 

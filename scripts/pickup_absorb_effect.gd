@@ -16,6 +16,11 @@ func play(target: Node2D) -> void:
 	for i: int in range(particle_count):
 		spawn_particle(target)
 
+	# FIX: эффект раньше оставался в сцене навсегда (утечка нод).
+	# Он нужен только пока идёт разлёт частиц (burst_tween привязан к нему);
+	# дальше частицы ведут отдельные HomingParticle-узлы.
+	get_tree().create_timer(burst_time + 0.2).timeout.connect(queue_free)
+
 
 func spawn_particle(target: Node2D) -> void:
 	var particle: Sprite2D = Sprite2D.new()

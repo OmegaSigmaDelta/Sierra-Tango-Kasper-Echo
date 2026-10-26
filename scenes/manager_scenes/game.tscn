@@ -568,6 +568,13 @@ starting_map = "uid://cyrxk1g0finca"
 [node name="Ram" parent="." unique_id=189022650 instance=ExtResource("2_nwmp2")]
 position = Vector2(320, 295)
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Ram" unique_id=1808192541]
+position = Vector2(-320, -295)
+stream = ExtResource("3_nwmp2")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2144669374]
 
 [node name="Hud" type="Control" parent="CanvasLayer" unique_id=1418905245]
@@ -669,11 +676,6 @@ theme_override_styles/background = SubResource("StyleBoxFlat_ui0vk")
 theme_override_styles/fill = SubResource("StyleBoxFlat_3kt0x")
 rounded = true
 show_percentage = false
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1808192541]
-stream = ExtResource("3_nwmp2")
-autoplay = true
-bus = &"Music"
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1572090548]
 

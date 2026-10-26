@@ -7,6 +7,8 @@ extends Control
 @onready var exit_button: Button = $Buttons/Exit
 @onready var settings_menu: Control = $SettingsMenu
 
+var continue_button: Button
+
 
 func _ready() -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
@@ -17,7 +19,33 @@ func _ready() -> void:
 	settings_menu.hide()
 	buttons.show()
 
-	start_button.grab_focus()
+	setup_continue_button()
+
+	if continue_button != null:
+		continue_button.grab_focus()
+	else:
+		start_button.grab_focus()
+
+
+# "Продолжить" appears above "Играть" only when a save file exists
+func setup_continue_button() -> void:
+	if not SaveManager.has_save():
+		return
+
+	continue_button = start_button.duplicate()
+	continue_button.name = "Continue"
+	continue_button.text = "Продолжить"
+
+	buttons.add_child(continue_button)
+	buttons.move_child(continue_button, 0)
+
+	continue_button.pressed.connect(_on_continue_pressed)
+
+	# Focus order (keyboard / gamepad): Continue sits between Exit and Start
+	continue_button.focus_neighbor_top = continue_button.get_path_to(exit_button)
+	continue_button.focus_neighbor_bottom = continue_button.get_path_to(start_button)
+	start_button.focus_neighbor_top = start_button.get_path_to(continue_button)
+	exit_button.focus_neighbor_bottom = exit_button.get_path_to(continue_button)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -39,11 +67,14 @@ func move_selection(direction: int) -> void:
 	if not buttons.visible:
 		return
 
-	var menu_buttons: Array[Button] = [
-		start_button,
-		settings_button,
-		exit_button
-	]
+	var menu_buttons: Array[Button] = []
+
+	if continue_button != null:
+		menu_buttons.append(continue_button)
+
+	menu_buttons.append(start_button)
+	menu_buttons.append(settings_button)
+	menu_buttons.append(exit_button)
 
 	var current_index := -1
 
@@ -69,7 +100,10 @@ func press_selected_button() -> void:
 	if not buttons.visible:
 		return
 
-	if start_button.has_focus():
+	if continue_button != null and continue_button.has_focus():
+		_on_continue_pressed()
+
+	elif start_button.has_focus():
 		_on_play_pressed()
 
 	elif settings_button.has_focus():
@@ -80,7 +114,18 @@ func press_selected_button() -> void:
 
 
 func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file(
+	# New game (the old save is overwritten at the first autosave)
+	SaveManager.load_on_start = false
+
+	SaveManager.change_scene_with_loading(
+		"res://scenes/manager_scenes/game.tscn"
+	)
+
+
+func _on_continue_pressed() -> void:
+	SaveManager.load_on_start = true
+
+	SaveManager.change_scene_with_loading(
 		"res://scenes/manager_scenes/game.tscn"
 	)
 
@@ -98,7 +143,10 @@ func _on_settings_back_pressed() -> void:
 	settings_menu.hide()
 	buttons.show()
 
-	start_button.grab_focus()
+	if continue_button != null:
+		continue_button.grab_focus()
+	else:
+		start_button.grab_focus()
 
 
 func _on_exit_pressed() -> void:

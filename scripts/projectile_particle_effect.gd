@@ -18,6 +18,11 @@ func play() -> void:
 	for i: int in range(particle_count):
 		spawn_particle()
 
+	# FIX: эффект раньше оставался в сцене навсегда (утечка нод).
+	# Частицы создаются как отдельные узлы, а твины привязаны к эффекту,
+	# поэтому удаляем его только после окончания анимации.
+	get_tree().create_timer(lifetime + 0.1).timeout.connect(queue_free)
+
 
 func spawn_particle() -> void:
 	var particle: Sprite2D = Sprite2D.new()

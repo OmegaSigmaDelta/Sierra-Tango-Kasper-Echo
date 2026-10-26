@@ -115,6 +115,6 @@ func _on_settings_back_pressed() -> void:
 
 func _on_main_menu_pressed() -> void:
 	get_tree().paused = false
-	get_tree().change_scene_to_file(
+	SaveManager.change_scene_with_loading(
 		"res://scenes/menus/main_menu.tscn"
 	)

@@ -5,8 +5,10 @@ extends Control
 @export var start: Button
 
 func _on_leave_pressed():
-	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
+	SaveManager.change_scene_with_loading("res://scenes/menus/main_menu.tscn")
 
 
+# Respawn at the last saved entrance. Without a save this starts a new game.
 func _on_continue_button_pressed():
-	get_tree().change_scene_to_file("res://scenes/manager_scenes/game.tscn")
+	SaveManager.load_on_start = SaveManager.has_save()
+	SaveManager.change_scene_with_loading("res://scenes/manager_scenes/game.tscn")

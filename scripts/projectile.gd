@@ -12,6 +12,10 @@ var start_position := Vector2.ZERO
 
 
 func _ready():
+	# FIX: раньше start_position всегда был (0, 0), поэтому max_distance
+	# считался от начала мира, а не от места выстрела.
+	start_position = global_position
+
 	var effect: Node2D = PARTICLE_EFFECT.instantiate()
 
 	effect.global_position = global_position
