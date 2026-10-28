@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://dukd03uv5m7xp" path="res://scripts/pause.gd" id="1_iohl6"]
 [ext_resource type="PackedScene" uid="uid://huy16ifmycp3" path="res://scenes/menus/settings.tscn" id="2_q52mi"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_ng0o5"]
+
 [node name="Pause" type="Control" unique_id=142770787]
 process_mode = 3
 layout_mode = 3
@@ -28,6 +30,7 @@ scale = Vector2(2.1044, 2.2238657)
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1175953529]
+texture_filter = 4
 layout_mode = 0
 offset_right = 140.0
 offset_bottom = 120.0
@@ -37,6 +40,7 @@ mouse_filter = 0
 layout_mode = 2
 mouse_filter = 0
 text = "Пауза"
+label_settings = SubResource("LabelSettings_ng0o5")
 horizontal_alignment = 1
 uppercase = true
 

@@ -2,8 +2,12 @@
 
 [ext_resource type="Script" uid="uid://bgb84s343y67q" path="res://scripts/main_menu.gd" id="1_71r40"]
 [ext_resource type="VideoStream" uid="uid://dugc04ljnomq5" path="res://assets/video/clideo_editor_9bf5d067067b482486a169e5949a0646.ogv" id="2_ddmp4"]
+[ext_resource type="FontFile" uid="uid://bs5rqu6my5lmt" path="res://assets/fonts/Ithaca-LVB75.ttf" id="3_imvie"]
 [ext_resource type="AudioStream" uid="uid://q2q1juafc1qj" path="res://assets/audio/MainMenu.mp3" id="3_v3vey"]
 [ext_resource type="PackedScene" uid="uid://huy16ifmycp3" path="res://scenes/menus/settings.tscn" id="4_6bivr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6bivr"]
+font = ExtResource("3_imvie")
 
 [node name="MainMenu" type="Control" unique_id=415044625]
 layout_mode = 3
@@ -29,12 +33,13 @@ loop = true
 
 [node name="GameName" type="Label" parent="." unique_id=1808010893]
 layout_mode = 0
-offset_left = 149.0
+offset_left = 152.0
 offset_top = 75.0
-offset_right = 260.0
+offset_right = 263.0
 offset_bottom = 92.0
 scale = Vector2(2.9988582, 2.9988582)
-text = "Maggot Pus"
+text = "Ram"
+label_settings = SubResource("LabelSettings_6bivr")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
@@ -46,10 +51,10 @@ autoplay = true
 
 [node name="Buttons" type="VBoxContainer" parent="." unique_id=862301871]
 layout_mode = 0
-offset_left = 251.0
-offset_top = 171.0
-offset_right = 391.0
-offset_bottom = 245.0
+offset_left = 250.0
+offset_top = 170.0
+offset_right = 390.0
+offset_bottom = 250.0
 alignment = 1
 
 [node name="Start" type="Button" parent="Buttons" unique_id=1582670342]

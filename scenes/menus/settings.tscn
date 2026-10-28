@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bbsh8tr3jrsu3" path="res://scripts/settings.gd" id="1_del6v"]
 
 [node name="Settings" type="Control" unique_id=932139700]
+texture_filter = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
